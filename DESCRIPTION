@@ -1,0 +1,22 @@
+Package: pwranova
+Title: Power Analysis for Flexible ANOVA Designs and Related Tests
+Version: 0.0.0.9000
+Authors@R: 
+    person("Hiroyuki", "Muto", , "mutopsy@omu.ac.jp", role = c("aut", "cre"))
+Description: Provides functions for conducting power analysis in ANOVA 
+    designs, including between-, within-, and mixed-factor designs, 
+    with full support for both main effects and interactions. 
+    The package allows calculation of statistical power, 
+    required total sample size, significance level, and minimal 
+    detectable effect sizes expressed as partial eta squared or Cohen's f 
+    for ANOVA terms and planned contrasts. 
+    In addition, complementary functions are included for common related 
+    tests such as t-tests and correlation tests, making the package a 
+    convenient toolkit for power analysis in experimental psychology 
+    and related fields.
+License: GPL-3 | file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Depends: R (>= 4.1.0)
+LazyData: true
