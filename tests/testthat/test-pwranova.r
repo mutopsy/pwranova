@@ -22,7 +22,7 @@ test_that("pwranova works with two between-subject factors (2 x 3 design)", {
   )
 
   expect_s3_class(res, "cal_power")
-  expect_equal(nrow(res), 3)  # B1, B2, B1:B2 の3つ
+  expect_equal(nrow(res), 3)
 
   expect_equal(res$df_num[res$term == "B1"], 1) # (2-1)
   expect_equal(res$df_num[res$term == "B2"], 2) # (3-1)
@@ -248,11 +248,6 @@ test_that("pwranova matches G*Power results", {
       as.numeric(e[,c("cohensf_est", "ncp_sen", "df_num", "df_denom")]),
       tolerance = 10e-5
     )
-
-
-
-
   }
-
 
 })
