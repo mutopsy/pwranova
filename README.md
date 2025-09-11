@@ -1,15 +1,15 @@
 # pwranova: Power Analysis for Flexible ANOVA Designs and Related Tests
 
-pwranova is an R package for power analysis in ANOVA designs — including
+`pwranova` is an R package for power analysis in ANOVA designs — including
 between-, within-, and mixed-factor designs — with full support for both
-main effects and interactions across any number of factors.
+**main effects and interactions** across any number of factors.
 
-The package provides functions to compute statistical power, required
-total sample size, significance level, and minimal detectable
-effect sizes (partial eta squared or Cohen’s f) for ANOVA terms and
+The package provides functions to compute **statistical power**, **required
+total sample size**, **significance level**, and **minimal detectable
+effect sizes** (partial eta squared or Cohen’s *f*) for ANOVA terms and
 planned contrasts. In addition, complementary helpers for commonly used
-tests (e.g., t-tests and correlation tests) are planned, making
-pwranova a convenient toolkit for power analysis in experimental
+tests (e.g., *t*-tests and correlation tests) are planned, making
+`pwranova` a convenient toolkit for power analysis in experimental
 psychology and related fields.
 
 ## Installation
