@@ -16,6 +16,7 @@ psychology and related fields.
 
 Install the development version from GitHub:
 
+```r
   # Install devtools if not already installed
   if (!requireNamespace("devtools", quietly = TRUE)) {
     install.packages("devtools")
@@ -23,10 +24,7 @@ Install the development version from GitHub:
 
   # Install pwranova
   devtools::install_github("mutopsy/pwranova")
-
-Tip: If you build a pkgdown site, use
-  devtools::install_github("mutopsy/pwranova", build_vignettes = TRUE)
-to include vignettes.
+```
 
 ## Dependencies
 
@@ -36,6 +34,7 @@ No heavy external dependencies are required for the core functionality.
 
 ## Quick start
 
+```r
 ### 1) Compute power (given N, effect size, alpha)
 
   library(pwranova)
@@ -96,6 +95,7 @@ No heavy external dependencies are required for the core functionality.
     alpha   = 0.05
   )
   res_contrast
+```
 
 ## Functions
 
