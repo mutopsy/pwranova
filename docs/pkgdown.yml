@@ -2,7 +2,7 @@ pandoc: '3.4'
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2025-09-11T05:29Z
+last_built: 2025-09-11T08:43Z
 urls:
   reference: https://github.com/mutopsy/mutolabr/reference
   article: https://github.com/mutopsy/mutolabr/articles

@@ -186,6 +186,18 @@ pwranova <- function(
   dfmat[dfmat == 0] <- 1L
   df_num <- apply(dfmat, 1L, prod)
 
+  # Numerator df only from Within-factor
+  dfmat_onlywithin <- dfmat
+  if(nfactors_b == 0){
+    df_num_onlywithin <- df_num
+  } else if(nfactors_w >= 1){
+    dfmat_within <- dfmat
+    dfmat_within[,1:nfactors_b] <- 1
+    df_num_onlywithin <- apply(dfmat_within, 1L, prod)
+  } else{
+    df_num_onlywithin <- rep(1, length(df_num))
+  }
+
   # Result scaffold
   res <- data.frame(
     term      = term_lab,
@@ -219,14 +231,15 @@ pwranova <- function(
   if (!is.null(target)) {
     if (!any(res$term %in% target)) stop("'target' contains no valid term label.")
     is_inc_within <- is_inc_within[res$term %in% target]
+    df_num_onlywithin <- df_num_onlywithin[res$term %in% target]
     res <- res[res$term %in% target, , drop = FALSE]
   }
   nrow_res <- nrow(res)
 
   ## ---------------- Power (given N) ----------------
   if (is.null(power)) {
-    df_denom_base <- res$n_total - ngroups
-    tmp <- is_inc_within * res$df_num
+    df_denom_base <- n_total - ngroups
+    tmp <- is_inc_within * df_num_onlywithin
     tmp[tmp == 0] <- 1
     if (length(res$n_total) == 1L) {
       res$df_denom <- rep(df_denom_base, nrow_res) * tmp * res$epsilon
@@ -248,7 +261,7 @@ pwranova <- function(
       n_candi <- seq.int(nmin, nlim[2], by = ngroups)
 
       df_denom_base <- n_candi - ngroups
-      tmp <- is_inc_within[i] * res$df_num[i]
+      tmp <- is_inc_within[i] * df_num_onlywithin[i]
       if (tmp == 0) tmp <- 1
       df_denom_candi <- df_denom_base * tmp * res$epsilon[i]
 
@@ -276,8 +289,8 @@ pwranova <- function(
 
   ## ---------------- Solve alpha (given power) ----------------
   if (is.null(alpha)) {
-    df_denom_base <- res$n_total - ngroups
-    tmp <- is_inc_within * res$df_num
+    df_denom_base <- n_total - ngroups
+    tmp <- is_inc_within * df_num_onlywithin
     tmp[tmp == 0] <- 1
     res$df_denom <- rep(df_denom_base, nrow_res) * tmp * res$epsilon
     res$ncp <- res$cohensf^2 * res$n_total
@@ -290,8 +303,8 @@ pwranova <- function(
 
   ## ---------------- Solve effect size (given N, alpha, power) ----------------
   if (is.null(cohensf) && is.null(peta2)) {
-    df_denom_base <- res$n_total - ngroups
-    tmp <- is_inc_within * res$df_num
+    df_denom_base <- n_total - ngroups
+    tmp <- is_inc_within * df_num_onlywithin
     tmp[tmp == 0] <- 1
     res$df_denom <- rep(df_denom_base, nrow_res) * tmp * res$epsilon
     res$criticalF <- qf(1 - res$alpha, res$df_num, res$df_denom)
