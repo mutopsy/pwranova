@@ -47,8 +47,11 @@ rsconnect/
 .Rproj.user
 
 # Others
-^mutolabr\.Rproj$
+^coglyphr\.Rproj$
 ^\.Rproj\.user$
 develop/
 *.Rproj
+paper.html
+paper_files/
+
 
