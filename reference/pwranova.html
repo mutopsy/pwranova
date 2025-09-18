@@ -11,7 +11,7 @@ designs."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">pwranova</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,7 +74,7 @@ Omit or set <code>NULL</code> if there is no within-participant factor.</p></dd>
 
 
 <dt id="arg-n-total">n_total<a class="anchor" aria-label="anchor" href="#arg-n-total"></a></dt>
-<dd><p>Integer or integer vector. Total sample size(s) across all groups.
+<dd><p>Integer or integer vector. Total sample size across all groups.
 If <code>NULL</code>, the function solves for <code>n_total</code>.</p></dd>
 
 
@@ -123,7 +123,7 @@ within-participant factor or if all within factors have 2 levels.</p></dd>
 <li><p><code>"cal_alpha"</code> or <code>"cal_alphas"</code> when <code>alpha</code> is solved;</p></li>
 <li><p><code>"cal_es"</code> when minimal detectable effect sizes are solved.</p></li>
 </ul><p>Columns include <code>term</code>, <code>df_num</code>, <code>df_denom</code>, <code>n_total</code>,
-<code>alpha</code>, <code>power</code>, <code>cohensf</code>, <code>peta2</code>, <code>criticalF</code>, <code>ncp</code>, <code>epsilon</code>.</p>
+<code>alpha</code>, <code>power</code>, <code>cohensf</code>, <code>peta2</code>, <code>F_critical</code>, <code>ncp</code>, <code>epsilon</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -145,10 +145,10 @@ Hillsdale, NJ: Lawrence Erlbaum Associates.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># One between factor (k=3), one within factor (m=4), compute power</span></span></span>
 <span class="r-in"><span><span class="fu">pwranova</span><span class="op">(</span>nlevels_b <span class="op">=</span> <span class="fl">3</span>, nlevels_w <span class="op">=</span> <span class="fl">4</span>, n_total <span class="op">=</span> <span class="fl">60</span>,</span></span>
 <span class="r-in"><span>         cohensf <span class="op">=</span> <span class="fl">0.25</span>, alpha <span class="op">=</span> <span class="fl">0.05</span>, power <span class="op">=</span> <span class="cn">NULL</span>, epsilon <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    term df_num df_denom n_total alpha     power cohensf      peta2 criticalF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    B1    2.0     57.0      60  0.05 0.3744311    0.25 0.05882353  3.158843</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    W1    2.4    136.8      60  0.05 0.3592414    0.25 0.05882353  2.876716</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 B1:W1    4.8    136.8      60  0.05 0.2687648    0.25 0.05882353  2.307783</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    term df_num df_denom n_total alpha     power cohensf      peta2 F_critical</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    B1    2.0     57.0      60  0.05 0.3744311    0.25 0.05882353   3.158843</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    W1    2.4    136.8      60  0.05 0.3592414    0.25 0.05882353   2.876716</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 B1:W1    4.8    136.8      60  0.05 0.2687648    0.25 0.05882353   2.307783</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ncp epsilon</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 3.75     1.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 3.75     0.8</span>
@@ -158,8 +158,8 @@ Hillsdale, NJ: Lawrence Erlbaum Associates.</p>
 <span class="r-in"><span><span class="co"># Solve required total N for target power</span></span></span>
 <span class="r-in"><span><span class="fu">pwranova</span><span class="op">(</span>nlevels_b <span class="op">=</span> <span class="fl">2</span>, nlevels_w <span class="op">=</span> <span class="cn">NULL</span>, n_total <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
 <span class="r-in"><span>         peta2 <span class="op">=</span> <span class="fl">0.06</span>, alpha <span class="op">=</span> <span class="fl">0.05</span>, power <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   term df_num df_denom n_total alpha     power   cohensf peta2 criticalF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   B1      1      124     126  0.05 0.8034337 0.2526456  0.06   3.91755</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   term df_num df_denom n_total alpha     power   cohensf peta2 F_critical</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   B1      1      124     126  0.05 0.8034337 0.2526456  0.06    3.91755</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        ncp epsilon</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 8.042553       1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The required total sample size was calculated based on the effect size, alpha, and power.</span>
