@@ -33,7 +33,7 @@
 #'   }
 #'   Columns: \code{term} (always \code{"contrast"}), \code{weight} (comma-separated string),
 #'   \code{df_num}, \code{df_denom}, \code{n_total}, \code{alpha}, \code{power},
-#'   \code{cohensf}, \code{peta2}, \code{criticalF}, \code{ncp}.
+#'   \code{cohensf}, \code{peta2}, \code{F_critical}, \code{ncp}.
 #'
 #' @references
 #' Cohen, J. (1988). \emph{Statistical power analysis for the behavioral sciences} (2nd ed.).
@@ -128,7 +128,7 @@ pwrcontrast <- function(
     power     = NA_real_,
     cohensf   = if (is.null(cohensf)) NA_real_ else cohensf,
     peta2     = if (is.null(peta2))   NA_real_ else peta2,
-    criticalF = NA_real_,
+    F_critical = NA_real_,
     ncp       = NA_real_
   )
 
@@ -148,9 +148,9 @@ pwrcontrast <- function(
   ## -------- Power (given N) --------
   if (is.null(power)) {
     res$df_denom  <- denom_df_fun(res$n_total)
-    res$criticalF <- qf(1 - res$alpha, res$df_num, res$df_denom)
+    res$F_critical <- qf(1 - res$alpha, res$df_num, res$df_denom)
     res$ncp       <- res$cohensf^2 * res$n_total
-    res$power     <- 1 - pf(res$criticalF, res$df_num, res$df_denom, ncp = res$ncp)
+    res$power     <- 1 - pf(res$F_critical, res$df_num, res$df_denom, ncp = res$ncp)
     return(structure(res, class = c("cal_power", "data.frame")))
   }
 
@@ -166,9 +166,9 @@ pwrcontrast <- function(
     }
 
     df_denom_candi  <- denom_df_fun(n_candi)
-    criticalF_candi <- qf(1 - res$alpha, df_num, df_denom_candi)
+    F_critical_candi <- qf(1 - res$alpha, df_num, df_denom_candi)
     ncp_candi       <- res$cohensf^2 * n_candi
-    power_candi     <- 1 - pf(criticalF_candi, df_num, df_denom_candi, ncp = ncp_candi)
+    power_candi     <- 1 - pf(F_critical_candi, df_num, df_denom_candi, ncp = ncp_candi)
 
     idx <- which(power_candi >= power)[1]
     if (is.na(idx)) {
@@ -180,7 +180,7 @@ pwrcontrast <- function(
     res$n_total   <- n_candi[idx]
     res$df_denom  <- df_denom_candi[idx]
     res$power     <- power_candi[idx]
-    res$criticalF <- criticalF_candi[idx]
+    res$F_critical <- F_critical_candi[idx]
     res$ncp       <- ncp_candi[idx]
 
     return(structure(res, class = c("cal_n", "data.frame")))
@@ -190,17 +190,17 @@ pwrcontrast <- function(
   if (is.null(alpha)) {
     res$df_denom  <- denom_df_fun(res$n_total)
     res$ncp       <- res$cohensf^2 * res$n_total
-    res$criticalF <- qf(1 - res$power, res$df_num, res$df_denom, ncp = res$ncp)
-    res$alpha     <- 1 - pf(res$criticalF, res$df_num, res$df_denom)
+    res$F_critical <- qf(1 - res$power, res$df_num, res$df_denom, ncp = res$ncp)
+    res$alpha     <- 1 - pf(res$F_critical, res$df_num, res$df_denom)
     return(structure(res, class = c("cal_alpha", "data.frame")))
   }
 
   ## -------- Solve effect size (given N, alpha, power) --------
   if (is.null(cohensf) && is.null(peta2)) {
     res$df_denom  <- denom_df_fun(res$n_total)
-    res$criticalF <- qf(1 - res$alpha, res$df_num, res$df_denom)
+    res$F_critical <- qf(1 - res$alpha, res$df_num, res$df_denom)
 
-    froot <- function(x) 1 - pf(res$criticalF, res$df_num, res$df_denom, ncp = x) - res$power
+    froot <- function(x) 1 - pf(res$F_critical, res$df_num, res$df_denom, ncp = x) - res$power
     upper <- 100
     val_u <- froot(upper)
     while (val_u < 0 && upper < 1e6) {  # increase upper until achievable

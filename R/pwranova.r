@@ -8,7 +8,7 @@
 #'   Omit or set \code{NULL} if there is no between-participant factor.
 #' @param nlevels_w Integer vector. Numbers of levels for within-participant factors.
 #'   Omit or set \code{NULL} if there is no within-participant factor.
-#' @param n_total Integer or integer vector. Total sample size(s) across all groups.
+#' @param n_total Integer or integer vector. Total sample size across all groups.
 #'   If \code{NULL}, the function solves for \code{n_total}.
 #' @param cohensf Numeric. Cohen's \eqn{f} (non-negative). If \code{NULL}, it is
 #'   derived from \code{peta2} when available.
@@ -40,7 +40,7 @@
 #'     \item \code{"cal_es"} when minimal detectable effect sizes are solved.
 #'   }
 #'   Columns include \code{term}, \code{df_num}, \code{df_denom}, \code{n_total},
-#'   \code{alpha}, \code{power}, \code{cohensf}, \code{peta2}, \code{criticalF}, \code{ncp}, \code{epsilon}.
+#'   \code{alpha}, \code{power}, \code{cohensf}, \code{peta2}, \code{F_critical}, \code{ncp}, \code{epsilon}.
 #'
 #' @references
 #' Cohen, J. (1988). \emph{Statistical power analysis for the behavioral sciences} (2nd ed.).
@@ -208,7 +208,7 @@ pwranova <- function(
     power     = NA_real_,
     cohensf   = if (is.null(cohensf)) NA_real_ else cohensf,
     peta2     = if (is.null(peta2))   NA_real_ else peta2,
-    criticalF = NA_real_,
+    F_critical = NA_real_,
     ncp       = NA_real_,
     epsilon   = 1
   )
@@ -246,9 +246,9 @@ pwranova <- function(
     } else {
       res$df_denom <- df_denom_base * tmp * res$epsilon
     }
-    res$criticalF <- qf(1 - res$alpha, res$df_num, res$df_denom)
+    res$F_critical <- qf(1 - res$alpha, res$df_num, res$df_denom)
     res$ncp <- res$cohensf^2 * res$n_total
-    res$power <- 1 - pf(res$criticalF, res$df_num, res$df_denom, ncp = res$ncp)
+    res$power <- 1 - pf(res$F_critical, res$df_num, res$df_denom, ncp = res$ncp)
     return(structure(res, class = c("cal_power", "data.frame")))
   }
 
@@ -265,9 +265,9 @@ pwranova <- function(
       if (tmp == 0) tmp <- 1
       df_denom_candi <- df_denom_base * tmp * res$epsilon[i]
 
-      criticalF_candi <- qf(1 - res$alpha[i], res$df_num[i], df_denom_candi)
+      F_critical_candi <- qf(1 - res$alpha[i], res$df_num[i], df_denom_candi)
       ncp_candi <- res$cohensf[i]^2 * n_candi
-      power_candi <- 1 - pf(criticalF_candi, res$df_num[i], df_denom_candi, ncp = ncp_candi)
+      power_candi <- 1 - pf(F_critical_candi, res$df_num[i], df_denom_candi, ncp = ncp_candi)
 
       idx <- which(power_candi >= tgt_power)[1]
       if (is.na(idx)) {
@@ -279,7 +279,7 @@ pwranova <- function(
       res$n_total[i]   <- n_candi[idx]
       res$df_denom[i]  <- df_denom_candi[idx]
       res$power[i]     <- power_candi[idx]
-      res$criticalF[i] <- criticalF_candi[idx]
+      res$F_critical[i] <- F_critical_candi[idx]
       res$ncp[i]       <- ncp_candi[idx]
     }
 
@@ -295,8 +295,8 @@ pwranova <- function(
     res$df_denom <- rep(df_denom_base, nrow_res) * tmp * res$epsilon
     res$ncp <- res$cohensf^2 * res$n_total
     # critical F such that power is achieved
-    res$criticalF <- qf(1 - res$power, res$df_num, res$df_denom, ncp = res$ncp)
-    res$alpha <- 1 - pf(res$criticalF, res$df_num, res$df_denom)
+    res$F_critical <- qf(1 - res$power, res$df_num, res$df_denom, ncp = res$ncp)
+    res$alpha <- 1 - pf(res$F_critical, res$df_num, res$df_denom)
     cls <- if (nrow_res == 1L) "cal_alpha" else "cal_alphas"
     return(structure(res, class = c(cls, "data.frame")))
   }
@@ -307,11 +307,11 @@ pwranova <- function(
     tmp <- is_inc_within * df_num_onlywithin
     tmp[tmp == 0] <- 1
     res$df_denom <- rep(df_denom_base, nrow_res) * tmp * res$epsilon
-    res$criticalF <- qf(1 - res$alpha, res$df_num, res$df_denom)
+    res$F_critical <- qf(1 - res$alpha, res$df_num, res$df_denom)
 
     # ncp root solve with adaptive bracketing
     for (i in seq_len(nrow_res)) {
-      froot <- function(x) 1 - pf(res$criticalF[i], res$df_num[i], res$df_denom[i], ncp = x) - res$power[i]
+      froot <- function(x) 1 - pf(res$F_critical[i], res$df_num[i], res$df_denom[i], ncp = x) - res$power[i]
       upper <- 100
       val_u <- froot(upper)
       while (val_u < 0 && upper < 1e6) {  # increase until power >= target is attainable
