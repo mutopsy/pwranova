@@ -42,7 +42,7 @@ A one-row data frame with class:
 }
 Columns: \code{term} (always \code{"contrast"}), \code{weight} (comma-separated string),
 \code{df_num}, \code{df_denom}, \code{n_total}, \code{alpha}, \code{power},
-\code{cohensf}, \code{peta2}, \code{criticalF}, \code{ncp}.
+\code{cohensf}, \code{peta2}, \code{F_critical}, \code{ncp}.
 }
 \description{
 Computes power, required total sample size, alpha, or minimal detectable

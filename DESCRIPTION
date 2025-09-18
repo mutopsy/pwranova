@@ -1,6 +1,6 @@
 Package: pwranova
 Title: Power Analysis for Flexible ANOVA Designs and Related Tests
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: 
     person("Hiroyuki", "Muto", , "mutopsy@omu.ac.jp", role = c("aut", "cre"))
 Description: Provides functions for conducting power analysis in ANOVA 

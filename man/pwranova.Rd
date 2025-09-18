@@ -25,7 +25,7 @@ Omit or set \code{NULL} if there is no between-participant factor.}
 \item{nlevels_w}{Integer vector. Numbers of levels for within-participant factors.
 Omit or set \code{NULL} if there is no within-participant factor.}
 
-\item{n_total}{Integer or integer vector. Total sample size(s) across all groups.
+\item{n_total}{Integer or integer vector. Total sample size across all groups.
 If \code{NULL}, the function solves for \code{n_total}.}
 
 \item{cohensf}{Numeric. Cohen's \eqn{f} (non-negative). If \code{NULL}, it is
@@ -59,7 +59,7 @@ A data frame with S3 class:
 \item \code{"cal_es"} when minimal detectable effect sizes are solved.
 }
 Columns include \code{term}, \code{df_num}, \code{df_denom}, \code{n_total},
-\code{alpha}, \code{power}, \code{cohensf}, \code{peta2}, \code{criticalF}, \code{ncp}, \code{epsilon}.
+\code{alpha}, \code{power}, \code{cohensf}, \code{peta2}, \code{F_critical}, \code{ncp}, \code{epsilon}.
 }
 \description{
 Computes power, required total sample size, alpha, or minimal detectable
