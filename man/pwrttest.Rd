@@ -26,20 +26,28 @@ pwrttest(
 
 \item{alternative}{Character. Either \code{"two.sided"} or \code{"one.sided"}.}
 
-\item{n_total}{Integer or integer vector. Total sample size.
+\item{n_total}{Integer scalar. Total sample size.
 If \code{NULL}, the function solves for \code{n_total}.}
 
 \item{delta}{Numeric (non-negative). Cohen's \eqn{d}-type effect size.
 If \code{NULL}, it is derived from \code{cohensf} or \code{peta2} when available.
-(Two-sample, equal allocation relation: \eqn{\delta = 2f}.)}
+If all three effect-size arguments (\code{delta}, \code{cohensf}, \code{peta2})
+are \code{NULL}, then the effect size is treated as the unknown quantity and is
+solved for given \code{n_total}, \code{alpha}, and \code{power}.
+Effect-size relations by design:
+\itemize{
+\item Two-sample (equal allocation): \eqn{d = 2f}
+\item Paired: \eqn{d_z = f}
+\item One-sample: \eqn{f} and \eqn{\eta_p^2} are not supported
+}}
 
 \item{cohensf}{Numeric (non-negative). Cohen's \eqn{f}.
-If \code{NULL}, it can be derived from \code{delta}; if \code{delta} is supplied,
-\code{cohensf} is ignored.}
+If \code{NULL}, it can be derived from \code{delta};
+if \code{delta} is supplied, \code{cohensf} is ignored.}
 
 \item{peta2}{Numeric in \eqn{(0,1)}. Partial eta squared.
-If \code{NULL}, it can be derived from \code{cohensf}; if \code{delta} is supplied,
-\code{peta2} is ignored.}
+If \code{NULL}, it can be derived from \code{cohensf};
+if \code{delta} is supplied, \code{peta2} is ignored.}
 
 \item{alpha}{Numeric in \eqn{(0,1)}. If \code{NULL}, it is solved for given the other inputs.}
 
@@ -67,6 +75,7 @@ one-sample, two-sample (independent), or paired/repeated measures.
 precedence is \code{delta} \eqn{>} \code{cohensf} \eqn{>} \code{peta2}; the rest are ignored with a warning.
 \item For the two-sample design, equal allocation is assumed; \code{n_total} must be even when provided,
 and the solved \code{n_total} will be an even number.
+\item For the paired design, the effect size is interpreted as \eqn{d_z}.
 \item Computations use the central and noncentral \emph{t} distributions (\code{stats::qt}, \code{stats::pt});
 root finding uses \code{stats::uniroot()} where needed.
 }

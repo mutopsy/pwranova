@@ -9,17 +9,25 @@
 #' @param onesample Logical. \code{TRUE} for the one-sample t test; if \code{TRUE},
 #'   \code{paired} is ignored.
 #' @param alternative Character. Either \code{"two.sided"} or \code{"one.sided"}.
-#' @param n_total Integer or integer vector. Total sample size.
+#' @param n_total Integer scalar. Total sample size.
 #'   If \code{NULL}, the function solves for \code{n_total}.
 #' @param delta Numeric (non-negative). Cohen's \eqn{d}-type effect size.
 #'   If \code{NULL}, it is derived from \code{cohensf} or \code{peta2} when available.
-#'   (Two-sample, equal allocation relation: \eqn{\delta = 2f}.)
+#'   If all three effect-size arguments (\code{delta}, \code{cohensf}, \code{peta2})
+#'   are \code{NULL}, then the effect size is treated as the unknown quantity and is
+#'   solved for given \code{n_total}, \code{alpha}, and \code{power}.
+#'   Effect-size relations by design:
+#'   \itemize{
+#'     \item Two-sample (equal allocation): \eqn{d = 2f}
+#'     \item Paired: \eqn{d_z = f}
+#'     \item One-sample: \eqn{f} and \eqn{\eta_p^2} are not supported
+#'   }
 #' @param cohensf Numeric (non-negative). Cohen's \eqn{f}.
-#'   If \code{NULL}, it can be derived from \code{delta}; if \code{delta} is supplied,
-#'   \code{cohensf} is ignored.
+#'   If \code{NULL}, it can be derived from \code{delta};
+#'   if \code{delta} is supplied, \code{cohensf} is ignored.
 #' @param peta2 Numeric in \eqn{(0,1)}. Partial eta squared.
-#'   If \code{NULL}, it can be derived from \code{cohensf}; if \code{delta} is supplied,
-#'   \code{peta2} is ignored.
+#'   If \code{NULL}, it can be derived from \code{cohensf};
+#'   if \code{delta} is supplied, \code{peta2} is ignored.
 #' @param alpha Numeric in \eqn{(0,1)}. If \code{NULL}, it is solved for given the other inputs.
 #' @param power Numeric in \eqn{(0,1)}. If \code{NULL}, it is computed; if \code{n_total} is \code{NULL},
 #'   \code{n_total} is solved to attain this power.
@@ -31,6 +39,7 @@
 #'         precedence is \code{delta} \eqn{>} \code{cohensf} \eqn{>} \code{peta2}; the rest are ignored with a warning.
 #'   \item For the two-sample design, equal allocation is assumed; \code{n_total} must be even when provided,
 #'         and the solved \code{n_total} will be an even number.
+#'   \item For the paired design, the effect size is interpreted as \eqn{d_z}.
 #'   \item Computations use the central and noncentral \emph{t} distributions (\code{stats::qt}, \code{stats::pt});
 #'         root finding uses \code{stats::uniroot()} where needed.
 #' }
@@ -67,58 +76,16 @@ pwrttest <- function(
 ) {
   ## -------- Initial checks & conversions --------
 
-  alternative <- alternative[1]
+  alternative <- match.arg(alternative, c("two.sided", "one.sided"))
 
   if (!is.logical(paired) || length(paired) != 1L) {
     stop("'paired' must be a single logical value.")
   }
 
-  if(!alternative %in% c("two.sided", "one.sided")){
-    stop("'alternative' must be 'two.sided' or 'one.sided'.")
-  }
-
-  if (length(nlim) != 2L || any(nlim %% 1 != 0)) stop("'nlim' must be two integers.")
-  if (nlim[1] < 2) stop("'nlim[1]' must be 2 or larger.")
-  if (nlim[1] >= nlim[2]) stop("'nlim[1]' must be smaller than 'nlim[2]'.")
-
-  if (!is.null(delta) && !is.null(cohensf) && !is.null(peta2)) {
-    cohensf <- NULL
-    peta2 <- NULL
-    warning("All of 'delta', 'cohensf' and 'peta2' were supplied; cohensf and 'peta2' were ignored.")
-  } else if(!is.null(cohensf) && !is.null(peta2)){
-    peta2 <- NULL
-    warning("Both 'cohensf' and 'peta2' were supplied; 'peta2' was ignored.")
-  } else if(!is.null(delta) && !is.null(cohensf)){
-    cohensf <- NULL
-    warning("Both 'delta' and 'cohensf' were supplied; 'cohensf' was ignored.")
-  } else if(!is.null(delta) && !is.null(peta2)){
-    peta2 <- NULL
-    warning("Both 'delta' and 'peta2' were supplied; 'peat2' was ignored.")
-  }
-
-  if(!is.null(delta)){
-    delta <- abs(delta)
-    cohensf <- abs(delta) / 2
-    peta2 <- cohensf_to_peta2(cohensf)
-  } else if(!is.null(cohensf)){
-    peta2 <- cohensf_to_peta2(cohensf)
-    delta <- cohensf * 2
-  } else if(!is.null(peta2)){
-    cohensf <- peta2_to_cohensf(peta2)
-    delta <- cohensf * 2
-  }
-
-  if (!is.null(alpha)) {
-    if (length(alpha) != 1L) stop("'alpha' must be length 1.")
-    if (alpha <= 0 || alpha >= 1) stop("'alpha' must be in (0, 1).")
-  }
-  if (!is.null(power)) {
-    if (length(power) != 1L) stop("'power' must be length 1.")
-    if (power <= 0 || power >= 1) stop("'power' must be in (0, 1).")
-  }
-
-  if ((is.null(n_total) + is.null(delta) + is.null(alpha) + is.null(power)) != 1) {
-    stop("Exactly one of 'n_total', 'delta' (or 'cohensf' or 'peta2'), 'alpha', or 'power' must be NULL.")
+  if (!is.null(n_total)) {
+    if (!is.numeric(n_total) || length(n_total) != 1L || n_total %% 1 != 0) {
+      stop("'n_total' must be a single integer.")
+    }
   }
 
   df <- NA_real_
@@ -144,16 +111,81 @@ pwrttest <- function(
     }
   }
 
+  if (length(nlim) != 2L || any(nlim %% 1 != 0)) stop("'nlim' must be two integers.")
+  if (nlim[1] < 2) stop("'nlim[1]' must be 2 or larger.")
+  if (nlim[1] >= nlim[2]) stop("'nlim[1]' must be smaller than 'nlim[2]'.")
+
+  if (!is.null(delta) && !is.null(cohensf) && !is.null(peta2)) {
+    cohensf <- NULL
+    peta2 <- NULL
+    warning("All of 'delta', 'cohensf' and 'peta2' were supplied; cohensf and 'peta2' were ignored.")
+  } else if(!is.null(cohensf) && !is.null(peta2)){
+    peta2 <- NULL
+    warning("Both 'cohensf' and 'peta2' were supplied; 'peta2' was ignored.")
+  } else if(!is.null(delta) && !is.null(cohensf)){
+    cohensf <- NULL
+    warning("Both 'delta' and 'cohensf' were supplied; 'cohensf' was ignored.")
+  } else if(!is.null(delta) && !is.null(peta2)){
+    peta2 <- NULL
+    warning("Both 'delta' and 'peta2' were supplied; 'peta2' was ignored.")
+  }
+
+  if(!is.null(delta)){
+    delta <- abs(delta)
+    if(design == "two.sample"){
+      cohensf <- abs(delta) / 2
+      peta2 <- cohensf_to_peta2(cohensf)
+    } else if(design == "paired") {
+      cohensf <- abs(delta)
+      peta2 <- cohensf_to_peta2(cohensf)
+    } else{
+      cohensf <- NA_real_
+      peta2 <- NA_real_
+    }
+  } else if(!is.null(cohensf)){
+    if(design == "two.sample"){
+      peta2 <- cohensf_to_peta2(cohensf)
+      delta <- cohensf * 2
+    } else if(design == "paired"){
+      peta2 <- cohensf_to_peta2(cohensf)
+      delta <- cohensf
+    } else{
+      stop("'cohensf' cannot be defined for one-sample t-tests.")
+    }
+
+  } else if(!is.null(peta2)){
+    if(design == "two.sample"){
+      cohensf <- peta2_to_cohensf(peta2)
+      delta <- cohensf * 2
+    } else if(design == "paired"){
+      cohensf <- peta2_to_cohensf(peta2)
+      delta <- cohensf
+    } else{
+      stop("'peta2' cannot be defined for one-sample t-tests.")
+    }
+  }
+
+  if (!is.null(alpha)) {
+    if (length(alpha) != 1L) stop("'alpha' must be length 1.")
+    if (alpha <= 0 || alpha >= 1) stop("'alpha' must be in (0, 1).")
+  }
+  if (!is.null(power)) {
+    if (length(power) != 1L) stop("'power' must be length 1.")
+    if (power <= 0 || power >= 1) stop("'power' must be in (0, 1).")
+  }
+
+  if ((is.null(n_total) + is.null(delta) + is.null(alpha) + is.null(power)) != 1) {
+    stop("Exactly one of 'n_total', 'delta' (or 'cohensf' or 'peta2'), 'alpha', or 'power' must be NULL.")
+  }
+
   if(alternative == "two.sided"){
     divider <- 2
   } else{
     divider <- 1
   }
 
-  if (!is.null(n_total) && design == "two.sample") {
-    if (any(n_total %% 2 != 0)) {
-      stop(paste0("'n_total' must be a multiple of the number of groups = 2."))
-    }
+  if (!is.null(n_total) && design == "two.sample" && (n_total %% 2L != 0)) {
+    stop("'n_total' must be even for the two-sample design (equal allocation).")
   }
 
   ## -------- Result scaffold --------
@@ -241,7 +273,7 @@ pwrttest <- function(
 
     } else{
       f <- function(x) {
-        (pt(x, res$df, ncp = res$ncp) - pt(-x, res$df, ncp = res$ncp)) - (1 - power)
+        (pt(x, res$df, ncp = res$ncp) - pt(-x, res$df, ncp = res$ncp)) - (1 - res$power)
       }
       upper <- qt(1 - 1e-12, df = res$df)
       root <- uniroot(f, lower = 0, upper = upper, tol = 1e-12, maxiter = 10000)$root
@@ -259,7 +291,15 @@ pwrttest <- function(
       res$t_critical <- qt(1 - res$alpha/2, res$df)
     }
 
-    froot <- function(x) 1 - pt(res$t_critical, res$df, ncp = x) - res$power
+    if (alternative == "one.sided") {
+      froot <- function(x) 1 - pt(res$t_critical, res$df, ncp = x) - res$power
+    } else {
+      froot <- function(x) {
+        1 - (pt(res$t_critical, res$df, ncp = x) -
+               pt(-res$t_critical, res$df, ncp = x)) - res$power
+      }
+    }
+
     upper <- 100
     val_u <- froot(upper)
     while (val_u < 0 && upper < 1e6) {  # increase upper until achievable
@@ -271,9 +311,19 @@ pwrttest <- function(
     res$delta <- res$ncp / sqrt(res$n_total)
     if(design == "two.sample"){
       res$delta <- res$delta * 2
+      res$cohensf <- res$delta / 2
+      res$peta2   <- cohensf_to_peta2(res$cohensf)
+    } else if(design == "paired"){
+      res$cohensf <- res$delta
+      res$peta2   <- cohensf_to_peta2(res$cohensf)
+    } else{
+      res$cohensf <- NA_real_
+      res$peta2   <- NA_real_
     }
-    res$cohensf <- res$delta / 2
-    res$peta2   <- cohensf_to_peta2(res$cohensf)
+
     return(structure(res, class = c("cal_es", "data.frame")))
   }
 }
+
+
+# やること：fの変換を、pairedの場合はf=deltaとする。1標本の場合は定義できない。ドキュメントもなおす。deltaの定義を説明。できればデザインによってはdelta_zとかにしたい。
