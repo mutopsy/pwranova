@@ -1,4 +1,3 @@
-# tests/testthat/test-pwranova.R
 test_that("basic power calculation (between-subjects, 1 factor) works", {
   res <- pwranova(
     nlevels_b = 3, nlevels_w = NULL,
@@ -160,7 +159,7 @@ test_that("input validation catches common issues", {
 test_that("pwranova matches G*Power results", {
   path <- testthat::test_path("expected", "expected_pwranova.csv")
   expected <- utils::read.csv(path)
-  i <- 3
+
   for(i in 1:nrow(expected)){
     e <- expected[i,]
 
