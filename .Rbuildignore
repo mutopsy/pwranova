@@ -3,5 +3,9 @@
 ^\.Rproj\.user$
 ^_pkgdown\.yml$
 ^docs$
-^pkgdown$
+^paper$
+^paper/.*$
 ^\.github$
+^cran-comments\.md$
+^README\.Rmd$
+^CRAN-SUBMISSION$
