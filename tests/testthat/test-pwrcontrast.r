@@ -16,7 +16,7 @@ test_that("pwrcontrast calculates power (cal_power) for between-subjects correct
   expected_crit <- qf(1 - alpha, df1 = 1, df2 = n_total - length(w))
   expected_pow  <- 1 - pf(expected_crit, df1 = 1, df2 = n_total - length(w), ncp = f^2 * n_total)
 
-  expect_equal(out$criticalF, expected_crit, tolerance = 1e-12)
+  expect_equal(out$F_critical, expected_crit, tolerance = 1e-12)
   expect_equal(out$power, expected_pow, tolerance = 1e-10)
 
 })
@@ -214,7 +214,7 @@ test_that("pwrcontrast matches expected results", {
 test_that("pwrcontrast matches pwranova results", {
   set.seed(610)
 
-  nrep <- 20
+  nrep <- 50
 
   for(i in 1:nrep){
     weight <- sample(c(-1,1),2, replace = FALSE) * sample(1:5, 1)
@@ -241,7 +241,7 @@ test_that("pwrcontrast matches pwranova results", {
       alpha = alpha,
       power = power,
       cohensf = cohensf
-    )[,c("df_num", "df_denom", "n_total", "alpha", "power", "cohensf", "peta2", "criticalF", "ncp")]
+    )[,c("df_num", "df_denom", "n_total", "alpha", "power", "cohensf", "peta2", "F_critical", "ncp")]
 
     res_n_anova <- pwranova(
       nlevels_b = nlevels_b,
@@ -250,7 +250,7 @@ test_that("pwrcontrast matches pwranova results", {
       alpha = alpha,
       power = power,
       cohensf = cohensf
-    )[,c("df_num", "df_denom", "n_total", "alpha", "power", "cohensf", "peta2", "criticalF", "ncp")]
+    )[,c("df_num", "df_denom", "n_total", "alpha", "power", "cohensf", "peta2", "F_critical", "ncp")]
 
     testthat::expect_equal(
       as.numeric(res_n),
@@ -266,7 +266,7 @@ test_that("pwrcontrast matches pwranova results", {
       alpha = NULL,
       power = power,
       cohensf = cohensf,
-    )[,c("df_num", "df_denom", "n_total", "alpha", "power", "cohensf", "peta2", "criticalF", "ncp")]
+    )[,c("df_num", "df_denom", "n_total", "alpha", "power", "cohensf", "peta2", "F_critical", "ncp")]
 
     res_alpha_anova <- pwranova(
       nlevels_b = nlevels_b,
@@ -275,7 +275,7 @@ test_that("pwrcontrast matches pwranova results", {
       alpha = NULL,
       power = power,
       cohensf = cohensf
-    )[,c("df_num", "df_denom", "n_total", "alpha", "power", "cohensf", "peta2", "criticalF", "ncp")]
+    )[,c("df_num", "df_denom", "n_total", "alpha", "power", "cohensf", "peta2", "F_critical", "ncp")]
 
     testthat::expect_equal(
       as.numeric(res_alpha),
@@ -291,7 +291,7 @@ test_that("pwrcontrast matches pwranova results", {
       alpha = alpha,
       power = NULL,
       cohensf = cohensf,
-    )[,c("df_num", "df_denom", "n_total", "alpha", "power", "cohensf", "peta2", "criticalF", "ncp")]
+    )[,c("df_num", "df_denom", "n_total", "alpha", "power", "cohensf", "peta2", "F_critical", "ncp")]
 
     res_power_anova <- pwranova(
       nlevels_b = nlevels_b,
@@ -300,7 +300,7 @@ test_that("pwrcontrast matches pwranova results", {
       alpha = alpha,
       power = NULL,
       cohensf = cohensf
-    )[,c("df_num", "df_denom", "n_total", "alpha", "power", "cohensf", "peta2", "criticalF", "ncp")]
+    )[,c("df_num", "df_denom", "n_total", "alpha", "power", "cohensf", "peta2", "F_critical", "ncp")]
 
     testthat::expect_equal(
       as.numeric(res_power),
@@ -316,7 +316,7 @@ test_that("pwrcontrast matches pwranova results", {
       alpha = alpha,
       power = power,
       cohensf = NULL,
-    )[,c("df_num", "df_denom", "n_total", "alpha", "power", "cohensf", "peta2", "criticalF", "ncp")]
+    )[,c("df_num", "df_denom", "n_total", "alpha", "power", "cohensf", "peta2", "F_critical", "ncp")]
 
     res_cohensf_anova <- pwranova(
       nlevels_b = nlevels_b,
@@ -325,7 +325,7 @@ test_that("pwrcontrast matches pwranova results", {
       alpha = alpha,
       power = power,
       cohensf = NULL
-    )[,c("df_num", "df_denom", "n_total", "alpha", "power", "cohensf", "peta2", "criticalF", "ncp")]
+    )[,c("df_num", "df_denom", "n_total", "alpha", "power", "cohensf", "peta2", "F_critical", "ncp")]
 
     testthat::expect_equal(
       as.numeric(res_cohensf),

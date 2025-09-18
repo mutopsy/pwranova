@@ -11,7 +11,7 @@ one-sample, two-sample (independent), or paired/repeated measures."></head><body
 
     <a class="navbar-brand me-2" href="../index.html">pwranova</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -137,21 +137,31 @@ root finding uses <code><a href="https://rdrr.io/r/stats/uniroot.html" class="ex
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># (1) Two-sample (independent), compute power given N and d</span></span></span>
 <span class="r-in"><span><span class="fu">pwrttest</span><span class="op">(</span>paired <span class="op">=</span> <span class="cn">FALSE</span>, onesample <span class="op">=</span> <span class="cn">FALSE</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span>,</span></span>
 <span class="r-in"><span>         n_total <span class="op">=</span> <span class="fl">128</span>, delta <span class="op">=</span> <span class="fl">0.50</span>, alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in pwrttest(paired = FALSE, onesample = FALSE, alternative = "two.sided",     n_total = 128, delta = 0.5, alpha = 0.05):</span> could not find function "pwrttest"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    df n_total alpha     power delta cohensf      peta2 t_critical      ncp</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 126     128  0.05 0.8014596   0.5    0.25 0.05882353   1.978971 2.828427</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Power (1 - beta) was calculated based on the total sample size, effect size, and alpha.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (2) Paired t test, solve required N for target power</span></span></span>
 <span class="r-in"><span><span class="fu">pwrttest</span><span class="op">(</span>paired <span class="op">=</span> <span class="cn">TRUE</span>, onesample <span class="op">=</span> <span class="cn">FALSE</span>, alternative <span class="op">=</span> <span class="st">"one.sided"</span>,</span></span>
 <span class="r-in"><span>         n_total <span class="op">=</span> <span class="cn">NULL</span>, delta <span class="op">=</span> <span class="fl">0.40</span>, alpha <span class="op">=</span> <span class="fl">0.05</span>, power <span class="op">=</span> <span class="fl">0.90</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in pwrttest(paired = TRUE, onesample = FALSE, alternative = "one.sided",     n_total = NULL, delta = 0.4, alpha = 0.05, power = 0.9):</span> could not find function "pwrttest"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   df n_total alpha     power delta cohensf      peta2 t_critical      ncp</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 54      55  0.05 0.9004524   0.4     0.2 0.03846154   1.673565 2.966479</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The required total sample size was calculated based on the effect size, alpha, and power.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Note: 'power' indicates the achieved power rather than the target power.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (3) One-sample t test, solve alpha given N and power</span></span></span>
 <span class="r-in"><span><span class="fu">pwrttest</span><span class="op">(</span>onesample <span class="op">=</span> <span class="cn">TRUE</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span>,</span></span>
 <span class="r-in"><span>         n_total <span class="op">=</span> <span class="fl">40</span>, delta <span class="op">=</span> <span class="fl">0.40</span>, alpha <span class="op">=</span> <span class="cn">NULL</span>, power <span class="op">=</span> <span class="fl">0.80</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in pwrttest(onesample = TRUE, alternative = "two.sided", n_total = 40,     delta = 0.4, alpha = NULL, power = 0.8):</span> could not find function "pwrttest"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   df n_total     alpha power delta cohensf      peta2 t_critical      ncp</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 39      40 0.1001708   0.8   0.4     0.2 0.03846154   1.683997 2.529822</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Alpha was calculated based on the total sample size, effect size, and power.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (4) Two-sample, specify effect via f or partial eta^2 (converted internally)</span></span></span>
 <span class="r-in"><span><span class="fu">pwrttest</span><span class="op">(</span>paired <span class="op">=</span> <span class="cn">FALSE</span>, cohensf <span class="op">=</span> <span class="fl">0.25</span>, n_total <span class="op">=</span> <span class="cn">NULL</span>, alpha <span class="op">=</span> <span class="fl">0.05</span>, power <span class="op">=</span> <span class="fl">0.80</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in pwrttest(paired = FALSE, cohensf = 0.25, n_total = NULL, alpha = 0.05,     power = 0.8):</span> could not find function "pwrttest"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    df n_total alpha     power delta cohensf      peta2 t_critical      ncp</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 126     128  0.05 0.8014596   0.5    0.25 0.05882353   1.978971 2.828427</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The required total sample size was calculated based on the effect size, alpha, and power.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Note: 'power' indicates the achieved power rather than the target power.</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
