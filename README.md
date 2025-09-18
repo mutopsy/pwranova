@@ -12,6 +12,12 @@ tests (e.g., *t*-tests and correlation tests) are planned, making
 `pwranova` a convenient toolkit for power analysis in experimental
 psychology and related fields.
 
+## Links
+
+<!-- - CRAN: <https://CRAN.R-project.org/package=pwranova>  -->
+- Documentation: <https://mutopsy.github.io/pwranova>  
+- Source code: <https://github.com/mutopsy/pwranova>
+
 ## Installation
 
 Install the development version from GitHub:
