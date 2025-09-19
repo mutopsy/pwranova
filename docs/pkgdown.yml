@@ -2,7 +2,7 @@ pandoc: '3.4'
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2025-09-19T04:31Z
+last_built: 2025-09-19T16:51Z
 urls:
   reference: https://mutopsy.github.io/pwranova/reference
   article: https://mutopsy.github.io/pwranova/articles

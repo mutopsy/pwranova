@@ -8,7 +8,6 @@
 #'   \code{TRUE} for paired/repeated-measures. Ignored when \code{onesample = TRUE}.
 #' @param onesample Logical. \code{TRUE} for the one-sample t test; if \code{TRUE},
 #'   \code{paired} is ignored.
-#' @param alternative Character. Either \code{"two.sided"} or \code{"one.sided"}.
 #' @param n_total Integer scalar. Total sample size.
 #'   If \code{NULL}, the function solves for \code{n_total}.
 #' @param alpha Numeric in \eqn{(0,1)}. If \code{NULL}, it is solved for given the other inputs.
@@ -41,6 +40,7 @@
 #'   If \code{NULL}, it can be derived from \code{cohensf};
 #'   if \code{delta} is supplied, \code{peta2} is ignored.
 #'   Not defined for one-sample designs.
+#' @param alternative Character. Either \code{"two.sided"} or \code{"one.sided"}.
 #' @param nlim Integer vector of length 2. Search range of total \code{n} when solving sample size.
 #'
 #' @details
@@ -80,8 +80,9 @@
 #' @importFrom stats pt qt uniroot
 #' @export
 pwrttest <- function(
-    paired = FALSE, onesample = FALSE, alternative = c("two.sided", "one.sided"),
+    paired = FALSE, onesample = FALSE,
     n_total = NULL, alpha = NULL, power = NULL, delta = NULL, cohensf = NULL, peta2 = NULL,
+    alternative = c("two.sided", "one.sided"),
     nlim = c(2, 10000)
 ) {
   ## -------- Initial checks & conversions --------
