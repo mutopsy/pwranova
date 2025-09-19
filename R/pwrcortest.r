@@ -11,36 +11,26 @@
 #' @param alternative Character. Either \code{"two.sided"} or \code{"one.sided"}.
 #' @param n_total Integer scalar. Total sample size.
 #'   If \code{NULL}, the function solves for \code{n_total}.
-#' @param alpha Numeric in \eqn{(0,1)}. If \code{NULL}, it is solved for given the other inputs.
-#' @param power Numeric in \eqn{(0,1)}. If \code{NULL}, it is computed; if \code{n_total} is \code{NULL},
-#'   \code{n_total} is solved to attain this power.
 #' @param delta Numeric (non-negative). Cohen's \eqn{d}-type effect size.
 #'   If \code{NULL}, it is derived from \code{cohensf} or \code{peta2} when available.
 #'   If all three effect-size arguments (\code{delta}, \code{cohensf}, \code{peta2})
 #'   are \code{NULL}, then the effect size is treated as the unknown quantity and is
 #'   solved for given \code{n_total}, \code{alpha}, and \code{power}.
-#'   The exact definition depends on the design:
-#'   \itemize{
-#'     \item \emph{One-sample}: Cohen's \eqn{d = (\mu - \mu_0)/\sigma}.
-#'     \item \emph{Paired}: Cohen's \eqn{d_z = \bar{d}/s_d}, i.e., the mean of the difference scores
-#'           divided by their standard deviation.
-#'     \item \emph{Two-sample (equal allocation)}: Cohen's \eqn{d} is defined as the mean difference
-#'           divided by the pooled standard deviation; internally related to \eqn{f} via \eqn{d = 2f}.
-#'   }
-#'   If \code{NULL}, \code{delta} is derived from \code{cohensf} or \code{peta2} when available.
-#' @param cohensf Numeric (non-negative). Cohen's \eqn{f}.
-#'   If \code{NULL}, it can be derived from \code{delta};
-#'   if \code{delta} is supplied, \code{cohensf} is ignored.
 #'   Effect-size relations by design:
 #'   \itemize{
 #'     \item Two-sample (equal allocation): \eqn{d = 2f}
 #'     \item Paired: \eqn{d_z = f}
 #'     \item One-sample: \eqn{f} and \eqn{\eta_p^2} are not supported
 #'   }
+#' @param cohensf Numeric (non-negative). Cohen's \eqn{f}.
+#'   If \code{NULL}, it can be derived from \code{delta};
+#'   if \code{delta} is supplied, \code{cohensf} is ignored.
 #' @param peta2 Numeric in \eqn{(0,1)}. Partial eta squared.
 #'   If \code{NULL}, it can be derived from \code{cohensf};
 #'   if \code{delta} is supplied, \code{peta2} is ignored.
-#'   Not defined for one-sample designs.
+#' @param alpha Numeric in \eqn{(0,1)}. If \code{NULL}, it is solved for given the other inputs.
+#' @param power Numeric in \eqn{(0,1)}. If \code{NULL}, it is computed; if \code{n_total} is \code{NULL},
+#'   \code{n_total} is solved to attain this power.
 #' @param nlim Integer vector of length 2. Search range of total \code{n} when solving sample size.
 #'
 #' @details
@@ -81,7 +71,7 @@
 #' @export
 pwrttest <- function(
     paired = FALSE, onesample = FALSE, alternative = c("two.sided", "one.sided"),
-    n_total = NULL, alpha = NULL, power = NULL, delta = NULL, cohensf = NULL, peta2 = NULL,
+    n_total = NULL, delta = NULL, cohensf = NULL, peta2 = NULL, alpha = NULL, power = NULL,
     nlim = c(2, 10000)
 ) {
   ## -------- Initial checks & conversions --------
@@ -94,13 +84,7 @@ pwrttest <- function(
 
   if (!is.null(n_total)) {
     if (!is.numeric(n_total) || length(n_total) != 1L || n_total %% 1 != 0) {
-      stop("'n_total' must be a single positive integer.")
-    }
-    if (!paired && !onesample && n_total <= 3) {
-      stop("'n_total' must be >= 4 for a two-sample t-test.")
-    }
-    if ((paired || onesample) && n_total <= 1) {
-      stop("'n_total' must be >= 2 for a one-sample or paired t-test.")
+      stop("'n_total' must be a single integer.")
     }
   }
 
@@ -233,7 +217,6 @@ pwrttest <- function(
       res$power <- res$power + pt(-res$t_critical, res$df, ncp = res$ncp)
     }
 
-    if(design == "paired") names(res)[names(res)=="delta"] <- "delta_z"
     return(structure(res, class = c("cal_power", "data.frame")))
   }
 
@@ -274,7 +257,6 @@ pwrttest <- function(
     res$t_critical <- t_critical_candi[idx]
     res$ncp       <- ncp_candi[idx]
 
-    if(design == "paired") names(res)[names(res)=="delta"] <- "delta_z"
     return(structure(res, class = c("cal_n", "data.frame")))
   }
 
@@ -290,47 +272,14 @@ pwrttest <- function(
       res$alpha     <- 1 - pt(res$t_critical, res$df)
 
     } else{
-
-      # For stable and consistent computation, use pwranova()
-
-      if(design == "two.sample"){
-        nlevels_b <- 2
-        nlevels_w <- NULL
-      } else{
-        nlevels_b <- NULL
-        nlevels_w <- 2
+      f <- function(x) {
+        (pt(x, res$df, ncp = res$ncp) - pt(-x, res$df, ncp = res$ncp)) - (1 - res$power)
       }
-
-      if(design == "one.sample"){
-        cohensf_tmp <- res$delta
-      } else{
-        cohensf_tmp <- res$cohensf
-      }
-
-      res_anova <- pwranova(
-        nlevels_b = nlevels_b, nlevels_w = nlevels_w,
-        n_total = n_total, cohensf = cohensf_tmp, power = power)
-
-      res$alpha <- res_anova$alpha
-      res$t_critical <- sqrt(res_anova$F_critical)
-      # res$t_critical <- qt(1 - res$alpha/2, res$df)
-
-      # f <- function(x) {
-      #   (pt(x, res$df, ncp = res$ncp) - pt(-x, res$df, ncp = res$ncp)) - (1 - res$power)
-      # }
-      #
-      # upper <- qt(1 - 1e-12, df = res$df)
-      # root <- tryCatch(
-      #   uniroot(g, lower = 0, upper = 1 - 1e-12,
-      #           tol = 1e-12, maxiter = 10000)$root,
-      #   error = function(e) {
-      #     stop("Failed to solve alpha: inputs are too extreme (power/N/effect size combination).")
-      #   }
-      # )
-      # res$alpha <- 2 * (1 - pt(root, df = res$df))
-      # res$t_critical <- root
+      upper <- qt(1 - 1e-12, df = res$df)
+      root <- uniroot(f, lower = 0, upper = upper, tol = 1e-12, maxiter = 10000)$root
+      res$alpha <- 2 * (1 - pt(root, df = res$df))
+      res$t_critical <- root
     }
-    if(design == "paired") names(res)[names(res)=="delta"] <- "delta_z"
     return(structure(res, class = c("cal_alpha", "data.frame")))
   }
 
@@ -372,13 +321,9 @@ pwrttest <- function(
       res$peta2   <- NA_real_
     }
 
-    if(design == "paired") names(res)[names(res)=="delta"] <- "delta_z"
     return(structure(res, class = c("cal_es", "data.frame")))
   }
 }
 
 
-# やること：fの変換を、pairedの場合はf=deltaとする。1標本の場合は定義できない。ドキュメントもなおす。deltaの定義を説明。
-# unirootがたまにエラーを吐く。組み合わせによる？pwranovaもチェック。
-
-
+# やること：fの変換を、pairedの場合はf=deltaとする。1標本の場合は定義できない。ドキュメントもなおす。deltaの定義を説明。できればデザインによってはdelta_zとかにしたい。

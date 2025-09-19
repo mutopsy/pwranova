@@ -160,3 +160,217 @@ test_that("pwrttest: effect-size inputs precedence and design-dependent conversi
     pwrttest(onesample = TRUE, n_total = 20, peta2 = 0.06, alpha = 0.05, power = NULL)
   )
 })
+
+test_that("pwrttest matches pwranova results", {
+  set.seed(610)
+
+  nrep <- 50
+
+  for(i in 1:nrep){
+    paired <- sample(c(FALSE, TRUE), 1)
+    n_total <- sample(10:20, 1) * 2
+    alpha <- runif(1, 0.01,0.10)
+    power <- runif(1,0.80,0.95)
+    delta <- runif(1, 0.1,1)
+
+    if(paired){
+      nlevels_b <- NULL
+      nlevels_w <- 2
+    } else{
+      nlevels_b <- 2
+      nlevels_w <- NULL
+    }
+
+    # N
+
+    res_n <- pwrttest(
+      paired = paired,
+      n_total = NULL,
+      alpha = alpha,
+      power = power,
+      delta = delta
+    )[,c("df", "n_total", "alpha", "power", "cohensf", "peta2")]
+
+    res_n_anova <- pwranova(
+      nlevels_b = nlevels_b,
+      nlevels_w = nlevels_w,
+      n_total = NULL,
+      alpha = alpha,
+      power = power,
+      cohensf = delta / (as.numeric(!paired) + 1)
+    )[,c("df_denom", "n_total", "alpha", "power", "cohensf", "peta2")]
+
+    testthat::expect_equal(
+      as.numeric(res_n),
+      as.numeric(res_n_anova),
+      tolerance = 10e-5
+    )
+
+    # Alpha
+
+    res_alpha <- pwrttest(
+      paired = paired,
+      n_total = n_total,
+      alpha = NULL,
+      power = power,
+      delta = delta
+    )[,c("df", "n_total", "alpha", "power", "cohensf", "peta2")]
+
+    res_alpha_anova <- pwranova(
+      nlevels_b = nlevels_b,
+      nlevels_w = nlevels_w,
+      n_total = n_total,
+      alpha = NULL,
+      power = power,
+      cohensf = delta / (as.numeric(!paired) + 1)
+    )[,c("df_denom", "n_total", "alpha", "power", "cohensf", "peta2")]
+
+    testthat::expect_equal(
+      as.numeric(res_alpha),
+      as.numeric(res_alpha_anova),
+      tolerance = 1e-5
+    )
+
+    # Power
+
+    res_power <- pwrttest(
+      paired = paired,
+      n_total = n_total,
+      alpha = alpha,
+      power = NULL,
+      delta = delta,
+    )[,c("df", "n_total", "alpha", "power", "cohensf", "peta2")]
+
+    res_power_anova <- pwranova(
+      nlevels_b = nlevels_b,
+      nlevels_w = nlevels_w,
+      n_total = n_total,
+      alpha = alpha,
+      power = NULL,
+      cohensf = delta / (as.numeric(!paired) + 1)
+    )[,c("df_denom", "n_total", "alpha", "power", "cohensf", "peta2")]
+
+    testthat::expect_equal(
+      as.numeric(res_power),
+      as.numeric(res_power_anova),
+      tolerance = 1e-5
+    )
+
+    # Cohen's f
+
+    res_cohensf <- pwrttest(
+      paired = paired,
+      n_total = n_total,
+      alpha = alpha,
+      power = power,
+      delta = NULL,
+    )[,c("df", "n_total", "alpha", "power", "cohensf", "peta2")]
+
+    res_cohensf_anova <- pwranova(
+      nlevels_b = nlevels_b,
+      nlevels_w = nlevels_w,
+      n_total = n_total,
+      alpha = alpha,
+      power = power,
+      cohensf = NULL
+    )[,c("df_denom", "n_total", "alpha", "power", "cohensf", "peta2")]
+
+    testthat::expect_equal(
+      as.numeric(res_cohensf),
+      as.numeric(res_cohensf_anova),
+      tolerance = 1e-5
+    )
+  }
+
+})
+
+test_that("pwrttest matches G*Power results", {
+  path <- testthat::test_path("expected", "expected_pwrttest.csv")
+  expected <- utils::read.csv(path)
+
+  for(i in 1:nrow(expected)){
+    e <- expected[i,]
+
+    paired <- e$paired
+    onesample <- e$onesample
+    alternative <- e$alternative
+    n_total <- e$n_total
+    alpha <- e$alpha
+    power <- e$power
+    delta <- e$delta
+
+    # N
+
+    res_n <- pwrttest(
+      paired = paired,
+      onesample = onesample,
+      alternative = alternative,
+      n_total = NULL,
+      alpha = alpha,
+      power = power,
+      delta = delta
+    )[,c("n_total", "ncp", "df")]
+
+    testthat::expect_equal(
+      as.numeric(res_n),
+      as.numeric(e[,c("n_total", "ncp", "df")])
+    )
+
+    # Alpha
+
+    res_alpha <- pwrttest(
+      paired = paired,
+      onesample = onesample,
+      alternative = alternative,
+      n_total = n_total,
+      alpha = NULL,
+      power = power,
+      delta = delta
+    )[,c("alpha", "ncp", "df")]
+
+    testthat::expect_equal(
+      as.numeric(res_alpha),
+      as.numeric(e[,c("alpha_est", "ncp", "df")]),
+      tolerance = 10e-5
+    )
+
+    # Power
+
+    res_power <- pwrttest(
+      paired = paired,
+      onesample = onesample,
+      alternative = alternative,
+      n_total = n_total,
+      alpha = alpha,
+      power = NULL,
+      delta = delta
+    )[,c("power", "ncp", "df")]
+
+    testthat::expect_equal(
+      as.numeric(res_power),
+      as.numeric(e[,c("power_est", "ncp", "df")]),
+      tolerance = 10e-5
+    )
+
+    # delta
+
+    res_delta <- pwrttest(
+      paired = paired,
+      onesample = onesample,
+      alternative = alternative,
+      n_total = n_total,
+      alpha = alpha,
+      power = power,
+      delta = NULL
+    )
+
+    res_delta <- res_delta[,c(grep("^delta", names(res_delta), value = TRUE), "ncp", "df")]
+
+    testthat::expect_equal(
+      as.numeric(res_delta),
+      as.numeric(e[,c("delta_est", "ncp_sen", "df")]),
+      tolerance = 10e-5
+    )
+  }
+
+})

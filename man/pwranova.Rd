@@ -8,10 +8,10 @@ pwranova(
   nlevels_b = NULL,
   nlevels_w = NULL,
   n_total = NULL,
-  cohensf = NULL,
-  peta2 = NULL,
   alpha = NULL,
   power = NULL,
+  cohensf = NULL,
+  peta2 = NULL,
   epsilon = 1,
   target = NULL,
   max_nfactor = 6,
@@ -28,16 +28,19 @@ Omit or set \code{NULL} if there is no within-participant factor.}
 \item{n_total}{Integer or integer vector. Total sample size across all groups.
 If \code{NULL}, the function solves for \code{n_total}.}
 
-\item{cohensf}{Numeric. Cohen's \eqn{f} (non-negative). If \code{NULL}, it is
-derived from \code{peta2} when available.}
-
-\item{peta2}{Numeric in \eqn{(0,1)}. Partial eta squared. If \code{NULL}, it is
-derived from \code{cohensf} when available.}
-
 \item{alpha}{Numeric in \eqn{(0,1)}. If \code{NULL}, it is solved for.}
 
 \item{power}{Numeric in \eqn{(0,1)}. If \code{NULL}, it is computed; if \code{n_total}
 is \code{NULL}, \code{n_total} is solved to achieve this power.}
+
+\item{cohensf}{Numeric. Cohen's \eqn{f} (non-negative). If \code{NULL}, it is
+derived from \code{peta2} when available.
+If all three effect-size arguments (\code{cohensf} and \code{peta2})
+are \code{NULL}, then the effect size is treated as the unknown quantity and is
+solved for given \code{n_total}, \code{alpha}, and \code{power}.}
+
+\item{peta2}{Numeric in \eqn{(0,1)}. Partial eta squared. If \code{NULL}, it is
+derived from \code{cohensf} when available.}
 
 \item{epsilon}{Numeric in \eqn{(0,1]}. Nonsphericity (Greenhouse–Geisser) parameter
 applied to within-participant terms with \eqn{\mathrm{df}_1 \ge 2}. Ignored if no
