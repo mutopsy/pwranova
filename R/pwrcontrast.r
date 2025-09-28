@@ -7,10 +7,10 @@
 #' For a contrast with weights \eqn{w_1, \dots, w_K} that sum to zero,
 #' the numerator df is 1. The denominator df is \eqn{n - K} for
 #' between-subjects (unpaired) designs and \eqn{(n - 1)(K - 1)} for
-#' paired/repeated-measures designs. Power uses the noncentral F with
+#' paired/repeated-measures designs. Power uses the noncentral \emph{F}-with
 #' \eqn{\lambda = f^2 \cdot n_{\mathrm{total}}}.
 #'
-#' @param weight Numeric vector (length \eqn{K \ge 2}). Contrast weights whose sum must be (approximately) zero.
+#' @param weight Numeric vector (length \eqn{K \ge 2}). Contrast weights whose sum must be zero.
 #' @param paired Logical. \code{FALSE} for between-subjects (default), \code{TRUE} for paired/repeated-measures.
 #' @param n_total Integer or integer vector. Total sample size(s). If \code{NULL}, the function solves for \code{n_total}.
 #' @param cohensf Numeric (non-negative). Cohen's \eqn{f}. If \code{NULL}, it is derived from \code{peta2} when available.
@@ -20,9 +20,23 @@
 #' @param nlim Integer length-2. Search range of total \code{n} when solving sample size.
 #'
 #' @details
-#' - \code{weight} is not normalized internally; only the zero-sum condition is enforced (up to numerical tolerance).
-#' - When \code{paired = FALSE}, \code{n_total} must be a multiple of \eqn{K}.
-#' - The function enforces exactly one of \code{n_total}, \code{cohensf}/\code{peta2}, \code{alpha}, or \code{power} to be \code{NULL}.
+#' \itemize{
+#'   \item Contrast weights (\code{weight}) are not centered internally; only the
+#'         zero-sum condition is enforced (up to numerical tolerance).
+#'   \item When \code{paired = FALSE}, the total sample size \code{n_total} must be
+#'         a multiple of the number of contrast groups \eqn{K}.
+#'   \item Exactly one of \code{n_total}, an effect-size specification
+#'         (\code{cohensf}/\code{peta2}), \code{alpha}, or \code{power} must be
+#'         \code{NULL}; that quantity is then solved.
+#'   \item Critical values are computed from the central \emph{F}-distribution; power
+#'         is based on the noncentral \emph{F}-distribution with noncentrality parameter
+#'         \eqn{\lambda = f^2 \cdot n_{\mathrm{total}}}.
+#'   \item Effect-size inputs can be given as Cohen’s \eqn{f} or partial eta-squared
+#'         \eqn{\eta_p^2} (internally converted via
+#'         \eqn{f = \sqrt{\eta_p^2/(1-\eta_p^2)}}). If both are \code{NULL}, the
+#'         minimal detectable effect size is solved for given \code{n_total},
+#'         \code{alpha}, and \code{power}.
+#' }
 #'
 #' @return A one-row data frame with class:
 #'   \itemize{

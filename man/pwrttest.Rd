@@ -21,7 +21,7 @@ pwrttest(
 \item{paired}{Logical. \code{FALSE} for two-sample (independent; default),
 \code{TRUE} for paired/repeated-measures. Ignored when \code{onesample = TRUE}.}
 
-\item{onesample}{Logical. \code{TRUE} for the one-sample t test; if \code{TRUE},
+\item{onesample}{Logical. \code{TRUE} for the one-sample \emph{t}-test; if \code{TRUE},
 \code{paired} is ignored.}
 
 \item{n_total}{Integer scalar. Total sample size.
@@ -75,8 +75,8 @@ depending on the solved quantity. Columns:
 \code{t_critical}, \code{ncp}.
 }
 \description{
-Computes statistical \strong{power}, required total sample size, \eqn{\alpha},
-or the minimal detectable effect size for a \emph{t} test in one of three designs:
+Computes statistical power, required total sample size, \eqn{\alpha},
+or the minimal detectable effect size for a \emph{t}-test in one of three designs:
 one-sample, two-sample (independent), or paired/repeated measures.
 }
 \details{
@@ -86,8 +86,10 @@ precedence is \code{delta} \eqn{>} \code{cohensf} \eqn{>} \code{peta2}; the rest
 \item For the two-sample design, equal allocation is assumed; \code{n_total} must be even when provided,
 and the solved \code{n_total} will be an even number.
 \item For the paired design, the effect size is interpreted as \eqn{d_z}.
-\item Computations use the central and noncentral \emph{t} distributions (\code{stats::qt}, \code{stats::pt});
+\item Computations use the central and noncentral \emph{t}-distributions (\code{stats::qt}, \code{stats::pt});
 root finding uses \code{stats::uniroot()} where needed.
+\item Results have been validated to match those produced by G*Power
+for equivalent one-sample, paired, and two-sample \emph{t} tests.
 }
 }
 \examples{
@@ -95,11 +97,11 @@ root finding uses \code{stats::uniroot()} where needed.
 pwrttest(paired = FALSE, onesample = FALSE, alternative = "two.sided",
          n_total = 128, delta = 0.50, alpha = 0.05)
 
-# (2) Paired t test, solve required N for target power
+# (2) Paired t-test, solve required N for target power
 pwrttest(paired = TRUE, onesample = FALSE, alternative = "one.sided",
          n_total = NULL, delta = 0.40, alpha = 0.05, power = 0.90)
 
-# (3) One-sample t test, solve alpha given N and power
+# (3) One-sample t-test, solve alpha given N and power
 pwrttest(onesample = TRUE, alternative = "two.sided",
          n_total = 40, delta = 0.40, alpha = NULL, power = 0.80)
 

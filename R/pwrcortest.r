@@ -1,39 +1,50 @@
 #' Power Analysis for Pearson Correlation
 #'
-#' Computes statistical \strong{power}, required total sample size, \eqn{\alpha},
+#' Computes statistical power, required total sample size, \eqn{\alpha},
 #' or the minimal detectable correlation coefficient for a Pearson correlation test.
 #' Two computational methods are supported: exact noncentral \emph{t} (\code{method = "t"})
-#' and Fisher's \emph{z} transformation with normal approximation (\code{method = "z"}).
+#' and Fisher's \emph{z}-transformation with normal approximation (\code{method = "z"}).
 #'
 #' @param alternative Character. Either \code{"two.sided"} or \code{"one.sided"}.
 #' @param n_total Integer scalar. Total sample size (\eqn{n}).
-#'   If \code{NULL}, the function solves for \code{n_total}.
 #'   Must be \eqn{\ge 3} for \code{method = "t"} and \eqn{\ge 4} for \code{method = "z"}.
+#'   If \code{NULL}, the function solves for \code{n_total}.
 #' @param alpha Numeric in \eqn{(0,1)}. If \code{NULL}, it is solved for.
 #' @param power Numeric in \eqn{(0,1)}. If \code{NULL}, it is computed; if \code{n_total} is \code{NULL},
 #'   \code{n_total} is solved to attain this power.
 #' @param rho Numeric correlation coefficient in \eqn{(-1,1)}, nonzero.
 #'   If \code{NULL}, \code{rho} is solved for given the other inputs.
-#' @param method Character. Either \code{"t"} (noncentral-\emph{t} distribution)
+#' @param method Character. Either \code{"t"} (noncentral \emph{t}-distribution)
 #'   or \code{"z"} (Fisher's \emph{z} transformation with normal approximation).
 #' @param bias_correction Logical. Applies only to \code{method = "z"}.
-#'   If \code{TRUE}, uses the bias-corrected Fisher \emph{z} transformation
+#'   If \code{TRUE}, uses the bias-corrected Fisher \emph{z}-transformation
 #'   \eqn{z_p = \operatorname{atanh}(r) + r/(2(n-1))}.
 #' @param nlim Integer vector of length 2. Search range of \code{n_total} when solving sample size.
 #'
 #' @details
-#' - Exactly one of \code{n_total}, \code{rho}, \code{alpha}, or \code{power} must be \code{NULL}.
-#' - For \code{method = "t"}, computations are based on the noncentral \emph{t}
-#'   distribution with noncentrality parameter
-#'   \eqn{\lambda = \tfrac{\rho}{\sqrt{1-\rho^2}} \sqrt{n}}.
-#' - For \code{method = "z"}, computations use Fisher's \emph{z} transformation
-#'   with variance 1 under the alternative hypothesis. The returned \code{ncp}
-#'   corresponds to the mean of this normal distribution,
-#'   \eqn{\mu = \sqrt{n-3}\, z_p}, where \eqn{z_p} is the (possibly bias-corrected)
-#'   transformed correlation.
-#' - Note: results from \code{method = "z"} will not exactly match \code{pwr::pwr.r.test},
-#'   because \code{pwr} uses a hybrid approach combining the Fisher-\emph{z} approximation
-#'   with a \emph{t}-based critical value.
+#' \itemize{
+#'   \item Exactly one of \code{n_total}, \code{rho}, \code{alpha}, or \code{power}
+#'         must be \code{NULL}; that quantity is then solved.
+#'   \item For \code{method = "t"}, computations are based on the noncentral
+#'         \emph{t}-distribution with noncentrality parameter
+#'         \eqn{\lambda = \tfrac{\rho}{\sqrt{1-\rho^2}} \sqrt{n}}.
+#'   \item For \code{method = "z"}, computations use Fisher's \emph{z} transformation
+#'         of the population correlation, \eqn{z_\rho = \operatorname{atanh}(\rho)}.
+#'         Let \eqn{W = \sqrt{n-3}\, z}. Under the alternative hypothesis,
+#'         \eqn{W \sim \mathrm{Normal}(\mu,\,1)} with
+#'         \eqn{\mu = \sqrt{n-3}\, z_\rho}. If \code{bias_correction = TRUE},
+#'         \eqn{\rho} is first bias-corrected before applying Fisher's transform.
+#'         Critical values are taken from the central normal distribution under
+#'         \eqn{H_0:\rho=0} (i.e., \eqn{W \sim \mathrm{Normal}(0,1)} under the null).
+#'         The returned \code{ncp} equals \eqn{\mu}.
+#'   \item \strong{Validation against GPower:} Results have been confirmed to match
+#'         those produced by GPower for equivalent correlation tests using the
+#'         noncentral \emph{t}-distribution.
+#'   \item \emph{Note:} Results from \code{method = "z"} will not exactly match
+#'         \code{pwr::pwr.r.test}, because \code{pwr} uses a hybrid approach
+#'         combining the Fisher-\emph{z} approximation with a \emph{t}-based
+#'         critical value.
+#' }
 #'
 #' @return A one-row \code{data.frame} with class
 #'   \code{"cal_power"}, \code{"cal_n"}, \code{"cal_alpha"}, or \code{"cal_es"},
@@ -246,14 +257,30 @@ pwrcortest <- function(
 
       } else{
 
-        # For stable and consistent computation, use pwranova()
+        f_t <- function(x){
+          pt(x, res$df, ncp = res$ncp) - pt(-x, res$df, ncp = res$ncp) - (1 - res$power)
+        }
 
-        res_anova <- pwranova(
-          nlevels_b = 2,
-          n_total = n_total, cohensf = (res$rho / sqrt(1 - res$rho^2)), power = power)
+        upper <- 2
+        val_u <- f_t(upper)
+        while (val_u < 0 && upper < 1e6) {  # increase upper until achievable
+          upper <- upper * 2
+          val_u <- f_t(upper)
+        }
 
-        res$alpha <- res_anova$alpha
-        res$t_critical <- sqrt(res_anova$F_critical)
+        root <- uniroot(f_t, lower = 0, upper = upper, tol = 1e-12, maxiter = 10000)$root
+
+        res$t_critical <- root
+        res$alpha <- (1 - pt(root, res$df)) * 2
+
+        # # For stable and consistent computation, use pwranova()
+        #
+        # res_anova <- pwranova(
+        #   nlevels_b = 2,
+        #   n_total = n_total, cohensf = (res$rho / sqrt(1 - res$rho^2)), power = power)
+        #
+        # res$alpha <- res_anova$alpha
+        # res$t_critical <- sqrt(res_anova$F_critical)
       }
 
     } else if(method == "z"){

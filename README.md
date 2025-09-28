@@ -1,16 +1,17 @@
-# pwranova: Power Analysis for Flexible ANOVA Designs and Related Tests
+# pwranova: Power Analysis of Flexible ANOVA Designs and Related Tests
 
-`pwranova` is an R package for power analysis in ANOVA designs — including
-between-, within-, and mixed-factor designs — with full support for both
-**main effects and interactions** across any number of factors.
+`pwranova` is an R package for power analysis in ANOVA designs, 
+including between-, within-, and mixed-factor designs, 
+with full support for both **main effects and interactions** across any number of factors.
 
-The package provides functions to compute **statistical power**, **required
-total sample size**, **significance level**, and **minimal detectable
-effect sizes** (partial eta squared or Cohen’s *f*) for ANOVA terms and
-planned contrasts. In addition, complementary helpers for commonly used
-tests (e.g., *t*-tests and correlation tests) are planned, making
-`pwranova` a convenient toolkit for power analysis in experimental
-psychology and related fields.
+The package allows calculation of **statistical power**, 
+**required total sample size**, **significance level**, and **minimal 
+detectable effect sizes** expressed as partial eta squared or Cohen's *f* 
+for ANOVA terms and planned contrasts. 
+In addition, complementary functions are included for common related 
+tests such as *t*-tests and correlation tests, making the package a 
+convenient toolkit for power analysis in experimental psychology 
+and related fields.
 
 ## Links
 
@@ -107,8 +108,10 @@ res_contrast
 
 Current functions include:
 
-- pwranova() — Power analysis for between-/within-/mixed-factor ANOVA, covering all main effects and interactions.
-- pwrcontrast() — Power analysis for a single planned contrast (1 df) in between-subjects or paired/repeated-measures designs.
+- `pwranova()` — Power analysis for between-/within-/mixed-factor ANOVA, covering all main effects and interactions.
+- `pwrcontrast()` — Power analysis for a single planned contrast (1 df) in between-subjects or paired/repeated-measures designs.
+- `pwrttest()` — Power analysis for *t*-tests (one-sample, paired, and two-sample).
+- `pwrcortest()` — Power analysis for Pearson’s correlation (using either the *t*-distribution or Fisher’s *z*-transformation approach).
 
 For full documentation, see the reference site (pkgdown):
 https://mutopsy.github.io/pwranova/reference/
@@ -120,4 +123,4 @@ https://mutopsy.github.io/pwranova/news/
 
 ## License
 
-GPL-3 (see LICENSE).
+GPL-3

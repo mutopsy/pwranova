@@ -14,13 +14,14 @@ Each value must be greater than or equal to 0.}
 A numeric vector of partial eta squared values.
 }
 \description{
-This function converts Cohen's f to partial eta squared (\eqn{\eta_p^2})
-using the method described in Cohen (1988). Partial eta squared is a
-commonly reported effect size index in ANOVA.
+Converts Cohen's f to partial eta squared (\eqn{\eta_p^2})
+using the standard definition in Cohen (1988).
 }
 \details{
 The conversion is defined as:
 \deqn{\eta_p^2 = \frac{f^2}{1 + f^2}}
+
+This follows from the relationship: \eqn{f = \sqrt{\eta_p^2 / (1 - \eta_p^2)}}
 }
 \examples{
 # Convert a single Cohen's f value

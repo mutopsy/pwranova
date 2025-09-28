@@ -19,8 +19,8 @@ pwrcortest(
 \item{alternative}{Character. Either \code{"two.sided"} or \code{"one.sided"}.}
 
 \item{n_total}{Integer scalar. Total sample size (\eqn{n}).
-If \code{NULL}, the function solves for \code{n_total}.
-Must be \eqn{\ge 3} for \code{method = "t"} and \eqn{\ge 4} for \code{method = "z"}.}
+Must be \eqn{\ge 3} for \code{method = "t"} and \eqn{\ge 4} for \code{method = "z"}.
+If \code{NULL}, the function solves for \code{n_total}.}
 
 \item{alpha}{Numeric in \eqn{(0,1)}. If \code{NULL}, it is solved for.}
 
@@ -30,11 +30,11 @@ Must be \eqn{\ge 3} for \code{method = "t"} and \eqn{\ge 4} for \code{method = "
 \item{rho}{Numeric correlation coefficient in \eqn{(-1,1)}, nonzero.
 If \code{NULL}, \code{rho} is solved for given the other inputs.}
 
-\item{method}{Character. Either \code{"t"} (noncentral-\emph{t} distribution)
+\item{method}{Character. Either \code{"t"} (noncentral \emph{t}-distribution)
 or \code{"z"} (Fisher's \emph{z} transformation with normal approximation).}
 
 \item{bias_correction}{Logical. Applies only to \code{method = "z"}.
-If \code{TRUE}, uses the bias-corrected Fisher \emph{z} transformation
+If \code{TRUE}, uses the bias-corrected Fisher \emph{z}-transformation
 \eqn{z_p = \operatorname{atanh}(r) + r/(2(n-1))}.}
 
 \item{nlim}{Integer vector of length 2. Search range of \code{n_total} when solving sample size.}
@@ -52,25 +52,34 @@ see Details)
 }
 }
 \description{
-Computes statistical \strong{power}, required total sample size, \eqn{\alpha},
+Computes statistical power, required total sample size, \eqn{\alpha},
 or the minimal detectable correlation coefficient for a Pearson correlation test.
 Two computational methods are supported: exact noncentral \emph{t} (\code{method = "t"})
-and Fisher's \emph{z} transformation with normal approximation (\code{method = "z"}).
+and Fisher's \emph{z}-transformation with normal approximation (\code{method = "z"}).
 }
 \details{
 \itemize{
-\item Exactly one of \code{n_total}, \code{rho}, \code{alpha}, or \code{power} must be \code{NULL}.
-\item For \code{method = "t"}, computations are based on the noncentral \emph{t}
-distribution with noncentrality parameter
+\item Exactly one of \code{n_total}, \code{rho}, \code{alpha}, or \code{power}
+must be \code{NULL}; that quantity is then solved.
+\item For \code{method = "t"}, computations are based on the noncentral
+\emph{t}-distribution with noncentrality parameter
 \eqn{\lambda = \tfrac{\rho}{\sqrt{1-\rho^2}} \sqrt{n}}.
 \item For \code{method = "z"}, computations use Fisher's \emph{z} transformation
-with variance 1 under the alternative hypothesis. The returned \code{ncp}
-corresponds to the mean of this normal distribution,
-\eqn{\mu = \sqrt{n-3}\, z_p}, where \eqn{z_p} is the (possibly bias-corrected)
-transformed correlation.
-\item Note: results from \code{method = "z"} will not exactly match \code{pwr::pwr.r.test},
-because \code{pwr} uses a hybrid approach combining the Fisher-\emph{z} approximation
-with a \emph{t}-based critical value.
+of the population correlation, \eqn{z_\rho = \operatorname{atanh}(\rho)}.
+Let \eqn{W = \sqrt{n-3}\, z}. Under the alternative hypothesis,
+\eqn{W \sim \mathrm{Normal}(\mu,\,1)} with
+\eqn{\mu = \sqrt{n-3}\, z_\rho}. If \code{bias_correction = TRUE},
+\eqn{\rho} is first bias-corrected before applying Fisher's transform.
+Critical values are taken from the central normal distribution under
+\eqn{H_0:\rho=0} (i.e., \eqn{W \sim \mathrm{Normal}(0,1)} under the null).
+The returned \code{ncp} equals \eqn{\mu}.
+\item \strong{Validation against GPower:} Results have been confirmed to match
+those produced by GPower for equivalent correlation tests using the
+noncentral \emph{t}-distribution.
+\item \emph{Note:} Results from \code{method = "z"} will not exactly match
+\code{pwr::pwr.r.test}, because \code{pwr} uses a hybrid approach
+combining the Fisher-\emph{z} approximation with a \emph{t}-based
+critical value.
 }
 }
 \examples{

@@ -19,35 +19,37 @@ pwranova(
 )
 }
 \arguments{
-\item{nlevels_b}{Integer vector. Numbers of levels for between-participant factors.
-Omit or set \code{NULL} if there is no between-participant factor.}
+\item{nlevels_b}{Integer scalar or vector. Numbers of levels for
+between-subjects factors. Omit or set \code{NULL} if there is no
+between-subjects factor.}
 
-\item{nlevels_w}{Integer vector. Numbers of levels for within-participant factors.
-Omit or set \code{NULL} if there is no within-participant factor.}
+\item{nlevels_w}{Integer scalar or vector. Numbers of levels for
+within-subjects factors. Omit or set \code{NULL} if there is no
+within-subjects factor.}
 
-\item{n_total}{Integer or integer vector. Total sample size across all groups.
+\item{n_total}{Integer scalar or vector. Total sample size across all groups.
 If \code{NULL}, the function solves for \code{n_total}.}
 
 \item{alpha}{Numeric in \eqn{(0,1)}. If \code{NULL}, it is solved for.}
 
-\item{power}{Numeric in \eqn{(0,1)}. If \code{NULL}, it is computed; if \code{n_total}
-is \code{NULL}, \code{n_total} is solved to achieve this power.}
+\item{power}{Numeric in \eqn{(0,1)}. If \code{NULL}, it is computed; if
+\code{n_total} is \code{NULL}, \code{n_total} is solved to achieve this power.}
 
-\item{cohensf}{Numeric. Cohen's \eqn{f} (non-negative). If \code{NULL}, it is
-derived from \code{peta2} when available.
-If all three effect-size arguments (\code{cohensf} and \code{peta2})
-are \code{NULL}, then the effect size is treated as the unknown quantity and is
-solved for given \code{n_total}, \code{alpha}, and \code{power}.}
+\item{cohensf}{Numeric (non-negative). Cohen's \eqn{f}. If \code{NULL}, it is
+derived from \code{peta2} when available. If both effect-size arguments
+(\code{cohensf} and \code{peta2}) are \code{NULL}, the effect size is treated
+as unknown and solved for given \code{n_total}, \code{alpha}, and \code{power}.}
 
 \item{peta2}{Numeric in \eqn{(0,1)}. Partial eta squared. If \code{NULL}, it is
 derived from \code{cohensf} when available.}
 
-\item{epsilon}{Numeric in \eqn{(0,1]}. Nonsphericity (Greenhouse–Geisser) parameter
-applied to within-participant terms with \eqn{\mathrm{df}_1 \ge 2}. Ignored if no
-within-participant factor or if all within factors have 2 levels.}
+\item{epsilon}{Numeric in \eqn{(0,1]}. Nonsphericity
+parameter applied to within-subjects terms with \eqn{\mathrm{df}_1 \ge 2}.
+Ignored if there is no within-subjects factor or if all within factors have
+two levels.}
 
-\item{target}{Character vector of term labels to compute (e.g., \code{"B1"}, \code{"W1"},
-\code{"B1:W1"}, ...). If \code{NULL}, all terms are returned.}
+\item{target}{Character vector of term labels to compute (e.g., \code{"B1"},
+\code{"W1"}, \code{"B1:W1"}, ...). If \code{NULL}, all terms are returned.}
 
 \item{max_nfactor}{Integer. Safety cap for the total number of factors.}
 
@@ -56,13 +58,15 @@ within-participant factor or if all within factors have 2 levels.}
 \value{
 A data frame with S3 class:
 \itemize{
-\item \code{"cal_power"} when power is calculated given \code{n_total}, \code{alpha}, and effect size;
+\item \code{"cal_power"} when power is calculated given \code{n_total},
+\code{alpha}, and effect size;
 \item \code{"cal_n"} or \code{"cal_ns"} when \code{n_total} is solved;
 \item \code{"cal_alpha"} or \code{"cal_alphas"} when \code{alpha} is solved;
 \item \code{"cal_es"} when minimal detectable effect sizes are solved.
 }
 Columns include \code{term}, \code{df_num}, \code{df_denom}, \code{n_total},
-\code{alpha}, \code{power}, \code{cohensf}, \code{peta2}, \code{F_critical}, \code{ncp}, \code{epsilon}.
+\code{alpha}, \code{power}, \code{cohensf}, \code{peta2}, \code{F_critical},
+\code{ncp}, \code{epsilon}.
 }
 \description{
 Computes power, required total sample size, alpha, or minimal detectable
@@ -71,15 +75,32 @@ designs.
 }
 \details{
 \itemize{
-\item Numerator df are adjusted by \code{epsilon} for within terms with \eqn{\mathrm{df}_1 \ge 2}.
-\item Denominator df follow standard mixed ANOVA formulas, multiplied by the same
-\code{epsilon} for within terms.
-\item Critical values use the central F; power uses the noncentral F with
-\eqn{\lambda = f^2 \cdot n_\mathrm{total}}.
+\item Fixed-effects, balanced designs are assumed. All groups/cells have equal
+cell sizes and effects are tested with standard fixed-effects ANOVA models.
+\item Numerator degrees of freedom for within-subjects terms with
+\eqn{\mathrm{df}_1 \ge 2} are adjusted by the nonsphericity parameter
+\code{epsilon}.
+\item Denominator degrees of freedom follow standard mixed-ANOVA formulas and
+are multiplied by the same \code{epsilon} for within-subjects terms.
+\item Critical values are computed from the central \emph{F}-distribution;
+power uses the noncentral \emph{F}-distribution with noncentrality
+parameter \eqn{\lambda = f^2 \cdot n_{\mathrm{total}}}.
+\item Effect-size inputs can be given as Cohen’s \eqn{f} or partial
+eta-squared \eqn{\eta_p^2} (internally converted via
+\eqn{f = \sqrt{\eta_p^2/(1-\eta_p^2)}}). If both are \code{NULL}, the minimal
+detectable effect size is solved for given \code{n_total}, \code{alpha},
+and \code{power}.
+\item Exactly one of \code{n_total}, an effect-size specification
+(\code{cohensf}/\code{peta2}), \code{alpha}, or \code{power} must be
+\code{NULL}; that quantity is then solved.
+\item \strong{Validation against GPower:} For the subset of designs supported
+by GPower (between-, within-, and mixed-factor ANOVA with
+equal cell sizes), \code{pwranova()} was validated to produce results
+identical to those of GPower.
 }
 }
 \examples{
-# One between factor (k=3), one within factor (m=4), compute power
+# One between factor (k = 3), one within factor (m = 4), compute power
 pwranova(nlevels_b = 3, nlevels_w = 4, n_total = 60,
          cohensf = 0.25, alpha = 0.05, power = NULL, epsilon = 0.8)
 
@@ -89,6 +110,6 @@ pwranova(nlevels_b = 2, nlevels_w = NULL, n_total = NULL,
 
 }
 \references{
-Cohen, J. (1988). \emph{Statistical power analysis for the behavioral sciences} (2nd ed.).
-Hillsdale, NJ: Lawrence Erlbaum Associates.
+Cohen, J. (1988). \emph{Statistical power analysis for the behavioral sciences}
+(2nd ed.). Hillsdale, NJ: Lawrence Erlbaum Associates.
 }

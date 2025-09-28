@@ -1,0 +1,9 @@
+﻿serial,method,alternative,n_total,alpha,power,rho,alpha_est,power_est,rho_est,ncp,ncp_sen,df,note
+1,t,two.sided,82,0.05,0.8,0.3,0.0486752,0.8033045,0.2988481,2.8477869,2.8357774,80,results-from-GPower
+2,t,one.sided,64,0.05,0.8,0.3,0.0498206,0.8005036,0.2998025,2.5158836,2.5140634,62,results-from-GPower
+3,t,two.sided,365,0.025,0.95,0.2,0.0249992,0.9500013,0.1999994,3.8997863,3.8997738,363,results-from-GPower
+4,t,one.sided,314,0.025,0.95,0.2,0.0249356,0.9501149,0.1999406,3.6170891,3.6159702,312,results-from-GPower
+5,z,two.sided,85,0.05,0.8,0.3,0.04985554,0.8003462,0.2998756,2.802819,2.801582,NA,not-supported-by-GPower
+6,z,one.sided,68,0.05,0.8,0.3,0.04908351,0.8024968,0.2989892,2.495427,2.486475,NA,not-supported-by-GPower
+7,z,two.sided,371,0.025,0.95,0.2,0.02481754,0.950291,0.1998585,3.889085,3.886256,NA,not-supported-by-GPower
+8,z,one.sided,320,0.025,0.95,0.2,0.02472467,0.9504862,0.1997448,3.609551,3.604818,NA,not-supported-by-GPower

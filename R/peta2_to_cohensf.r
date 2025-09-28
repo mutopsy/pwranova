@@ -1,11 +1,13 @@
 #' Convert Partial Eta Squared to Cohen's f
 #'
-#' This function converts partial eta squared (\eqn{\eta_p^2}) to
-#' Cohen's f using the method described in Cohen (1988).
-#' Cohen's f is a commonly used effect size index in power analysis for ANOVA.
+#' Converts partial eta squared (\eqn{\eta_p^2}) to
+#' Cohen's f using the standard definition in Cohen (1988).
 #'
 #' The conversion is defined as:
 #' \deqn{f = \sqrt{\eta_p^2 / (1 - \eta_p^2)}}
+#'
+#' This follows from the inverse relationship:
+#' \deqn{\eta_p^2 = \frac{f^2}{1 + f^2}}
 #'
 #' @param peta2 A numeric vector of partial eta squared values.
 #'   Each value must be within the range of 0 to 1.

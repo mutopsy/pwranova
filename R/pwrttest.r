@@ -1,12 +1,12 @@
 #' Power Analysis for One-/Two-Sample and Paired t Tests
 #'
-#' Computes statistical \strong{power}, required total sample size, \eqn{\alpha},
-#' or the minimal detectable effect size for a \emph{t} test in one of three designs:
+#' Computes statistical power, required total sample size, \eqn{\alpha},
+#' or the minimal detectable effect size for a \emph{t}-test in one of three designs:
 #' one-sample, two-sample (independent), or paired/repeated measures.
 #'
 #' @param paired Logical. \code{FALSE} for two-sample (independent; default),
 #'   \code{TRUE} for paired/repeated-measures. Ignored when \code{onesample = TRUE}.
-#' @param onesample Logical. \code{TRUE} for the one-sample t test; if \code{TRUE},
+#' @param onesample Logical. \code{TRUE} for the one-sample \emph{t}-test; if \code{TRUE},
 #'   \code{paired} is ignored.
 #' @param n_total Integer scalar. Total sample size.
 #'   If \code{NULL}, the function solves for \code{n_total}.
@@ -50,8 +50,10 @@
 #'   \item For the two-sample design, equal allocation is assumed; \code{n_total} must be even when provided,
 #'         and the solved \code{n_total} will be an even number.
 #'   \item For the paired design, the effect size is interpreted as \eqn{d_z}.
-#'   \item Computations use the central and noncentral \emph{t} distributions (\code{stats::qt}, \code{stats::pt});
+#'   \item Computations use the central and noncentral \emph{t}-distributions (\code{stats::qt}, \code{stats::pt});
 #'         root finding uses \code{stats::uniroot()} where needed.
+#'   \item Results have been validated to match those produced by G*Power
+#'         for equivalent one-sample, paired, and two-sample \emph{t} tests.
 #' }
 #'
 #' @return A one-row \code{data.frame} with class
@@ -66,11 +68,11 @@
 #' pwrttest(paired = FALSE, onesample = FALSE, alternative = "two.sided",
 #'          n_total = 128, delta = 0.50, alpha = 0.05)
 #'
-#' # (2) Paired t test, solve required N for target power
+#' # (2) Paired t-test, solve required N for target power
 #' pwrttest(paired = TRUE, onesample = FALSE, alternative = "one.sided",
 #'          n_total = NULL, delta = 0.40, alpha = 0.05, power = 0.90)
 #'
-#' # (3) One-sample t test, solve alpha given N and power
+#' # (3) One-sample t-test, solve alpha given N and power
 #' pwrttest(onesample = TRUE, alternative = "two.sided",
 #'          n_total = 40, delta = 0.40, alpha = NULL, power = 0.80)
 #'
@@ -314,22 +316,6 @@ pwrttest <- function(
 
       res$alpha <- res_anova$alpha
       res$t_critical <- sqrt(res_anova$F_critical)
-      # res$t_critical <- qt(1 - res$alpha/2, res$df)
-
-      # f <- function(x) {
-      #   (pt(x, res$df, ncp = res$ncp) - pt(-x, res$df, ncp = res$ncp)) - (1 - res$power)
-      # }
-      #
-      # upper <- qt(1 - 1e-12, df = res$df)
-      # root <- tryCatch(
-      #   uniroot(g, lower = 0, upper = 1 - 1e-12,
-      #           tol = 1e-12, maxiter = 10000)$root,
-      #   error = function(e) {
-      #     stop("Failed to solve alpha: inputs are too extreme (power/N/effect size combination).")
-      #   }
-      # )
-      # res$alpha <- 2 * (1 - pt(root, df = res$df))
-      # res$t_critical <- root
     }
     if(design == "paired") names(res)[names(res)=="delta"] <- "delta_z"
     return(structure(res, class = c("cal_alpha", "data.frame")))

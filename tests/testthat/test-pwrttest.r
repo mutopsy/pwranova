@@ -109,7 +109,7 @@ test_that("pwrttest solves minimal detectable effect (cal_es), two-sample two.si
   expect_equal(out$t_critical, crit, tolerance = 1e-12)
   expect_equal(out$ncp, ncp, tolerance = 1e-10)
   expect_equal(out$power, pow_expected, tolerance = 1e-8)
-  # f と peta2 の一貫性（two-sample: d = 2f）
+  # consistency between f and peta2（two-sample: d = 2f）
   expect_equal(out$cohensf, out$delta / 2, tolerance = 1e-12)
   expect_true(out$peta2 > 0 && out$peta2 < 1)
 })

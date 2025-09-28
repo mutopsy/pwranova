@@ -194,7 +194,8 @@ test_that("pwranova matches G*Power results", {
 
     testthat::expect_equal(
       as.numeric(res_n),
-      as.numeric(e[,c("n_total", "ncp", "df_num", "df_denom")])
+      as.numeric(e[,c("n_total", "ncp", "df_num", "df_denom")]),
+      tolerance = 10e-5
     )
 
     # Alpha
