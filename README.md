@@ -42,9 +42,9 @@ No heavy external dependencies are required for the core functionality.
 ## Quick start
 
 ```r
-### 1) Compute power (given N, effect size, alpha)
-
 library(pwranova)
+
+### 1) Compute power (given N, effect size, alpha)
 
 # One between factor (3 levels), no within factor
 res_power_between <- pwranova(
