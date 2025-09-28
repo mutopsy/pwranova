@@ -3,7 +3,7 @@
 effect size for fixed-effects terms in between-/within-/mixed-factor ANOVA
 designs."><meta property="og:description" content="Computes power, required total sample size, alpha, or minimal detectable
 effect size for fixed-effects terms in between-/within-/mixed-factor ANOVA
-designs."></head><body>
+designs."><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -11,7 +11,7 @@ designs."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">pwranova</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9020</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,6 +23,7 @@ designs."></head><body>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/mutopsy/pwranova/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -32,7 +33,7 @@ designs."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Power Analysis for Between-, Within-, or Mixed-Factor ANOVA</h1>
-
+      <small class="dont-index">Source: <a href="https://github.com/mutopsy/pwranova/blob/main/R/pwranova.r" class="external-link"><code>R/pwranova.r</code></a></small>
       <div class="d-none name"><code>pwranova.Rd</code></div>
     </div>
 
@@ -64,17 +65,19 @@ designs.</p>
 
 
 <dl><dt id="arg-nlevels-b">nlevels_b<a class="anchor" aria-label="anchor" href="#arg-nlevels-b"></a></dt>
-<dd><p>Integer vector. Numbers of levels for between-participant factors.
-Omit or set <code>NULL</code> if there is no between-participant factor.</p></dd>
+<dd><p>Integer scalar or vector. Numbers of levels for
+between-subjects factors. Omit or set <code>NULL</code> if there is no
+between-subjects factor.</p></dd>
 
 
 <dt id="arg-nlevels-w">nlevels_w<a class="anchor" aria-label="anchor" href="#arg-nlevels-w"></a></dt>
-<dd><p>Integer vector. Numbers of levels for within-participant factors.
-Omit or set <code>NULL</code> if there is no within-participant factor.</p></dd>
+<dd><p>Integer scalar or vector. Numbers of levels for
+within-subjects factors. Omit or set <code>NULL</code> if there is no
+within-subjects factor.</p></dd>
 
 
 <dt id="arg-n-total">n_total<a class="anchor" aria-label="anchor" href="#arg-n-total"></a></dt>
-<dd><p>Integer or integer vector. Total sample size across all groups.
+<dd><p>Integer scalar or vector. Total sample size across all groups.
 If <code>NULL</code>, the function solves for <code>n_total</code>.</p></dd>
 
 
@@ -83,16 +86,15 @@ If <code>NULL</code>, the function solves for <code>n_total</code>.</p></dd>
 
 
 <dt id="arg-power">power<a class="anchor" aria-label="anchor" href="#arg-power"></a></dt>
-<dd><p>Numeric in \((0,1)\). If <code>NULL</code>, it is computed; if <code>n_total</code>
-is <code>NULL</code>, <code>n_total</code> is solved to achieve this power.</p></dd>
+<dd><p>Numeric in \((0,1)\). If <code>NULL</code>, it is computed; if
+<code>n_total</code> is <code>NULL</code>, <code>n_total</code> is solved to achieve this power.</p></dd>
 
 
 <dt id="arg-cohensf">cohensf<a class="anchor" aria-label="anchor" href="#arg-cohensf"></a></dt>
-<dd><p>Numeric. Cohen's \(f\) (non-negative). If <code>NULL</code>, it is
-derived from <code>peta2</code> when available.
-If all three effect-size arguments (<code>cohensf</code> and <code>peta2</code>)
-are <code>NULL</code>, then the effect size is treated as the unknown quantity and is
-solved for given <code>n_total</code>, <code>alpha</code>, and <code>power</code>.</p></dd>
+<dd><p>Numeric (non-negative). Cohen's \(f\). If <code>NULL</code>, it is
+derived from <code>peta2</code> when available. If both effect-size arguments
+(<code>cohensf</code> and <code>peta2</code>) are <code>NULL</code>, the effect size is treated
+as unknown and solved for given <code>n_total</code>, <code>alpha</code>, and <code>power</code>.</p></dd>
 
 
 <dt id="arg-peta-">peta2<a class="anchor" aria-label="anchor" href="#arg-peta-"></a></dt>
@@ -101,14 +103,15 @@ derived from <code>cohensf</code> when available.</p></dd>
 
 
 <dt id="arg-epsilon">epsilon<a class="anchor" aria-label="anchor" href="#arg-epsilon"></a></dt>
-<dd><p>Numeric in \((0,1]\). Nonsphericity (Greenhouse–Geisser) parameter
-applied to within-participant terms with \(\mathrm{df}_1 \ge 2\). Ignored if no
-within-participant factor or if all within factors have 2 levels.</p></dd>
+<dd><p>Numeric in \((0,1]\). Nonsphericity
+parameter applied to within-subjects terms with \(\mathrm{df}_1 \ge 2\).
+Ignored if there is no within-subjects factor or if all within factors have
+two levels.</p></dd>
 
 
 <dt id="arg-target">target<a class="anchor" aria-label="anchor" href="#arg-target"></a></dt>
-<dd><p>Character vector of term labels to compute (e.g., <code>"B1"</code>, <code>"W1"</code>,
-<code>"B1:W1"</code>, ...). If <code>NULL</code>, all terms are returned.</p></dd>
+<dd><p>Character vector of term labels to compute (e.g., <code>"B1"</code>,
+<code>"W1"</code>, <code>"B1:W1"</code>, ...). If <code>NULL</code>, all terms are returned.</p></dd>
 
 
 <dt id="arg-max-nfactor">max_nfactor<a class="anchor" aria-label="anchor" href="#arg-max-nfactor"></a></dt>
@@ -121,31 +124,50 @@ within-participant factor or if all within factors have 2 levels.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame with S3 class:</p><ul><li><p><code>"cal_power"</code> when power is calculated given <code>n_total</code>, <code>alpha</code>, and effect size;</p></li>
+    <p>A data frame with S3 class:</p><ul><li><p><code>"cal_power"</code> when power is calculated given <code>n_total</code>,
+<code>alpha</code>, and effect size;</p></li>
 <li><p><code>"cal_n"</code> or <code>"cal_ns"</code> when <code>n_total</code> is solved;</p></li>
 <li><p><code>"cal_alpha"</code> or <code>"cal_alphas"</code> when <code>alpha</code> is solved;</p></li>
 <li><p><code>"cal_es"</code> when minimal detectable effect sizes are solved.</p></li>
 </ul><p>Columns include <code>term</code>, <code>df_num</code>, <code>df_denom</code>, <code>n_total</code>,
-<code>alpha</code>, <code>power</code>, <code>cohensf</code>, <code>peta2</code>, <code>F_critical</code>, <code>ncp</code>, <code>epsilon</code>.</p>
+<code>alpha</code>, <code>power</code>, <code>cohensf</code>, <code>peta2</code>, <code>F_critical</code>,
+<code>ncp</code>, <code>epsilon</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
 
-<ul><li><p>Numerator df are adjusted by <code>epsilon</code> for within terms with \(\mathrm{df}_1 \ge 2\).</p></li>
-<li><p>Denominator df follow standard mixed ANOVA formulas, multiplied by the same
-<code>epsilon</code> for within terms.</p></li>
-<li><p>Critical values use the central F; power uses the noncentral F with
-\(\lambda = f^2 \cdot n_\mathrm{total}\).</p></li>
+<ul><li><p>Fixed-effects, balanced designs are assumed. All groups/cells have equal
+cell sizes and effects are tested with standard fixed-effects ANOVA models.</p></li>
+<li><p>Numerator degrees of freedom for within-subjects terms with
+\(\mathrm{df}_1 \ge 2\) are adjusted by the nonsphericity parameter
+<code>epsilon</code>.</p></li>
+<li><p>Denominator degrees of freedom follow standard mixed-ANOVA formulas and
+are multiplied by the same <code>epsilon</code> for within-subjects terms.</p></li>
+<li><p>Critical values are computed from the central <em>F</em>-distribution;
+power uses the noncentral <em>F</em>-distribution with noncentrality
+parameter \(\lambda = f^2 \cdot n_{\mathrm{total}}\).</p></li>
+<li><p>Effect-size inputs can be given as Cohen’s \(f\) or partial
+eta-squared \(\eta_p^2\) (internally converted via
+\(f = \sqrt{\eta_p^2/(1-\eta_p^2)}\)). If both are <code>NULL</code>, the minimal
+detectable effect size is solved for given <code>n_total</code>, <code>alpha</code>,
+and <code>power</code>.</p></li>
+<li><p>Exactly one of <code>n_total</code>, an effect-size specification
+(<code>cohensf</code>/<code>peta2</code>), <code>alpha</code>, or <code>power</code> must be
+<code>NULL</code>; that quantity is then solved.</p></li>
+<li><p><strong>Validation against GPower:</strong> For the subset of designs supported
+by GPower (between-, within-, and mixed-factor ANOVA with
+equal cell sizes), <code>pwranova()</code> was validated to produce results
+identical to those of GPower.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Cohen, J. (1988). <em>Statistical power analysis for the behavioral sciences</em> (2nd ed.).
-Hillsdale, NJ: Lawrence Erlbaum Associates.</p>
+    <p>Cohen, J. (1988). <em>Statistical power analysis for the behavioral sciences</em>
+(2nd ed.). Hillsdale, NJ: Lawrence Erlbaum Associates.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># One between factor (k=3), one within factor (m=4), compute power</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># One between factor (k = 3), one within factor (m = 4), compute power</span></span></span>
 <span class="r-in"><span><span class="fu">pwranova</span><span class="op">(</span>nlevels_b <span class="op">=</span> <span class="fl">3</span>, nlevels_w <span class="op">=</span> <span class="fl">4</span>, n_total <span class="op">=</span> <span class="fl">60</span>,</span></span>
 <span class="r-in"><span>         cohensf <span class="op">=</span> <span class="fl">0.25</span>, alpha <span class="op">=</span> <span class="fl">0.05</span>, power <span class="op">=</span> <span class="cn">NULL</span>, epsilon <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    term df_num df_denom n_total alpha     power cohensf      peta2 F_critical</span>

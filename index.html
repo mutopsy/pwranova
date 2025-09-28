@@ -5,14 +5,15 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Power Analysis for Flexible ANOVA Designs and Related Tests • pwranova</title>
+<title>Power Analysis of Flexible ANOVA Designs and Related Tests • pwranova</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Power Analysis for Flexible ANOVA Designs and Related Tests">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Power Analysis of Flexible ANOVA Designs and Related Tests">
 <meta name="description" content="Provides functions for conducting power analysis in ANOVA designs, including between-, within-, and mixed-factor designs, with full support for both main effects and interactions. The package allows calculation of statistical power, required total sample size, significance level, and minimal detectable effect sizes expressed as partial eta squared or Cohen's f for ANOVA terms and planned contrasts. In addition, complementary functions are included for common related tests such as t-tests and correlation tests, making the package a convenient toolkit for power analysis in experimental psychology and related fields.">
 <meta property="og:description" content="Provides functions for conducting power analysis in ANOVA designs, including between-, within-, and mixed-factor designs, with full support for both main effects and interactions. The package allows calculation of statistical power, required total sample size, significance level, and minimal detectable effect sizes expressed as partial eta squared or Cohen's f for ANOVA terms and planned contrasts. In addition, complementary functions are included for common related tests such as t-tests and correlation tests, making the package a convenient toolkit for power analysis in experimental psychology and related fields.">
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -22,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">pwranova</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9020</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +39,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/mutopsy/pwranova/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -46,10 +48,10 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="pwranova-power-analysis-for-flexible-anova-designs-and-related-tests">pwranova: Power Analysis for Flexible ANOVA Designs and Related Tests<a class="anchor" aria-label="anchor" href="#pwranova-power-analysis-for-flexible-anova-designs-and-related-tests"></a>
+<div class="page-header"><h1 id="pwranova-power-analysis-of-flexible-anova-designs-and-related-tests">pwranova: Power Analysis of Flexible ANOVA Designs and Related Tests<a class="anchor" aria-label="anchor" href="#pwranova-power-analysis-of-flexible-anova-designs-and-related-tests"></a>
 </h1></div>
-<p><code>pwranova</code> is an R package for power analysis in ANOVA designs — including between-, within-, and mixed-factor designs — with full support for both <strong>main effects and interactions</strong> across any number of factors.</p>
-<p>The package provides functions to compute <strong>statistical power</strong>, <strong>required total sample size</strong>, <strong>significance level</strong>, and <strong>minimal detectable effect sizes</strong> (partial eta squared or Cohen’s <em>f</em>) for ANOVA terms and planned contrasts. In addition, complementary helpers for commonly used tests (e.g., <em>t</em>-tests and correlation tests) are planned, making <code>pwranova</code> a convenient toolkit for power analysis in experimental psychology and related fields.</p>
+<p><code>pwranova</code> is an R package for power analysis in ANOVA designs, including between-, within-, and mixed-factor designs, with full support for both <strong>main effects and interactions</strong> across any number of factors.</p>
+<p>The package allows calculation of <strong>statistical power</strong>, <strong>required total sample size</strong>, <strong>significance level</strong>, and <strong>minimal detectable effect sizes</strong> expressed as partial eta squared or Cohen’s <em>f</em> for ANOVA terms and planned contrasts. In addition, complementary functions are included for common related tests such as <em>t</em>-tests and correlation tests, making the package a convenient toolkit for power analysis in experimental psychology and related fields.</p>
 <div class="section level2">
 <h2 id="links">Links<a class="anchor" aria-label="anchor" href="#links"></a>
 </h2>
@@ -88,7 +90,7 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### 1) Compute power (given N, effect size, alpha)</span></span>
 <span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mutopsy.github.io/pwranova/">pwranova</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mutopsy/pwranova" class="external-link">pwranova</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># One between factor (3 levels), no within factor</span></span>
 <span><span class="va">res_power_between</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pwranova.html">pwranova</a></span><span class="op">(</span></span>
@@ -152,8 +154,14 @@
 </h2>
 <p>Current functions include:</p>
 <ul>
-<li>pwranova() — Power analysis for between-/within-/mixed-factor ANOVA, covering all main effects and interactions.</li>
-<li>pwrcontrast() — Power analysis for a single planned contrast (1 df) in between-subjects or paired/repeated-measures designs.</li>
+<li>
+<code><a href="reference/pwranova.html">pwranova()</a></code> — Power analysis for between-/within-/mixed-factor ANOVA, covering all main effects and interactions.</li>
+<li>
+<code><a href="reference/pwrcontrast.html">pwrcontrast()</a></code> — Power analysis for a single planned contrast (1 df) in between-subjects or paired/repeated-measures designs.</li>
+<li>
+<code><a href="reference/pwrttest.html">pwrttest()</a></code> — Power analysis for <em>t</em>-tests (one-sample, paired, and two-sample).</li>
+<li>
+<code><a href="reference/pwrcortest.html">pwrcortest()</a></code> — Power analysis for Pearson’s correlation (using either the <em>t</em>-distribution or Fisher’s <em>z</em>-transformation approach).</li>
 </ul>
 <p>For full documentation, see the reference site (pkgdown): <a href="https://mutopsy.github.io/pwranova/reference/" class="uri">https://mutopsy.github.io/pwranova/reference/</a></p>
 </div>
@@ -165,15 +173,20 @@
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
 </h2>
-<p>GPL-3 (see LICENSE).</p>
+<p>GPL-3</p>
 </div>
 </div>
-  </main><aside class="col-md-3"><div class="license">
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/mutopsy/pwranova/" class="external-link">Browse source code</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li>
-<a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a> | file <a href="LICENSE-text.html">LICENSE</a>
-</li>
+<li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>
 </ul>
 </div>
 

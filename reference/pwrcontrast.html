@@ -3,7 +3,7 @@
 effect size for a single planned contrast (1 df) in between-participants
 or paired/repeated-measures settings."><meta property="og:description" content="Computes power, required total sample size, alpha, or minimal detectable
 effect size for a single planned contrast (1 df) in between-participants
-or paired/repeated-measures settings."></head><body>
+or paired/repeated-measures settings."><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -11,7 +11,7 @@ or paired/repeated-measures settings."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">pwranova</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9020</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,6 +23,7 @@ or paired/repeated-measures settings."></head><body>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/mutopsy/pwranova/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -32,7 +33,7 @@ or paired/repeated-measures settings."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Power Analysis for Planned Contrast in Between- or Within-Factor ANOVA</h1>
-
+      <small class="dont-index">Source: <a href="https://github.com/mutopsy/pwranova/blob/main/R/pwrcontrast.r" class="external-link"><code>R/pwrcontrast.r</code></a></small>
       <div class="d-none name"><code>pwrcontrast.Rd</code></div>
     </div>
 
@@ -61,7 +62,7 @@ or paired/repeated-measures settings.</p>
 
 
 <dl><dt id="arg-weight">weight<a class="anchor" aria-label="anchor" href="#arg-weight"></a></dt>
-<dd><p>Numeric vector (length \(K \ge 2\)). Contrast weights whose sum must be (approximately) zero.</p></dd>
+<dd><p>Numeric vector (length \(K \ge 2\)). Contrast weights whose sum must be zero.</p></dd>
 
 
 <dt id="arg-paired">paired<a class="anchor" aria-label="anchor" href="#arg-paired"></a></dt>
@@ -107,10 +108,23 @@ or paired/repeated-measures settings.</p>
     <p>For a contrast with weights \(w_1, \dots, w_K\) that sum to zero,
 the numerator df is 1. The denominator df is \(n - K\) for
 between-subjects (unpaired) designs and \((n - 1)(K - 1)\) for
-paired/repeated-measures designs. Power uses the noncentral F with
-\(\lambda = f^2 \cdot n_{\mathrm{total}}\).</p><ul><li><p><code>weight</code> is not normalized internally; only the zero-sum condition is enforced (up to numerical tolerance).</p></li>
-<li><p>When <code>paired = FALSE</code>, <code>n_total</code> must be a multiple of \(K\).</p></li>
-<li><p>The function enforces exactly one of <code>n_total</code>, <code>cohensf</code>/<code>peta2</code>, <code>alpha</code>, or <code>power</code> to be <code>NULL</code>.</p></li>
+paired/repeated-measures designs. Power uses the noncentral <em>F</em>-with
+\(\lambda = f^2 \cdot n_{\mathrm{total}}\).</p>
+<ul><li><p>Contrast weights (<code>weight</code>) are not centered internally; only the
+zero-sum condition is enforced (up to numerical tolerance).</p></li>
+<li><p>When <code>paired = FALSE</code>, the total sample size <code>n_total</code> must be
+a multiple of the number of contrast groups \(K\).</p></li>
+<li><p>Exactly one of <code>n_total</code>, an effect-size specification
+(<code>cohensf</code>/<code>peta2</code>), <code>alpha</code>, or <code>power</code> must be
+<code>NULL</code>; that quantity is then solved.</p></li>
+<li><p>Critical values are computed from the central <em>F</em>-distribution; power
+is based on the noncentral <em>F</em>-distribution with noncentrality parameter
+\(\lambda = f^2 \cdot n_{\mathrm{total}}\).</p></li>
+<li><p>Effect-size inputs can be given as Cohen’s \(f\) or partial eta-squared
+\(\eta_p^2\) (internally converted via
+\(f = \sqrt{\eta_p^2/(1-\eta_p^2)}\)). If both are <code>NULL</code>, the
+minimal detectable effect size is solved for given <code>n_total</code>,
+<code>alpha</code>, and <code>power</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
