@@ -363,9 +363,3 @@ pwrttest <- function(
     return(structure(res, class = c("cal_es", "data.frame")))
   }
 }
-
-
-# やること：fの変換を、pairedの場合はf=deltaとする。1標本の場合は定義できない。ドキュメントもなおす。deltaの定義を説明。
-# unirootがたまにエラーを吐く。組み合わせによる？pwranovaもチェック。
-
-

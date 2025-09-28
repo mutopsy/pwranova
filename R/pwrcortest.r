@@ -390,5 +390,3 @@ pwrcortest <- function(
     return(structure(res, class = c("cal_es", "data.frame")))
   }
 }
-
-# やること: rho_to_deltaつくる？
