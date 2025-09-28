@@ -21,7 +21,7 @@ and related fields.
 
 ## Installation
 
-Install the development version from GitHub:
+You can install `pwranova` from GitHub using `devtools`:  
 
 ```r
 # Install devtools if not already installed
