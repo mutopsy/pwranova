@@ -74,9 +74,8 @@ res_power_mixed <- pwranova(
   n_total   = 30,
   cohensf   = 0.50,
   alpha     = 0.05,
-  # epsilon applies to within terms with df1 >= 2 (here, W2 and terms including W2)
   epsilon   = 1.00,
-  target    = "B1:W2"  # example
+  target    = "B1:W2"  # show only 2x3 interction of the between factor and the second within factor 
 )
 res_power_mixed
 
