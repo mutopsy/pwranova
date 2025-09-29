@@ -67,7 +67,7 @@ res_power_within <- pwranova(
 res_power_within
 
 # Mixed design: one between factor (2 levels) and two within factors (2 and 3 levels)
-# Show only selected terms with `target` if you want a compact output
+# Show only a selected term with `target` if you want a compact output
 res_power_mixed <- pwranova(
   nlevels_b = 2,
   nlevels_w = c(2, 3),
@@ -76,7 +76,7 @@ res_power_mixed <- pwranova(
   alpha     = 0.05,
   # epsilon applies to within terms with df1 >= 2 (here, W2 and terms including W2)
   epsilon   = 1.00,
-  target    = c("B1", "W1", "W2", "B1:W2")  # example subset
+  target    = "B1:W2"  # example
 )
 res_power_mixed
 
