@@ -75,7 +75,7 @@ res_power_mixed <- pwranova(
   cohensf   = 0.50,
   alpha     = 0.05,
   epsilon   = 1.00,
-  target    = "B1:W2"  # show only 2x3 interction of the between factor and the second within factor 
+  target    = "B1:W2"  # show only 2x3 interaction of the between factor and the second within factor 
 )
 res_power_mixed
 
