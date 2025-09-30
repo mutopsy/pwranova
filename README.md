@@ -21,7 +21,7 @@ and related fields.
 
 ## Installation
 
-Install the development version from GitHub:
+You can install `pwranova` from GitHub using `devtools`:  
 
 ```r
 # Install devtools if not already installed
@@ -42,9 +42,9 @@ No heavy external dependencies are required for the core functionality.
 ## Quick start
 
 ```r
-### 1) Compute power (given N, effect size, alpha)
-
 library(pwranova)
+
+### 1) Compute power (given N, effect size, alpha)
 
 # One between factor (3 levels), no within factor
 res_power_between <- pwranova(
@@ -67,16 +67,15 @@ res_power_within <- pwranova(
 res_power_within
 
 # Mixed design: one between factor (2 levels) and two within factors (2 and 3 levels)
-# Show only selected terms with `target` if you want a compact output
+# Show only a selected term with `target` if you want a compact output
 res_power_mixed <- pwranova(
   nlevels_b = 2,
   nlevels_w = c(2, 3),
   n_total   = 30,
   cohensf   = 0.50,
   alpha     = 0.05,
-  # epsilon applies to within terms with df1 >= 2 (here, W2 and terms including W2)
   epsilon   = 1.00,
-  target    = c("B1", "W1", "W2", "B1:W2")  # example subset
+  target    = "B1:W2"  # show only 2x3 interaction of the between factor and the second within factor 
 )
 res_power_mixed
 
