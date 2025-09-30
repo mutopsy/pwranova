@@ -1,0 +1,12 @@
+citHeader("To cite pwranova in publications, please use:")
+
+bibentry(
+  bibtype    = "Article",
+  title      = "pwranova: An R package for power analysis of flexible ANOVA designs and related tests",
+  author     = person("Hiroyuki", "Muto"),
+  journal    = "Jxiv",
+  year       = "2025",
+  doi        = "10.51094/jxiv.1555 ",
+  textVersion =
+    "Muto, H. (2025). pwranova: An R package for power analysis of flexible ANOVA designs and related tests. Jxiv. https://doi.org/10.51094/jxiv.1555"
+)
