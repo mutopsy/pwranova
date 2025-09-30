@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">pwranova</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +66,7 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Install the development version from GitHub:</p>
+<p>You can install <code>pwranova</code> from GitHub using <code>devtools</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install devtools if not already installed</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"devtools"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
@@ -88,9 +88,9 @@
 <h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">### 1) Compute power (given N, effect size, alpha)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mutopsy/pwranova" class="external-link">pwranova</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mutopsy/pwranova" class="external-link">pwranova</a></span><span class="op">)</span></span>
+<span><span class="co">### 1) Compute power (given N, effect size, alpha)</span></span>
 <span></span>
 <span><span class="co"># One between factor (3 levels), no within factor</span></span>
 <span><span class="va">res_power_between</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pwranova.html">pwranova</a></span><span class="op">(</span></span>
@@ -113,16 +113,15 @@
 <span><span class="va">res_power_within</span></span>
 <span></span>
 <span><span class="co"># Mixed design: one between factor (2 levels) and two within factors (2 and 3 levels)</span></span>
-<span><span class="co"># Show only selected terms with `target` if you want a compact output</span></span>
+<span><span class="co"># Show only a selected term with `target` if you want a compact output</span></span>
 <span><span class="va">res_power_mixed</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pwranova.html">pwranova</a></span><span class="op">(</span></span>
 <span>  nlevels_b <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  nlevels_w <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,</span>
 <span>  n_total   <span class="op">=</span> <span class="fl">30</span>,</span>
 <span>  cohensf   <span class="op">=</span> <span class="fl">0.50</span>,</span>
 <span>  alpha     <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>  <span class="co"># epsilon applies to within terms with df1 &gt;= 2 (here, W2 and terms including W2)</span></span>
 <span>  epsilon   <span class="op">=</span> <span class="fl">1.00</span>,</span>
-<span>  target    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B1"</span>, <span class="st">"W1"</span>, <span class="st">"W2"</span>, <span class="st">"B1:W2"</span><span class="op">)</span>  <span class="co"># example subset</span></span>
+<span>  target    <span class="op">=</span> <span class="st">"B1:W2"</span>  <span class="co"># show only 2x3 interaction of the between factor and the second within factor </span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">res_power_mixed</span></span>
 <span></span>
@@ -166,6 +165,12 @@
 <p>For full documentation, see the reference site (pkgdown): <a href="https://mutopsy.github.io/pwranova/reference/" class="uri">https://mutopsy.github.io/pwranova/reference/</a></p>
 </div>
 <div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<p>Please cite the following preprint when using this package:</p>
+<p>Muto, H. (2025). pwranova: An R package for power analysis of flexible ANOVA designs and related tests. Jxiv. <a href="https://doi.org/10.51094/jxiv.1555" class="external-link uri">https://doi.org/10.51094/jxiv.1555</a></p>
+</div>
+<div class="section level2">
 <h2 id="version-history">Version history<a class="anchor" aria-label="anchor" href="#version-history"></a>
 </h2>
 <p>See the Changelog: <a href="https://mutopsy.github.io/pwranova/news/" class="uri">https://mutopsy.github.io/pwranova/news/</a></p>
@@ -180,6 +185,7 @@
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/mutopsy/pwranova/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/mutopsy/pwranova/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -201,7 +207,7 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Hiroyuki Muto <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Hiroyuki Muto <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-0007-6019" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 

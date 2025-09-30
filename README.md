@@ -118,7 +118,7 @@ https://mutopsy.github.io/pwranova/reference/
 
 ## Citation
 
-Until it is formally published, please cite the following preprint:
+Please cite the following preprint when using this package:
 
 Muto, H. (2025). pwranova: An R package for power analysis of flexible ANOVA designs and related tests. Jxiv.  https://doi.org/10.51094/jxiv.1555
 
