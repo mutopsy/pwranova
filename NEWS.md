@@ -1,3 +1,9 @@
+# pwranova 1.0.1 (2025-09-30)
+
+* Removed obsolete comments in code.
+* Updated citation information.
+* Minor updates to DESCRIPTION.
+
 # pwranova 1.0.0 (2025-09-28)
 
 * First stable release of the package.
