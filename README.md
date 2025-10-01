@@ -2,7 +2,7 @@
 
 `pwranova` is an R package for power analysis in ANOVA designs, 
 including between-, within-, and mixed-factor designs, 
-with full support for both **main effects and interactions** across any number of factors.
+with full support for both **main effects and interactions across any number of factors**.
 
 The package allows calculation of **statistical power**, 
 **required total sample size**, **significance level**, and **minimal 
