@@ -16,8 +16,8 @@ and related fields.
 ## Links
 
 <!-- - CRAN: <https://CRAN.R-project.org/package=pwranova>  -->
-- Documentation: <https://mutopsy.github.io/pwranova>  
-- Source code: <https://github.com/mutopsy/pwranova>
+- Documentation: <https://mutopsy.github.io/pwranova/>  
+- Source code: <https://github.com/mutopsy/pwranova/>
 
 ## Installation
 
