@@ -1,3 +1,8 @@
+# pwranova 1.0.2 (2025-10-01)
+
+* Minor adjustments in DESCRIPTION and documentation links.  
+* Small fixes in preparation for CRAN submission.
+
 # pwranova 1.0.1 (2025-09-30)
 
 * Removed obsolete comments in code.
