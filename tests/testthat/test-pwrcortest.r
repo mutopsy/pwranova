@@ -314,22 +314,3 @@ test_that("pwrttest with z method matches expected results", {
   }
 
 })
-# pwrcortest(
-#   n_total = 68,
-#   alpha = 0.05,
-#   rho = NULL,
-#   power = .80,
-#   method = "z",
-#   alternative = "one.sided"
-#
-#   )
-#
-# pwrcortest(
-#   n_total = 371,
-#   alpha = 0.025,
-#   rho = NULL,
-#   power = .95,
-#   method = "z",
-#   alternative = "two.sided"
-#
-# )
