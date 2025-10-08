@@ -15,13 +15,19 @@ and related fields.
 
 ## Links
 
-<!-- - CRAN: <https://CRAN.R-project.org/package=pwranova>  -->
+- CRAN: <https://CRAN.R-project.org/package=pwranova>
 - Documentation: <https://mutopsy.github.io/pwranova/>  
 - Source code: <https://github.com/mutopsy/pwranova/>
 
 ## Installation
 
-You can install `pwranova` from GitHub using `devtools`:  
+The stable release of `pwranova` is available on [CRAN](https://CRAN.R-project.org/package=pwranova):  
+
+```r
+install.packages("pwranova")
+```
+
+You can also install the development version from GitHub:  
 
 ```r
 # Install devtools if not already installed
