@@ -7,7 +7,7 @@ authors:
 affiliations:
   - name: Osaka Metropolitan University
     index: 1
-date: 2025-09-28
+date: 2025-10-14
 bibliography: paper.bib
 ---
 
@@ -19,11 +19,11 @@ yet existing tools often lack the flexibility to accommodate complex ANOVA desig
 with full support for main effects, interactions, and planned contrasts (custom contrasts with user-defined weights).  
 The package allows researchers to calculate statistical power, 
 required total sample size, significance level, or minimal detectable effect sizes 
-expressed as partial eta squared or CohenÅfs *f*. 
+expressed as partial eta squared or Cohen?fs *f*. 
 
 In addition to ANOVA, `pwranova` provides complementary functions for 
 common related tests, including *t*-tests (one-sample, paired, and two-sample) 
-and tests of PearsonÅfs correlation (using either the *t*-distribution or Fisher's *z*-transformation approach). 
+and tests of Pearson?fs correlation (using either the *t*-distribution or Fisher's *z*-transformation approach). 
 This makes the package a convenient toolkit for planning experimental studies 
 in psychology and related fields.
 
@@ -35,7 +35,7 @@ between- and within-participant factors. However, existing tools such as G*Power
 offer only limited flexibility when it comes to handling such complex designs. 
 For example, specifying interactions in multi-factor mixed designs is difficult or not directly supported in these tools. 
 They also generally do not allow direct specification of user-defined contrasts, and while effect sizes can be 
-specified via CohenÅfs *f* [@cohen1988statistical], they do not directly support partial eta squared, 
+specified via Cohen?fs *f* [@cohen1988statistical], they do not directly support partial eta squared, 
 which is more commonly reported in psychological research as a standard effect size index.
 
 `pwranova` addresses these limitations by providing:  
