@@ -11,7 +11,7 @@ or paired/repeated-measures settings."><script src="https://cdn.jsdelivr.net/npm
 
     <a class="navbar-brand me-2" href="../index.html">pwranova</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,7 +107,7 @@ or paired/repeated-measures settings.</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>For a contrast with weights \(w_1, \dots, w_K\) that sum to zero,
 the numerator df is 1. The denominator df is \(n - K\) for
-between-subjects (unpaired) designs and \((n - 1)(K - 1)\) for
+between-subjects (unpaired) designs and \(n - 1\) for
 paired/repeated-measures designs. Power uses the noncentral <em>F</em>-with
 \(\lambda = f^2 \cdot n_{\mathrm{total}}\).</p>
 <ul><li><p>Contrast weights (<code>weight</code>) are not centered internally; only the
@@ -157,9 +157,9 @@ Hillsdale, NJ: Lawrence Erlbaum Associates.</p>
 <span class="r-in"><span><span class="fu">pwrcontrast</span><span class="op">(</span>weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, paired <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>            n_total <span class="op">=</span> <span class="cn">NULL</span>, cohensf <span class="op">=</span> <span class="fl">0.2</span>, alpha <span class="op">=</span> <span class="fl">0.05</span>, power <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       term weight df_num df_denom n_total alpha     power cohensf      peta2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 contrast 1,0,-1      1      526     264  0.05 0.9003788     0.2 0.03846154</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   F_critical   ncp</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   3.859198 10.56</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 contrast 1,0,-1      1      264     265  0.05 0.9004175     0.2 0.03846154</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   F_critical  ncp</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   3.876924 10.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The required total sample size was calculated based on the effect size, alpha, and power.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Note: 'power' indicates the achieved power rather than the target power.</span>
 <span class="r-in"><span></span></span>
