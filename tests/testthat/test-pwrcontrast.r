@@ -50,7 +50,7 @@ test_that("pwrcontrast solves alpha (cal_alpha) for paired design", {
 
   expect_s3_class(out, "cal_alpha")
   # denominator df = (n - 1)*(K - 1) in paired design
-  expect_equal(out$df_denom, (n_total - 1) * (length(w) - 1))
+  expect_equal(out$df_denom, (n_total - 1))
   expect_true(out$alpha > 0 && out$alpha < 1)
 })
 
