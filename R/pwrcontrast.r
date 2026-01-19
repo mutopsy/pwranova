@@ -6,7 +6,7 @@
 #'
 #' For a contrast with weights \eqn{w_1, \dots, w_K} that sum to zero,
 #' the numerator df is 1. The denominator df is \eqn{n - K} for
-#' between-subjects (unpaired) designs and \eqn{(n - 1)(K - 1)} for
+#' between-subjects (unpaired) designs and \eqn{n - 1} for
 #' paired/repeated-measures designs. Power uses the noncentral \emph{F}-with
 #' \eqn{\lambda = f^2 \cdot n_{\mathrm{total}}}.
 #'
@@ -153,7 +153,7 @@ pwrcontrast <- function(
   ## -------- Helper: denominator df --------
   denom_df_fun <- function(n) {
     if (paired) {
-      (n - 1) * (K - 1)
+      n - 1
     } else {
       n - K
     }
