@@ -34,9 +34,9 @@ analysis of variance (ANOVA) to analyze factorial designs with multiple
 between- and within-participant factors. However, existing tools such as G\*Power [@faul2007gpower] and the `pwr` R package [@champely2020pwr] 
 offer only limited flexibility when it comes to handling such complex designs. 
 For example, specifying interactions in multi-factor mixed designs is difficult or not directly supported in these tools. 
-They also generally do not allow direct specification of user-defined contrasts, and while effect sizes can be 
-specified via Cohen's *f*, they do not directly support partial eta squared, 
-which is more commonly reported in psychological research as a standard effect size index.
+They also generally do not allow direct specification of user-defined contrasts. In addition, although effect sizes 
+can be specified via Cohen's f [@cohen1988statistical], they do not directly support partial eta squared, 
+which is more commonly reported in psychological research.
 
 `pwranova` addresses these limitations by providing:  
 - Support for between-, within-, and mixed-factor ANOVA designs, including both main effects and interactions.  
