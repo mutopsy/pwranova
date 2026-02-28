@@ -4,7 +4,8 @@ Contributions are welcome.
 
 ## Reporting issues
 
-Please report bugs or request features via GitHub Issues.
+Please report bugs or request features via GitHub Issues. When reporting
+a bug, please include a minimal reproducible example if possible.
 
 ## Pull requests
 
