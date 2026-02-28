@@ -19,11 +19,11 @@ yet existing tools often lack the flexibility to accommodate complex ANOVA desig
 with full support for main effects, interactions, and planned contrasts (custom contrasts with user-defined weights).  
 The package allows researchers to calculate statistical power, 
 required total sample size, significance level, or minimal detectable effect sizes 
-expressed as partial eta squared or Cohen?fs *f*. 
+expressed as partial eta squared ($\eta^2_p$) or Cohen's *f* [@cohen1988statistical]. 
 
 In addition to ANOVA, `pwranova` provides complementary functions for 
 common related tests, including *t*-tests (one-sample, paired, and two-sample) 
-and tests of Pearson?fs correlation (using either the *t*-distribution or Fisher's *z*-transformation approach). 
+and tests of Pearson correlation (using either the *t*-distribution or Fisher's *z*-transformation approach). 
 This makes the package a convenient toolkit for planning experimental studies 
 in psychology and related fields.
 
@@ -31,11 +31,11 @@ in psychology and related fields.
 
 Researchers in psychology and the behavioral sciences frequently rely on 
 analysis of variance (ANOVA) to analyze factorial designs with multiple 
-between- and within-participant factors. However, existing tools such as G*Power [@faul2007gpower] and the `pwr` R package [@champely2020pwr] 
+between- and within-participant factors. However, existing tools such as G\*Power [@faul2007gpower] and the `pwr` R package [@champely2020pwr] 
 offer only limited flexibility when it comes to handling such complex designs. 
 For example, specifying interactions in multi-factor mixed designs is difficult or not directly supported in these tools. 
 They also generally do not allow direct specification of user-defined contrasts, and while effect sizes can be 
-specified via Cohen?fs *f* [@cohen1988statistical], they do not directly support partial eta squared, 
+specified via Cohen's *f*, they do not directly support partial eta squared, 
 which is more commonly reported in psychological research as a standard effect size index.
 
 `pwranova` addresses these limitations by providing:  
@@ -45,7 +45,7 @@ which is more commonly reported in psychological research as a standard effect s
 - Integrated functions for related *t*-tests and Pearson correlations.  
 - A unified and extensible R implementation designed for reproducible research workflows.  
 
-In addition, `pwranova` not only extends power analysis to complex factorial ANOVA designs but also incorporates related t-tests and correlation tests within the same framework. This integration allows researchers to conduct power analysis for a wide range of commonly used statistical tests in a consistent and reproducible way.
+In addition, `pwranova` not only extends power analysis to complex factorial ANOVA designs but also incorporates related *t*-tests and correlation tests within the same framework. This integration allows researchers to conduct power analysis for a wide range of commonly used statistical tests in a consistent and reproducible way.
 
 This combination of flexibility and reproducibility makes `pwranova` 
 especially useful for experimental psychologists and cognitive scientists, as well as researchers in the behavioral, social, and biological sciences designing studies with complex factorial structures.

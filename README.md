@@ -6,10 +6,10 @@ with full support for both **main effects and interactions across any number of 
 
 The package allows calculation of **statistical power**, 
 **required total sample size**, **significance level**, and **minimal 
-detectable effect sizes** expressed as partial eta squared or Cohen's *f* 
+detectable effect sizes** expressed as partial eta squared ($\eta^2_p$) or Cohen's *f* 
 for ANOVA terms and planned contrasts. 
 In addition, complementary functions are included for common related 
-tests such as *t*-tests and correlation tests, making the package a 
+tests such as *t*-tests and Pearson correlation tests, making the package a 
 convenient toolkit for power analysis in experimental psychology 
 and related fields.
 
@@ -113,12 +113,12 @@ res_contrast
 
 Current functions include:
 
-- `pwranova()` — Power analysis for between-/within-/mixed-factor ANOVA, covering all main effects and interactions.
+- `pwranova()` — Power analysis for between-, within-, and mixed-factor ANOVA, covering all main effects and interactions.
 - `pwrcontrast()` — Power analysis for a single planned contrast (1 df) in between-subjects or paired/repeated-measures designs.
 - `pwrttest()` — Power analysis for *t*-tests (one-sample, paired, and two-sample).
 - `pwrcortest()` — Power analysis for Pearson’s correlation (using either the *t*-distribution or Fisher’s *z*-transformation approach).
 
-For full documentation, see the reference site (pkgdown):
+For full documentation, see the reference site (`pkgdown`):
 https://mutopsy.github.io/pwranova/reference/
 
 
@@ -130,7 +130,7 @@ Muto, H. (2025). pwranova: An R package for power analysis of flexible ANOVA des
 
 ## Version history
 
-See the Changelog:
+See the changelog:
 https://mutopsy.github.io/pwranova/news/
 
 ## License
