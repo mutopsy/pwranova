@@ -49,7 +49,23 @@ In addition, `pwranova` not only extends power analysis to complex factorial ANO
 
 This combination of flexibility and reproducibility makes `pwranova` 
 especially useful for experimental psychologists and cognitive scientists, as well as researchers in the behavioral, social, and biological sciences designing studies with complex factorial structures.
-Detailed examples and tutorials are available on the package website:  
+
+# Example use case
+
+To illustrate a realistic application, consider a visual search experiment investigating age-related differences in search efficiency. In this type of task, participants search for a target item among distractors on a screen. They indicate whether the target is present or absent by pressing a key, and response time is recorded. The study includes one between-participant factor, age group (young vs. older adults), and two within-participant factors: target presence (present vs. absent) and set size (8, 16, or 24 items displayed), forming a 2 $\times$ 2 $\times$ 3 mixed design. Suppose the researcher wishes to detect a three-way interaction effect size of *f* = 0.25 with 80% power at $\alpha = .05$. The required total sample size can be estimated as follows:
+
+```r
+pwranova(
+  nlevels_b = 2,
+  nlevels_w = c(2, 3),
+  cohensf   = 0.25,
+  alpha     = 0.05,
+  power     = 0.80,
+  target    = "B1:W1:W2"
+)
+```
+
+The output provides the minimum sample size required to achieve the desired statistical power, facilitating transparent and well-justified study design. If the `target` argument is omitted, the function returns results for all main effects and interactions under the specified design. More detailed examples and tutorials are available on the package website: 
 <https://mutopsy.github.io/pwranova/>
 
 # Acknowledgements
