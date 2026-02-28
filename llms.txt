@@ -6,11 +6,12 @@ for both **main effects and interactions across any number of factors**.
 
 The package allows calculation of **statistical power**, **required
 total sample size**, **significance level**, and **minimal detectable
-effect sizes** expressed as partial eta squared or Cohen’s *f* for ANOVA
-terms and planned contrasts. In addition, complementary functions are
-included for common related tests such as *t*-tests and correlation
-tests, making the package a convenient toolkit for power analysis in
-experimental psychology and related fields.
+effect sizes** expressed as partial eta squared ($\eta_{p}^{2}$) or
+Cohen’s *f* for ANOVA terms and planned contrasts. In addition,
+complementary functions are included for common related tests such as
+*t*-tests and Pearson correlation tests, making the package a convenient
+toolkit for power analysis in experimental psychology and related
+fields.
 
 ## Links
 
@@ -114,8 +115,8 @@ res_contrast
 Current functions include:
 
 - [`pwranova()`](https://mutopsy.github.io/pwranova/reference/pwranova.md)
-  — Power analysis for between-/within-/mixed-factor ANOVA, covering all
-  main effects and interactions.
+  — Power analysis for between-, within-, and mixed-factor ANOVA,
+  covering all main effects and interactions.
 - [`pwrcontrast()`](https://mutopsy.github.io/pwranova/reference/pwrcontrast.md)
   — Power analysis for a single planned contrast (1 df) in
   between-subjects or paired/repeated-measures designs.
@@ -125,7 +126,7 @@ Current functions include:
   — Power analysis for Pearson’s correlation (using either the
   *t*-distribution or Fisher’s *z*-transformation approach).
 
-For full documentation, see the reference site (pkgdown):
+For full documentation, see the reference site (`pkgdown`):
 <https://mutopsy.github.io/pwranova/reference/>
 
 ## Citation
@@ -138,7 +139,7 @@ ANOVA designs and related tests. Jxiv.
 
 ## Version history
 
-See the Changelog: <https://mutopsy.github.io/pwranova/news/>
+See the changelog: <https://mutopsy.github.io/pwranova/news/>
 
 ## License
 
