@@ -41,7 +41,7 @@ which is more commonly reported in psychological research as a standard effect s
 `pwranova` addresses these limitations by providing:  
 - Support for between-, within-, and mixed-factor ANOVA designs, including both main effects and interactions.  
 - Power analysis for planned contrasts with flexible, user-defined weight specification.  
-- Methods based on the noncentral *F*-distribution.  
+- Methods based on standard noncentral *F*-distribution power calculations.  
 - Integrated functions for related *t*-tests and Pearson correlations.  
 - A unified and extensible R implementation designed for reproducible research workflows.  
 
