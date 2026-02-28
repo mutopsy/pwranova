@@ -141,6 +141,13 @@ ANOVA designs and related tests. Jxiv.
 
 See the changelog: <https://mutopsy.github.io/pwranova/news/>
 
+## Support
+
+If you encounter a bug or would like to request a feature, please open
+an issue on GitHub: <https://github.com/mutopsy/pwranova/issues>
+
+For questions about usage, feel free to open an issue as well.
+
 ## License
 
 GPL-3
