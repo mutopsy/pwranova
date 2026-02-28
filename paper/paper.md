@@ -65,7 +65,10 @@ pwranova(
 )
 ```
 
-The output indicates that a total sample size of 156 is required to achieve the desired statistical power (assuming equal group sizes). If the `target` argument is omitted, the function returns results for all main effects and interactions under the specified design. More detailed examples and tutorials are available on the package website: 
+The output indicates that a total sample size of 156 is required to achieve the desired statistical power (assuming equal group sizes). 
+If the `target` argument is omitted, the function returns results for all main effects and interactions under the specified design. 
+Although CohenÅfs *f* is used here, $\eta^2_p$ (`peta2`) can also be specified.
+More detailed examples and tutorials are available on the package website: 
 <https://mutopsy.github.io/pwranova/>
 
 # Acknowledgements
