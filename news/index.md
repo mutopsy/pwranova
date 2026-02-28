@@ -2,6 +2,8 @@
 
 ## pwranova 1.0.3 (2026-01-19)
 
+CRAN release: 2026-01-19
+
 - Fixed a bug in the denominator df for paired/repeated-measures
   contrast tests.
 
