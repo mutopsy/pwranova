@@ -77,6 +77,10 @@ pwranova(
 The output indicates that a total sample size of 156 is required to achieve the desired statistical power (assuming equal group sizes). 
 If the `target` argument is omitted, the function returns results for all main effects and interactions under the specified design. 
 Although Cohen's *f* is used here, $\eta^2_p$ (`peta2`) can also be specified. 
+If a planned contrast is of interest, power analysis can be conducted with `pwrcontrast()`, 
+which uses a similar interface to `pwranova()` and specifies contrast weights via the `weights` argument 
+(e.g., `weights = c(1, -1, 0)`). 
+For paired data, set `paired = TRUE`. 
 More detailed examples and tutorials are available on the package website: 
 <https://mutopsy.github.io/pwranova/>
 
