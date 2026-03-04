@@ -7,7 +7,7 @@ authors:
 affiliations:
   - name: Osaka Metropolitan University
     index: 1
-date: 2025-10-14
+date: 2026-03-04
 bibliography: paper.bib
 ---
 
@@ -31,12 +31,17 @@ in psychology and related fields.
 
 Researchers in psychology and the behavioral sciences frequently rely on 
 analysis of variance (ANOVA) to analyze factorial designs with multiple 
-between- and within-participant factors. However, existing tools such as G\*Power [@faul2007gpower] and the `pwr` R package [@champely2020pwr] 
-offer only limited flexibility when it comes to handling such complex designs. 
-For example, specifying interactions in multi-factor mixed designs is difficult or not directly supported in these tools. 
-They also generally do not allow direct specification of user-defined contrasts. In addition, although effect sizes 
-can be specified via Cohen's f [@cohen1988statistical], they do not directly support partial eta squared, 
-which is more commonly reported in psychological research.
+between- and within-participant factors. 
+To support such analyses, several software tools provide analytic solutions for statistical power analysis, 
+including G\*Power [@faul2007gpower] and several R packages [@R] such as `pwr` [@champely2020pwr], `pwr2` [@lu2017pwr2], `pwrss` [@bulus2025pwrss], and `WebPower` [@zhang2018webpower].
+However, existing analytic tools offer only limited flexibility when it comes to handling such complex ANOVA designs. 
+For example, specifying interactions in multi-factor mixed ANOVA designs is difficult or not directly supported in these tools. 
+These analytic tools also generally do not allow direct specification of user-defined contrasts.
+In addition, although effect sizes can be specified via Cohen's *f* [@cohen1988statistical], 
+they do not directly support partial eta squared, which is more commonly reported in psychological research.
+While flexible simulation-based packages such as `simr` [@green2016simr] and `Superpower` [@lakens2021superpower] are available, 
+such approaches may require substantial computational time and can be less straightforward to 
+specify for routine experimental planning.
 
 `pwranova` addresses these limitations by providing:  
 - Support for between-, within-, and mixed-factor ANOVA designs, including both main effects and interactions.  
@@ -67,7 +72,7 @@ pwranova(
 
 The output indicates that a total sample size of 156 is required to achieve the desired statistical power (assuming equal group sizes). 
 If the `target` argument is omitted, the function returns results for all main effects and interactions under the specified design. 
-Although Cohen's *f* is used here, $\eta^2_p$ (`peta2`) can also be specified.a 
+Although Cohen's *f* is used here, $\eta^2_p$ (`peta2`) can also be specified. 
 More detailed examples and tutorials are available on the package website: 
 <https://mutopsy.github.io/pwranova/>
 
