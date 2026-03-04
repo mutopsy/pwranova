@@ -13,10 +13,14 @@ bibliography: paper.bib
 
 # Summary
 
-Power analysis is a critical step in the design of psychological and behavioral experiments, 
-yet existing tools often lack the flexibility to accommodate complex ANOVA designs. 
+Researchers often need to determine how large a sample is required before collecting data. 
+A common way to address this question is through statistical power analysis. 
+In many psychological and behavioral experiments, as well as other experimental studies using factorial designs, 
+the data are typically analyzed with analysis of variance (ANOVA). 
+However, existing tools for power analysis often lack the flexibility needed to accommodate complex ANOVA designs.
+
 `pwranova` is an R package that performs power analysis for between-, within-, and mixed-factor ANOVA designs, 
-with full support for main effects, interactions, and planned contrasts (custom contrasts with user-defined weights).  
+with full support for main effects, interactions, and planned contrasts (user-defined contrast weights). 
 The package allows researchers to calculate statistical power, 
 required total sample size, significance level, or minimal detectable effect sizes 
 expressed as partial eta squared ($\eta^2_p$) or Cohen's *f* [@cohen1988statistical]. 
