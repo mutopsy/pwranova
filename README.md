@@ -13,6 +13,10 @@ tests such as *t*-tests and Pearson correlation tests, making the package a
 convenient toolkit for power analysis in experimental psychology 
 and related fields.
 
+For designs supported by G\*Power (Faul et al., 2009), a widely used software tool for statistical power analysis, 
+the results are identical to those produced by G\*Power. 
+The package also supports more flexible ANOVA designs and additional options for some related tests that are not available in G\*Power.
+
 ## Links
 
 - CRAN: <https://CRAN.R-project.org/package=pwranova>
@@ -109,6 +113,56 @@ res_contrast <- pwrcontrast(
 res_contrast
 ```
 
+## Key arguments
+
+Below we summarize the key arguments of the main functions `pwranova()` and `pwrcontrast()`.
+Other power-analysis functions in the package follow a similar interface.
+
+### pwranova()
+
+The key arguments of `pwranova()` used to specify the ANOVA design and the quantity to be solved are summarized below.
+
+| Argument | Meaning | Constraints | Example |
+|---|---|---|---|
+| `nlevels_b` | Numbers of levels for between-subjects factors | integer ≥ 2 (scalar or vector) | `3`, `c(2,4)` |
+| `nlevels_w` | Numbers of levels for within-subjects factors | integer ≥ 2 (scalar or vector) | `3`, `c(2,4)` |
+| `n_total` | Total sample size across all groups | positive integer | `60` |
+| `alpha` | Significance level | (0, 1) | `0.05` |
+| `power` | Desired statistical power | (0, 1) | `0.80` |
+| `cohensf` | Cohen’s *f* | > 0 | `0.25` |
+| `peta2` | Partial eta squared ($\eta^2_p$)| (0, 1) | `0.06` |
+
+Exactly **one** of `n_total`, an effect size (`cohensf` / `peta2`),
+`alpha`, or `power` must be `NULL`. The missing quantity is solved
+from the others.
+
+The returned object is a data frame including ANOVA terms,
+degrees of freedom, total sample size, alpha, power, effect sizes, and other computed quantities.
+For advanced usage, `n_total`, `alpha`, `power`, and the effect-size arguments
+may also be specified as vectors whose length matches the number of ANOVA terms
+(e.g., main effects or interactions).
+
+### pwrcontrast()
+
+The key arguments of `pwrcontrast()` used to specify the contrast weights and the design are summarized below.
+
+| Argument | Meaning | Constraints | Example |
+|---|---|---|---|
+| `weight` | Contrast weights | Numeric vector whose sum must be zero | `c(1,-1,0)`, `c(3,-1,1,3)` |
+| `paired` | Whether the design is paired | Logical | `FALSE`, `TRUE` |
+| `n_total` | Total sample size across all groups | positive integer | `60` |
+| `alpha` | Significance level | (0, 1) | `0.05` |
+| `power` | Desired statistical power | (0, 1) | `0.80` |
+| `cohensf` | Cohen’s *f* | > 0 | `0.25` |
+| `peta2` | Partial eta squared ($\eta^2_p$)| (0, 1) | `0.06` |
+
+Exactly **one** of `n_total`, an effect size (`cohensf` / `peta2`),
+`alpha`, or `power` must be `NULL`. The missing quantity is solved
+from the others.
+
+The returned object is a data frame including the specified weights,
+degrees of freedom, total sample size, alpha, power, effect sizes, and other computed quantities.
+
 ## Functions
 
 Current functions include:
@@ -145,3 +199,7 @@ For questions about usage, feel free to open an issue as well.
 ## License
 
 GPL-3
+
+## References
+
+Faul, F., Erdfelder, E., Buchner, A., & Lang, A.-G. (2009). Statistical power analyses using G\*Power 3.1: Tests for correlation and regression analyses. Behavior Research Methods, *41*(4), 1149–1160. https://doi.org/10.3758/BRM.41.4.1149
