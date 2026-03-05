@@ -1,3 +1,12 @@
+# pwranova 1.1.1 (2026-03-05)
+
+* Strengthened input validation across functions.
+  Added checks for finite values, parameter bounds, and boundary cases
+  in effect-size conversion utilities and power analysis functions.
+* Clarified documentation for `pwrcortest()` and `pwrttest()` to state that
+  signed effect-size inputs (`rho`, `delta`) are converted to their absolute
+  values.
+
 # pwranova 1.1.0 (2026-03-05)
 
 * Added `ncp_scale` argument to `pwrcortest()` for alternative scaling of

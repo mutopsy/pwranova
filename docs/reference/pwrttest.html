@@ -11,7 +11,7 @@ one-sample, two-sample (independent), or paired/repeated measures."><script src=
 
     <a class="navbar-brand me-2" href="../index.html">pwranova</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,7 +88,8 @@ If <code>NULL</code>, the function solves for <code>n_total</code>.</p></dd>
 
 
 <dt id="arg-delta">delta<a class="anchor" aria-label="anchor" href="#arg-delta"></a></dt>
-<dd><p>Numeric (non-negative). Cohen's \(d\)-type effect size.
+<dd><p>Numeric. Cohen's \(d\)-type effect size.
+If negative, it is converted to its absolute value.
 If <code>NULL</code>, it is derived from <code>cohensf</code> or <code>peta2</code> when available.
 If all three effect-size arguments (<code>delta</code>, <code>cohensf</code>, <code>peta2</code>)
 are <code>NULL</code>, then the effect size is treated as the unknown quantity and is
@@ -98,7 +99,7 @@ The exact definition depends on the design:</p><ul><li><p><em>One-sample</em>: C
 divided by their standard deviation.</p></li>
 <li><p><em>Two-sample (equal allocation)</em>: Cohen's \(d\) is defined as the mean difference
 divided by the pooled standard deviation; internally related to \(f\) via \(d = 2f\).</p></li>
-</ul><p>If <code>NULL</code>, <code>delta</code> is derived from <code>cohensf</code> or <code>peta2</code> when available.</p></dd>
+</ul></dd>
 
 
 <dt id="arg-cohensf">cohensf<a class="anchor" aria-label="anchor" href="#arg-cohensf"></a></dt>
@@ -138,7 +139,10 @@ depending on the solved quantity. Columns:
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
 
-<ul><li><p>If multiple effect-size arguments are supplied (<code>delta</code>, <code>cohensf</code>, <code>peta2</code>),
+<ul><li><p>The sign of <code>delta</code> is ignored; its absolute value is used,
+because statistical power depends on the magnitude of the effect
+rather than its direction.</p></li>
+<li><p>If multiple effect-size arguments are supplied (<code>delta</code>, <code>cohensf</code>, <code>peta2</code>),
 precedence is <code>delta</code> \(&gt;\) <code>cohensf</code> \(&gt;\) <code>peta2</code>; the rest are ignored with a warning.</p></li>
 <li><p>For the two-sample design, equal allocation is assumed; <code>n_total</code> must be even when provided,
 and the solved <code>n_total</code> will be an even number.</p></li>

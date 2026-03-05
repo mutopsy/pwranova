@@ -29,6 +29,7 @@ If \code{NULL}, the function solves for \code{n_total}.}
 \code{n_total} is solved to attain this power.}
 
 \item{rho}{Numeric correlation coefficient in \eqn{(-1,1)}, nonzero.
+If negative, it is converted to its absolute value.
 If \code{NULL}, \code{rho} is solved for given the other inputs.}
 
 \item{method}{Character. Either \code{"t"} (noncentral \emph{t}-distribution)
@@ -67,6 +68,9 @@ and Fisher's \emph{z}-transformation with normal approximation (\code{method = "
 \itemize{
 \item Exactly one of \code{n_total}, \code{rho}, \code{alpha}, or \code{power}
 must be \code{NULL}; that quantity is then solved.
+\item The sign of \code{rho} is ignored; its absolute value is used,
+because statistical power depends on the magnitude of the effect
+rather than its direction.
 \item For \code{method = "t"}, computations are based on the noncentral
 \emph{t}-distribution with noncentrality parameter
 \eqn{\lambda = \tfrac{\rho}{\sqrt{1-\rho^2}} \sqrt{k}},

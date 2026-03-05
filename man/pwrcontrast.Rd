@@ -20,7 +20,7 @@ pwrcontrast(
 
 \item{paired}{Logical. \code{FALSE} for between-subjects (default), \code{TRUE} for paired/repeated-measures.}
 
-\item{n_total}{Integer or integer vector. Total sample size(s). If \code{NULL}, the function solves for \code{n_total}.}
+\item{n_total}{Integer scalar. Total sample size. If \code{NULL}, the function solves for \code{n_total}.}
 
 \item{cohensf}{Numeric (non-negative). Cohen's \eqn{f}. If \code{NULL}, it is derived from \code{peta2} when available.}
 
