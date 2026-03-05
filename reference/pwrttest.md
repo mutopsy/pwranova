@@ -51,12 +51,12 @@ pwrttest(
 
 - delta:
 
-  Numeric (non-negative). Cohen's \\d\\-type effect size. If `NULL`, it
-  is derived from `cohensf` or `peta2` when available. If all three
-  effect-size arguments (`delta`, `cohensf`, `peta2`) are `NULL`, then
-  the effect size is treated as the unknown quantity and is solved for
-  given `n_total`, `alpha`, and `power`. The exact definition depends on
-  the design:
+  Numeric. Cohen's \\d\\-type effect size. If negative, it is converted
+  to its absolute value. If `NULL`, it is derived from `cohensf` or
+  `peta2` when available. If all three effect-size arguments (`delta`,
+  `cohensf`, `peta2`) are `NULL`, then the effect size is treated as the
+  unknown quantity and is solved for given `n_total`, `alpha`, and
+  `power`. The exact definition depends on the design:
 
   - *One-sample*: Cohen's \\d = (\mu - \mu_0)/\sigma\\.
 
@@ -66,9 +66,6 @@ pwrttest(
   - *Two-sample (equal allocation)*: Cohen's \\d\\ is defined as the
     mean difference divided by the pooled standard deviation; internally
     related to \\f\\ via \\d = 2f\\.
-
-  If `NULL`, `delta` is derived from `cohensf` or `peta2` when
-  available.
 
 - cohensf:
 
@@ -105,6 +102,10 @@ A one-row `data.frame` with class `"cal_power"`, `"cal_n"`,
 `t_critical`, `ncp`.
 
 ## Details
+
+- The sign of `delta` is ignored; its absolute value is used, because
+  statistical power depends on the magnitude of the effect rather than
+  its direction.
 
 - If multiple effect-size arguments are supplied (`delta`, `cohensf`,
   `peta2`), precedence is `delta` \\\>\\ `cohensf` \\\>\\ `peta2`; the

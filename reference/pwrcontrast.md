@@ -33,8 +33,8 @@ pwrcontrast(
 
 - n_total:
 
-  Integer or integer vector. Total sample size(s). If `NULL`, the
-  function solves for `n_total`.
+  Integer scalar. Total sample size. If `NULL`, the function solves for
+  `n_total`.
 
 - cohensf:
 

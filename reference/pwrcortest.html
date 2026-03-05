@@ -13,7 +13,7 @@ and Fisher's z-transformation with normal approximation (method = &quot;z&quot;)
 
     <a class="navbar-brand me-2" href="../index.html">pwranova</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,6 +86,7 @@ If <code>NULL</code>, the function solves for <code>n_total</code>.</p></dd>
 
 <dt id="arg-rho">rho<a class="anchor" aria-label="anchor" href="#arg-rho"></a></dt>
 <dd><p>Numeric correlation coefficient in \((-1,1)\), nonzero.
+If negative, it is converted to its absolute value.
 If <code>NULL</code>, <code>rho</code> is solved for given the other inputs.</p></dd>
 
 
@@ -126,6 +127,9 @@ see Details)</p></li>
 
 <ul><li><p>Exactly one of <code>n_total</code>, <code>rho</code>, <code>alpha</code>, or <code>power</code>
 must be <code>NULL</code>; that quantity is then solved.</p></li>
+<li><p>The sign of <code>rho</code> is ignored; its absolute value is used,
+because statistical power depends on the magnitude of the effect
+rather than its direction.</p></li>
 <li><p>For <code>method = "t"</code>, computations are based on the noncentral
 <em>t</em>-distribution with noncentrality parameter
 \(\lambda = \tfrac{\rho}{\sqrt{1-\rho^2}} \sqrt{k}\),

@@ -45,8 +45,9 @@ pwrcortest(
 
 - rho:
 
-  Numeric correlation coefficient in \\(-1,1)\\, nonzero. If `NULL`,
-  `rho` is solved for given the other inputs.
+  Numeric correlation coefficient in \\(-1,1)\\, nonzero. If negative,
+  it is converted to its absolute value. If `NULL`, `rho` is solved for
+  given the other inputs.
 
 - method:
 
@@ -89,6 +90,10 @@ A one-row `data.frame` with class `"cal_power"`, `"cal_n"`,
 
 - Exactly one of `n_total`, `rho`, `alpha`, or `power` must be `NULL`;
   that quantity is then solved.
+
+- The sign of `rho` is ignored; its absolute value is used, because
+  statistical power depends on the magnitude of the effect rather than
+  its direction.
 
 - For `method = "t"`, computations are based on the noncentral
   *t*-distribution with noncentrality parameter \\\lambda =
