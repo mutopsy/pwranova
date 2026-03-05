@@ -149,10 +149,10 @@ test_that("pwrcortest: method='t' ignores bias_correction but stays valid", {
   expect_true(all(c("df","t_critical","ncp") %in% names(out)))
 })
 
-test_that("pwrttest with t method matches G*Power results", {
+test_that("pwrcortest with t method (ncp_scale = 'n') matches G*Power results", {
   path <- testthat::test_path("expected", "expected_pwrcortest.csv")
   expected <- utils::read.csv(path)
-  expected <- expected[expected$method == "t",]
+  expected <- expected[expected$method == "t" & expected$ncp_scale == "n",]
 
   for(i in 1:nrow(expected)){
     e <- expected[i,]
@@ -229,6 +229,96 @@ test_that("pwrttest with t method matches G*Power results", {
   }
 
 })
+
+test_that("pwrttest with t method (ncp_scale = 'df') matches expected results", {
+  path <- testthat::test_path("expected", "expected_pwrcortest.csv")
+  expected <- utils::read.csv(path)
+  expected <- expected[expected$method == "t" & expected$ncp_scale == "df",]
+
+  for(i in 1:nrow(expected)){
+    e <- expected[i,]
+
+    alternative <- e$alternative
+    n_total <- e$n_total
+    alpha <- e$alpha
+    power <- e$power
+    rho <- e$rho
+
+    # N
+
+    res_n <- pwrcortest(
+      alternative = alternative,
+      n_total = NULL,
+      alpha = alpha,
+      power = power,
+      rho = rho,
+      method = "t",
+      ncp_scale = "df"
+    )[,c("n_total", "ncp")]
+
+    testthat::expect_equal(
+      as.numeric(res_n),
+      as.numeric(e[,c("n_total", "ncp")]),
+      tolerance = 10e-5
+    )
+
+    # Alpha
+
+    res_alpha <- pwrcortest(
+      alternative = alternative,
+      n_total = n_total,
+      alpha = NULL,
+      power = power,
+      rho = rho,
+      method = "t",
+      ncp_scale = "df"
+    )[,c("alpha", "ncp")]
+
+    testthat::expect_equal(
+      as.numeric(res_alpha),
+      as.numeric(e[,c("alpha_est", "ncp")]),
+      tolerance = 10e-5
+    )
+
+    # Power
+
+    res_power <- pwrcortest(
+      alternative = alternative,
+      n_total = n_total,
+      alpha = alpha,
+      power = NULL,
+      rho = rho,
+      method = "t",
+      ncp_scale = "df"
+    )[,c("power", "ncp")]
+
+    testthat::expect_equal(
+      as.numeric(res_power),
+      as.numeric(e[,c("power_est", "ncp")]),
+      tolerance = 10e-5
+    )
+
+    # rho
+
+    res_rho <- pwrcortest(
+      alternative = alternative,
+      n_total = n_total,
+      alpha = alpha,
+      power = power,
+      rho = NULL,
+      method = "t",
+      ncp_scale = "df"
+    )[,c("rho", "ncp")]
+
+    testthat::expect_equal(
+      as.numeric(res_rho),
+      as.numeric(e[,c("rho_est", "ncp_sen")]),
+      tolerance = 10e-5
+    )
+  }
+
+})
+
 
 test_that("pwrttest with z method matches expected results", {
   path <- testthat::test_path("expected", "expected_pwrcortest.csv")
@@ -314,3 +404,4 @@ test_that("pwrttest with z method matches expected results", {
   }
 
 })
+

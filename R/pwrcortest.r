@@ -16,6 +16,10 @@
 #'   If \code{NULL}, \code{rho} is solved for given the other inputs.
 #' @param method Character. Either \code{"t"} (noncentral \emph{t}-distribution)
 #'   or \code{"z"} (Fisher's \emph{z} transformation with normal approximation).
+#' @param ncp_scale Character. Applies only to \code{method = "t"} and
+#'   determines the scaling used in the noncentrality parameter.
+#'   Either \code{"n"} (default; \eqn{\sqrt{n}}, corresponding to the formulation used in GPower) or
+#'   \code{"df"} (\eqn{\sqrt{n-2}}).
 #' @param bias_correction Logical. Applies only to \code{method = "z"}.
 #'   If \code{TRUE}, uses the bias-corrected Fisher \emph{z}-transformation
 #'   \eqn{z_p = \operatorname{atanh}(r) + r/(2(n-1))}.
@@ -27,7 +31,16 @@
 #'         must be \code{NULL}; that quantity is then solved.
 #'   \item For \code{method = "t"}, computations are based on the noncentral
 #'         \emph{t}-distribution with noncentrality parameter
-#'         \eqn{\lambda = \tfrac{\rho}{\sqrt{1-\rho^2}} \sqrt{n}}.
+#'         \eqn{\lambda = \tfrac{\rho}{\sqrt{1-\rho^2}} \sqrt{k}},
+#'         where the scaling factor \eqn{k} is determined by \code{ncp_scale}.
+#'         When \code{ncp_scale = "n"} (default), \eqn{k = n}, corresponding to
+#'         the formulation used in GPower. When \code{ncp_scale = "df"},
+#'         \eqn{k = n-2}, which follows directly from the classical test
+#'         statistic formula for Pearson's correlation test.
+#'         These two formulations arise from different derivations of the power
+#'         function: the \eqn{\sqrt{n-2}} form follows directly from the test
+#'         statistic, whereas the \eqn{\sqrt{n}} form is obtained from alternative
+#'         derivations used in some power-analysis implementations.
 #'   \item For \code{method = "z"}, computations use Fisher's \emph{z} transformation
 #'         of the population correlation, \eqn{z_\rho = \operatorname{atanh}(\rho)}.
 #'         Let \eqn{W = \sqrt{n-3}\, z}. Under the alternative hypothesis,
@@ -73,13 +86,23 @@
 pwrcortest <- function(
    alternative = c("two.sided", "one.sided"),
    n_total = NULL, alpha = NULL, power = NULL, rho = NULL,
-   method = c("t", "z"), bias_correction = FALSE,
+   method = c("t", "z"), ncp_scale = c("n", "df"),
+   bias_correction = FALSE,
    nlim = c(2, 10000)
 ) {
   ## -------- Initial checks & conversions --------
 
   alternative <- match.arg(alternative, c("two.sided", "one.sided"))
   method <- match.arg(method, c("t", "z"))
+  if (method == "t") {
+    ncp_scale <- match.arg(ncp_scale, c("n", "df"))
+    if(ncp_scale == "n") {
+      ncp_sqrt_scale <- function(n) sqrt(n)
+    } else {
+      ncp_sqrt_scale <- function(n) sqrt(n - 2)
+    }
+
+  }
 
   df <- NA_real_
 
@@ -159,7 +182,7 @@ pwrcortest <- function(
 
     if(method == "t"){
       res$t_critical <- qt(1 - res$alpha / divider, res$df)
-      res$ncp <- (res$rho / sqrt(1 - res$rho^2)) * sqrt(res$n_total)
+      res$ncp <- (res$rho / sqrt(1 - res$rho^2)) * ncp_sqrt_scale(res$n_total)
       res$power <- 1 - pt(res$t_critical, res$df, ncp = res$ncp)
       if(alternative == "two.sided"){
         res$power <- res$power + pt(-res$t_critical, res$df, ncp = res$ncp)
@@ -192,7 +215,7 @@ pwrcortest <- function(
       n_candi <- seq.int(nmin, nlim[2], by = 1L)
       df_candi <- n_candi - 2
       t_critical_candi <- qt(1 - res$alpha / divider, df_candi)
-      ncp_candi <- (res$rho / sqrt(1 - res$rho^2)) * sqrt(n_candi)
+      ncp_candi <- (res$rho / sqrt(1 - res$rho^2)) * ncp_sqrt_scale(n_candi)
       power_candi <- 1 - pt(t_critical_candi, df_candi, ncp = ncp_candi)
       if(alternative == "two.sided"){
         power_candi <- power_candi + pt(-t_critical_candi, df_candi, ncp = ncp_candi)
@@ -249,7 +272,7 @@ pwrcortest <- function(
   ## -------- Solve alpha (given power) --------
   if (is.null(alpha)) {
     if(method == "t"){
-      res$ncp <- (res$rho / sqrt(1 - res$rho^2)) * sqrt(res$n_total)
+      res$ncp <- (res$rho / sqrt(1 - res$rho^2)) * ncp_sqrt_scale(res$n_total)
 
       if(alternative == "one.sided"){
         res$t_critical <- qt(1 - res$power, res$df, ncp = res$ncp)
@@ -349,7 +372,7 @@ pwrcortest <- function(
       }
       res$ncp <- uniroot(froot, lower = 0, upper = upper, tol = 1e-12, maxiter = 10000)$root
 
-      tmp <- res$ncp / sqrt(res$n_total)
+      tmp <- res$ncp / ncp_sqrt_scale(res$n_total)
       res$rho <- tmp / sqrt(1 + tmp^2)
 
     } else if(method == "z"){

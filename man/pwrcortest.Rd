@@ -11,6 +11,7 @@ pwrcortest(
   power = NULL,
   rho = NULL,
   method = c("t", "z"),
+  ncp_scale = c("n", "df"),
   bias_correction = FALSE,
   nlim = c(2, 10000)
 )
@@ -32,6 +33,11 @@ If \code{NULL}, \code{rho} is solved for given the other inputs.}
 
 \item{method}{Character. Either \code{"t"} (noncentral \emph{t}-distribution)
 or \code{"z"} (Fisher's \emph{z} transformation with normal approximation).}
+
+\item{ncp_scale}{Character. Applies only to \code{method = "t"} and
+determines the scaling used in the noncentrality parameter.
+Either \code{"n"} (default; \eqn{\sqrt{n}}, corresponding to the formulation used in GPower) or
+\code{"df"} (\eqn{\sqrt{n-2}}).}
 
 \item{bias_correction}{Logical. Applies only to \code{method = "z"}.
 If \code{TRUE}, uses the bias-corrected Fisher \emph{z}-transformation
@@ -63,7 +69,16 @@ and Fisher's \emph{z}-transformation with normal approximation (\code{method = "
 must be \code{NULL}; that quantity is then solved.
 \item For \code{method = "t"}, computations are based on the noncentral
 \emph{t}-distribution with noncentrality parameter
-\eqn{\lambda = \tfrac{\rho}{\sqrt{1-\rho^2}} \sqrt{n}}.
+\eqn{\lambda = \tfrac{\rho}{\sqrt{1-\rho^2}} \sqrt{k}},
+where the scaling factor \eqn{k} is determined by \code{ncp_scale}.
+When \code{ncp_scale = "n"} (default), \eqn{k = n}, corresponding to
+the formulation used in GPower. When \code{ncp_scale = "df"},
+\eqn{k = n-2}, which follows directly from the classical test
+statistic formula for Pearson's correlation test.
+These two formulations arise from different derivations of the power
+function: the \eqn{\sqrt{n-2}} form follows directly from the test
+statistic, whereas the \eqn{\sqrt{n}} form is obtained from alternative
+derivations used in some power-analysis implementations.
 \item For \code{method = "z"}, computations use Fisher's \emph{z} transformation
 of the population correlation, \eqn{z_\rho = \operatorname{atanh}(\rho)}.
 Let \eqn{W = \sqrt{n-3}\, z}. Under the alternative hypothesis,
