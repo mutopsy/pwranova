@@ -1,5 +1,12 @@
 # Changelog
 
+## pwranova 1.1.0 (2026-03-05)
+
+- Added `ncp_scale` argument to
+  [`pwrcortest()`](https://mutopsy.github.io/pwranova/reference/pwrcortest.md)
+  for alternative scaling of the noncentrality parameter in correlation
+  power analysis.
+
 ## pwranova 1.0.3 (2026-01-19)
 
 CRAN release: 2026-01-19

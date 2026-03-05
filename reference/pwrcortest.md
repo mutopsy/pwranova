@@ -16,6 +16,7 @@ pwrcortest(
   power = NULL,
   rho = NULL,
   method = c("t", "z"),
+  ncp_scale = c("n", "df"),
   bias_correction = FALSE,
   nlim = c(2, 10000)
 )
@@ -52,6 +53,13 @@ pwrcortest(
   Character. Either `"t"` (noncentral *t*-distribution) or `"z"`
   (Fisher's *z* transformation with normal approximation).
 
+- ncp_scale:
+
+  Character. Applies only to `method = "t"` and determines the scaling
+  used in the noncentrality parameter. Either `"n"` (default;
+  \\\sqrt{n}\\, corresponding to the formulation used in GPower) or
+  `"df"` (\\\sqrt{n-2}\\).
+
 - bias_correction:
 
   Logical. Applies only to `method = "z"`. If `TRUE`, uses the
@@ -84,7 +92,15 @@ A one-row `data.frame` with class `"cal_power"`, `"cal_n"`,
 
 - For `method = "t"`, computations are based on the noncentral
   *t*-distribution with noncentrality parameter \\\lambda =
-  \tfrac{\rho}{\sqrt{1-\rho^2}} \sqrt{n}\\.
+  \tfrac{\rho}{\sqrt{1-\rho^2}} \sqrt{k}\\, where the scaling factor
+  \\k\\ is determined by `ncp_scale`. When `ncp_scale = "n"` (default),
+  \\k = n\\, corresponding to the formulation used in GPower. When
+  `ncp_scale = "df"`, \\k = n-2\\, which follows directly from the
+  classical test statistic formula for Pearson's correlation test. These
+  two formulations arise from different derivations of the power
+  function: the \\\sqrt{n-2}\\ form follows directly from the test
+  statistic, whereas the \\\sqrt{n}\\ form is obtained from alternative
+  derivations used in some power-analysis implementations.
 
 - For `method = "z"`, computations use Fisher's *z* transformation of
   the population correlation, \\z\_\rho = \operatorname{atanh}(\rho)\\.
