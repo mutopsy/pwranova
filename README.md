@@ -63,7 +63,7 @@ res_power_between <- pwranova(
   cohensf   = 0.25,
   alpha     = 0.05
 )
-res_power_between
+res_power_between # returns power = 0.374
 
 # One within factor (4 levels), no between factor
 # (Optionally set epsilon for sphericity correction; default is 1)
@@ -74,7 +74,7 @@ res_power_within <- pwranova(
   alpha     = 0.05,
   epsilon   = 1.00
 )
-res_power_within
+res_power_within # returns power = 0.601
 
 # Mixed design: one between factor (2 levels) and two within factors (2 and 3 levels)
 # Show only a selected term with `target` if you want a compact output
@@ -87,7 +87,7 @@ res_power_mixed <- pwranova(
   epsilon   = 1.00,
   target    = "B1:W2"  # show only 2x3 interaction of the between factor and the second within factor 
 )
-res_power_mixed
+res_power_mixed # returns power = 0.663
 
 ### 2) Solve required total N (given target power)
 
@@ -98,19 +98,30 @@ res_n_between <- pwranova(
   alpha     = 0.05,
   power     = 0.80
 )
-res_n_between  # returns the smallest total N (multiple of groups) meeting the target power
+res_n_between  # returns required total N (multiple of the number of groups) = 159
+
+# Interaction of two within factors (2 and 4 levels)
+# Show only a selected term with `target` if you want a compact output
+res_n_within <- pwranova(
+  nlevels_w = c(2, 4),
+  peta2     = 0.35, # effect size specified as partial eta squared (instead of Cohen's f)
+  alpha     = 0.05,
+  power     = 0.85,
+  target    = "W1:W2" # show only 2x4 interaction 
+)
+res_n_within # returns required total N = 25
 
 ### 3) Planned contrast power
 
 # Contrast weights must sum to 0
-res_contrast <- pwrcontrast(
+res_n_contrast <- pwrcontrast(
   weight  = c(1, -1, 0),  # three conditions, compare 1 vs 2
   paired  = FALSE,
-  n_total = 60,
   cohensf = 0.25,
-  alpha   = 0.05
+  alpha   = 0.05,
+  power = 0.80
 )
-res_contrast
+res_n_contrast # returns required total N = 129
 ```
 
 ## Key arguments
