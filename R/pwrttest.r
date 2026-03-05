@@ -96,8 +96,8 @@ pwrttest <- function(
   }
 
   if (!is.null(n_total)) {
-    if (!is.numeric(n_total) || length(n_total) != 1L || n_total %% 1 != 0) {
-      stop("'n_total' must be a single positive integer.")
+    if (!is.numeric(n_total) || length(n_total) != 1L || !is.finite(n_total) || n_total %% 1 != 0) {
+      stop("'n_total' must be a single finite integer.")
     }
     if (!paired && !onesample && n_total <= 3) {
       stop("'n_total' must be >= 4 for a two-sample t-test.")
@@ -137,7 +137,7 @@ pwrttest <- function(
   if (!is.null(delta) && !is.null(cohensf) && !is.null(peta2)) {
     cohensf <- NULL
     peta2 <- NULL
-    warning("All of 'delta', 'cohensf' and 'peta2' were supplied; cohensf and 'peta2' were ignored.")
+    warning("All of 'delta', 'cohensf', and 'peta2' were supplied; 'cohensf' and 'peta2' were ignored.")
   } else if(!is.null(cohensf) && !is.null(peta2)){
     peta2 <- NULL
     warning("Both 'cohensf' and 'peta2' were supplied; 'peta2' was ignored.")
@@ -150,6 +150,10 @@ pwrttest <- function(
   }
 
   if(!is.null(delta)){
+
+    if (!is.numeric(delta) || length(delta) != 1L || !is.finite(delta)) {
+      stop("'delta' must be a finite numeric scalar.")
+    }
     delta <- abs(delta)
     if(design == "two.sample"){
       cohensf <- abs(delta) / 2
@@ -162,6 +166,11 @@ pwrttest <- function(
       peta2 <- NA_real_
     }
   } else if(!is.null(cohensf)){
+
+    if (!is.numeric(cohensf) || length(cohensf) != 1L) stop("'cohensf' must be a numeric scalar.")
+    if (!is.finite(cohensf) || cohensf <= 0) {
+      stop("'cohensf' must be finite and positive.")
+    }
     if(design == "two.sample"){
       peta2 <- cohensf_to_peta2(cohensf)
       delta <- cohensf * 2
@@ -173,6 +182,11 @@ pwrttest <- function(
     }
 
   } else if(!is.null(peta2)){
+
+    if (!is.numeric(peta2) || length(peta2) != 1L) stop("'peta2' must be a numeric scalar.")
+    if (!is.finite(peta2) || peta2 <= 0 || peta2 >= 1) {
+      stop("'peta2' must be finite and in (0, 1).")
+    }
     if(design == "two.sample"){
       cohensf <- peta2_to_cohensf(peta2)
       delta <- cohensf * 2
@@ -185,12 +199,13 @@ pwrttest <- function(
   }
 
   if (!is.null(alpha)) {
-    if (length(alpha) != 1L) stop("'alpha' must be length 1.")
-    if (alpha <= 0 || alpha >= 1) stop("'alpha' must be in (0, 1).")
+    if (!is.numeric(alpha) || length(alpha) != 1L) stop("'alpha' must be a numeric scalar.")
+    if (!is.finite(alpha) || alpha <= 0 || alpha >= 1) stop("'alpha' must be finite and in (0, 1).")
   }
+
   if (!is.null(power)) {
-    if (length(power) != 1L) stop("'power' must be length 1.")
-    if (power <= 0 || power >= 1) stop("'power' must be in (0, 1).")
+    if (!is.numeric(power) || length(power) != 1L) stop("'power' must be a numeric scalar.")
+    if (!is.finite(power) || power <= 0 || power >= 1) stop("'power' must be finite and in (0, 1).")
   }
 
   if ((is.null(n_total) + is.null(delta) + is.null(alpha) + is.null(power)) != 1) {

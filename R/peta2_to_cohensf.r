@@ -31,14 +31,10 @@
 #' @export
 
 peta2_to_cohensf <- function(peta2) {
-  if (!is.numeric(peta2)) {
-    stop("'peta2' must be numeric.")
+  if (!is.numeric(peta2)) stop("'peta2' must be numeric.")
+  if (any(!is.finite(peta2)) || any(peta2 < 0 | peta2 > 1)) {
+    stop("'peta2' must be finite and in [0, 1].")
   }
-  if (anyNA(peta2)) {
-    stop("'peta2' must not contain NA values.")
-  }
-  if (min(peta2) <= 0 || max(peta2) >= 1) {
-    stop("'peta2' must be between 0 and 1.")
-  }
-  sqrt(peta2 / (1 - peta2))
+  out <- ifelse(peta2 == 1, Inf, sqrt(peta2 / (1 - peta2)))
+  return(out)
 }

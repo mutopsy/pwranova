@@ -10,6 +10,9 @@ test_that("cohensf_to_peta2 works for valid numeric inputs", {
   # Zero value (boundary case)
   expect_equal(cohensf_to_peta2(0), 0)
 
+  # Infinite value
+  expect_equal(cohensf_to_peta2(Inf), 1)
+
   # Return type should be numeric vector
   expect_type(cohensf_to_peta2(input), "double")
 })
@@ -26,4 +29,5 @@ test_that("cohensf_to_peta2 throws errors for invalid inputs", {
   # Negative values (invalid)
   expect_error(cohensf_to_peta2(-0.1))
   expect_error(cohensf_to_peta2(c(0.1, -0.2)))
+  expect_error(cohensf_to_peta2(-Inf))
 })

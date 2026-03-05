@@ -12,7 +12,7 @@
 #'
 #' @param weight Numeric vector (length \eqn{K \ge 2}). Contrast weights whose sum must be zero.
 #' @param paired Logical. \code{FALSE} for between-subjects (default), \code{TRUE} for paired/repeated-measures.
-#' @param n_total Integer or integer vector. Total sample size(s). If \code{NULL}, the function solves for \code{n_total}.
+#' @param n_total Integer scalar. Total sample size. If \code{NULL}, the function solves for \code{n_total}.
 #' @param cohensf Numeric (non-negative). Cohen's \eqn{f}. If \code{NULL}, it is derived from \code{peta2} when available.
 #' @param peta2 Numeric in \eqn{(0,1)}. Partial eta squared. If \code{NULL}, it is derived from \code{cohensf} when available.
 #' @param alpha Numeric in \eqn{(0,1)}. If \code{NULL}, it is solved for.
@@ -78,7 +78,7 @@ pwrcontrast <- function(
   if (!is.numeric(weight) || length(weight) < 2L) {
     stop("'weight' must be a numeric vector of length >= 2.")
   }
-  if (anyNA(weight)) stop("'weight' must not contain NA values.")
+  if (any(!is.finite(weight))) stop("'weight' must contain only finite values.")
 
   # sum-to-zero with tolerance
   if (abs(sum(weight)) > 1e-10) {
@@ -99,23 +99,38 @@ pwrcontrast <- function(
   }
 
   if (is.null(cohensf) && !is.null(peta2)) {
+    if (!is.numeric(peta2) || length(peta2) != 1L) stop("'peta2' must be a numeric scalar.")
+    if (!is.finite(peta2) || peta2 <= 0 || peta2 >= 1) {
+      stop("'peta2' must be finite and in (0, 1).")
+    }
     cohensf <- peta2_to_cohensf(peta2)
   }
 
   if (is.null(peta2) && !is.null(cohensf)) {
-    if (anyNA(cohensf) || any(cohensf < 0)) {
-      stop("'cohensf' must be non-missing and non-negative.")
+    if (!is.numeric(cohensf) || length(cohensf) != 1L) stop("'cohensf' must be a numeric scalar.")
+    if (!is.finite(cohensf) || cohensf <= 0) {
+      stop("'cohensf' must be finite and positive.")
     }
     peta2 <- cohensf_to_peta2(cohensf)
   }
 
   if (!is.null(alpha)) {
-    if (length(alpha) != 1L) stop("'alpha' must be length 1.")
-    if (alpha <= 0 || alpha >= 1) stop("'alpha' must be in (0, 1).")
+    if (!is.numeric(alpha) || length(alpha) != 1L) stop("'alpha' must be a numeric scalar.")
+    if (!is.finite(alpha) || alpha <= 0 || alpha >= 1) stop("'alpha' must be finite and in (0, 1).")
   }
+
   if (!is.null(power)) {
-    if (length(power) != 1L) stop("'power' must be length 1.")
-    if (power <= 0 || power >= 1) stop("'power' must be in (0, 1).")
+    if (!is.numeric(power) || length(power) != 1L) stop("'power' must be a numeric scalar.")
+    if (!is.finite(power) || power <= 0 || power >= 1) stop("'power' must be finite and in (0, 1).")
+  }
+
+  if (!is.null(n_total)) {
+    if (!is.numeric(n_total) || length(n_total) != 1L || !is.finite(n_total) || n_total %% 1 != 0) {
+      stop("'n_total' must be a single finite integer.")
+    }
+    if (any(n_total < 2)) {
+      stop("'n_total' must be 2 or larger.")
+    }
   }
 
   if ((is.null(n_total) + is.null(cohensf) + is.null(alpha) + is.null(power)) != 1) {
@@ -126,7 +141,7 @@ pwrcontrast <- function(
   df_num <- 1
 
   if (!is.null(n_total) && !paired) {
-    if (any(n_total %% K != 0)) {
+    if (n_total %% K != 0) {
       stop(paste0("'n_total' must be a multiple of the number of groups = ", K, "."))
     }
   }

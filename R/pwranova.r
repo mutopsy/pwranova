@@ -95,11 +95,15 @@ pwranova <- function(
   }
 
   if (is.null(cohensf) && !is.null(peta2)) {
+    if (any(!is.finite(peta2)) || any(is.finite(peta2) & (peta2 <= 0 | peta2 >= 1))) {
+      stop("'peta2' must be finite and in (0, 1).")
+    }
     cohensf <- peta2_to_cohensf(peta2)
   }
+
   if (is.null(peta2) && !is.null(cohensf)) {
-    if (anyNA(cohensf) || any(cohensf < 0)) {
-      stop("'cohensf' must be non-missing and non-negative.")
+    if (any(!is.finite(cohensf)) || any(is.finite(cohensf) & cohensf <= 0)) {
+      stop("'cohensf' must be finite and positive.")
     }
     peta2 <- cohensf_to_peta2(cohensf)
   }
@@ -126,20 +130,35 @@ pwranova <- function(
   if (nlim[1] >= nlim[2]) stop("'nlim[1]' must be smaller than 'nlim[2]'.")
 
   if (!is.null(alpha)) {
+    if (any(!is.finite(alpha)) || any(alpha <= 0 | alpha >= 1)) {
+      stop("'alpha' must be finite and in (0, 1).")
+    }
     if (length(alpha) != 1 && !is.null(target) && length(alpha) != length(target)) {
       stop("'alpha' must be length 1 or match the number of target terms.")
     }
-    if (any(alpha <= 0 | alpha >= 1)) stop("'alpha' must be in (0, 1).")
   }
+
   if (!is.null(power)) {
+    if (any(!is.finite(power)) ||
+        any(power <= 0 | power >= 1)) {
+      stop("'power' must be finite and in (0, 1).")
+    }
     if (length(power) != 1 && !is.null(target) && length(power) != length(target)) {
       stop("'power' must be length 1 or match the number of target terms.")
     }
-    if (any(power <= 0 | power >= 1)) stop("'power' must be in (0, 1).")
   }
 
-  if (epsilon > 1 || epsilon <= 0) {
-    stop("Nonsphericity parameter 'epsilon' must be in (0, 1].")
+  if (!is.null(n_total)) {
+    if (!is.numeric(n_total) || any(!is.finite(n_total)) || any(n_total %% 1 != 0)) {
+      stop("'n_total' must contain finite integers.")
+    }
+    if (any(n_total < 2)) {
+      stop("'n_total' must be 2 or larger.")
+    }
+  }
+
+  if (!is.finite(epsilon) || epsilon <= 0 || epsilon > 1) {
+    stop("Nonsphericity parameter 'epsilon' must be finite and in (0, 1].")
   }
 
   if ((is.null(n_total) + is.null(cohensf) + is.null(alpha) + is.null(power)) != 1) {

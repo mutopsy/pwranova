@@ -29,14 +29,14 @@
 #' @export
 
 cohensf_to_peta2 <- function(f) {
-  if (!is.numeric(f)) {
-    stop("'f' must be numeric.")
-  }
+  if (!is.numeric(f)) stop("'f' must be numeric.")
   if (anyNA(f)) {
     stop("'f' must not contain NA values.")
   }
-  if (min(f) < 0) {
+  if (any(f < 0)) {
     stop("'f' must be greater than or equal to 0.")
   }
-  f^2 / (1 + f^2)
+
+  out <- ifelse(is.infinite(f), 1, f^2 / (1 + f^2))
+  return(out)
 }

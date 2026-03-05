@@ -7,6 +7,12 @@ test_that("peta2_to_cohensf works for valid numeric inputs", {
   expected <- sqrt(input / (1 - input))
   expect_equal(peta2_to_cohensf(input), expected)
 
+  # peta2 = 0 (boundary case)
+  expect_equal(peta2_to_cohensf(0), 0)
+
+  # peta2 = 1 (boundary case)
+  expect_equal(peta2_to_cohensf(1), Inf)
+
   # Return type should be numeric vector
   expect_type(peta2_to_cohensf(input), "double")
 })
@@ -24,11 +30,9 @@ test_that("peta2_to_cohensf errors for NA input", {
 })
 
 test_that("peta2_to_cohensf errors for out-of-range input", {
-  # Values <= 0
-  expect_error(peta2_to_cohensf(0))
+  # Values < 0
   expect_error(peta2_to_cohensf(-0.01))
 
-  # Values >= 1
-  expect_error(peta2_to_cohensf(1))
+  # Values > 1
   expect_error(peta2_to_cohensf(1.01))
 })

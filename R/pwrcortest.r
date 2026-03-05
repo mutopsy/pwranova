@@ -101,14 +101,13 @@ pwrcortest <- function(
     } else {
       ncp_sqrt_scale <- function(n) sqrt(n - 2)
     }
-
   }
 
   df <- NA_real_
 
   if (!is.null(n_total)) {
-    if (!is.numeric(n_total) || length(n_total) != 1L || n_total %% 1 != 0) {
-      stop("'n_total' must be a single positive integer.")
+    if (!is.numeric(n_total) || length(n_total) != 1L || !is.finite(n_total) || n_total %% 1 != 0) {
+      stop("'n_total' must be a single finite integer.")
     }
 
     if (n_total < 3) {
@@ -131,20 +130,24 @@ pwrcortest <- function(
   if (nlim[1] < 2) stop("'nlim[1]' must be 2 or larger.")
   if (nlim[1] >= nlim[2]) stop("'nlim[1]' must be smaller than 'nlim[2]'.")
 
-  if(!is.null(rho)){
-    if (length(rho) != 1L) stop("'rho' must be length 1.")
-    if (rho <= -1 || rho >= 1) stop("'rho' must be in (-1, 1).")
-    if (rho == 0) stop("'rho' must be nonzero.")
+  if (!is.null(rho)) {
+    if (!is.numeric(rho) || length(rho) != 1L) {
+      stop("'rho' must be a numeric scalar.")
+    }
+    if (!is.finite(rho) || abs(rho) >= 1 || rho == 0) {
+      stop("'rho' must be a single finite value in (-1, 1) excluding 0.")
+    }
     rho <- abs(rho)
   }
 
   if (!is.null(alpha)) {
-    if (length(alpha) != 1L) stop("'alpha' must be length 1.")
-    if (alpha <= 0 || alpha >= 1) stop("'alpha' must be in (0, 1).")
+    if (!is.numeric(alpha) || length(alpha) != 1L) stop("'alpha' must be a numeric scalar.")
+    if (!is.finite(alpha) || alpha <= 0 || alpha >= 1) stop("'alpha' must be finite and in (0, 1).")
   }
+
   if (!is.null(power)) {
-    if (length(power) != 1L) stop("'power' must be length 1.")
-    if (power <= 0 || power >= 1) stop("'power' must be in (0, 1).")
+    if (!is.numeric(power) || length(power) != 1L) stop("'power' must be a numeric scalar.")
+    if (!is.finite(power) || power <= 0 || power >= 1) stop("'power' must be finite and in (0, 1).")
   }
 
   if ((is.null(n_total) + is.null(rho) + is.null(alpha) + is.null(power)) != 1) {
