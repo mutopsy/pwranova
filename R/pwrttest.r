@@ -13,7 +13,8 @@
 #' @param alpha Numeric in \eqn{(0,1)}. If \code{NULL}, it is solved for given the other inputs.
 #' @param power Numeric in \eqn{(0,1)}. If \code{NULL}, it is computed; if \code{n_total} is \code{NULL},
 #'   \code{n_total} is solved to attain this power.
-#' @param delta Numeric (non-negative). Cohen's \eqn{d}-type effect size.
+#' @param delta Numeric. Cohen's \eqn{d}-type effect size.
+#'   If negative, it is converted to its absolute value.
 #'   If \code{NULL}, it is derived from \code{cohensf} or \code{peta2} when available.
 #'   If all three effect-size arguments (\code{delta}, \code{cohensf}, \code{peta2})
 #'   are \code{NULL}, then the effect size is treated as the unknown quantity and is
@@ -26,7 +27,6 @@
 #'     \item \emph{Two-sample (equal allocation)}: Cohen's \eqn{d} is defined as the mean difference
 #'           divided by the pooled standard deviation; internally related to \eqn{f} via \eqn{d = 2f}.
 #'   }
-#'   If \code{NULL}, \code{delta} is derived from \code{cohensf} or \code{peta2} when available.
 #' @param cohensf Numeric (non-negative). Cohen's \eqn{f}.
 #'   If \code{NULL}, it can be derived from \code{delta};
 #'   if \code{delta} is supplied, \code{cohensf} is ignored.
@@ -45,6 +45,9 @@
 #'
 #' @details
 #' \itemize{
+#'   \item The sign of \code{delta} is ignored; its absolute value is used,
+#'         because statistical power depends on the magnitude of the effect
+#'         rather than its direction.
 #'   \item If multiple effect-size arguments are supplied (\code{delta}, \code{cohensf}, \code{peta2}),
 #'         precedence is \code{delta} \eqn{>} \code{cohensf} \eqn{>} \code{peta2}; the rest are ignored with a warning.
 #'   \item For the two-sample design, equal allocation is assumed; \code{n_total} must be even when provided,
