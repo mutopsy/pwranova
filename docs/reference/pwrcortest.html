@@ -13,7 +13,7 @@ and Fisher's z-transformation with normal approximation (method = &quot;z&quot;)
 
     <a class="navbar-brand me-2" href="../index.html">pwranova</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,6 +55,7 @@ and Fisher's <em>z</em>-transformation with normal approximation (<code>method =
 <span>  power <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  rho <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"t"</span>, <span class="st">"z"</span><span class="op">)</span>,</span>
+<span>  ncp_scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n"</span>, <span class="st">"df"</span><span class="op">)</span>,</span>
 <span>  bias_correction <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  nlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10000</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -93,6 +94,13 @@ If <code>NULL</code>, <code>rho</code> is solved for given the other inputs.</p>
 or <code>"z"</code> (Fisher's <em>z</em> transformation with normal approximation).</p></dd>
 
 
+<dt id="arg-ncp-scale">ncp_scale<a class="anchor" aria-label="anchor" href="#arg-ncp-scale"></a></dt>
+<dd><p>Character. Applies only to <code>method = "t"</code> and
+determines the scaling used in the noncentrality parameter.
+Either <code>"n"</code> (default; \(\sqrt{n}\), corresponding to the formulation used in GPower) or
+<code>"df"</code> (\(\sqrt{n-2}\)).</p></dd>
+
+
 <dt id="arg-bias-correction">bias_correction<a class="anchor" aria-label="anchor" href="#arg-bias-correction"></a></dt>
 <dd><p>Logical. Applies only to <code>method = "z"</code>.
 If <code>TRUE</code>, uses the bias-corrected Fisher <em>z</em>-transformation
@@ -120,7 +128,16 @@ see Details)</p></li>
 must be <code>NULL</code>; that quantity is then solved.</p></li>
 <li><p>For <code>method = "t"</code>, computations are based on the noncentral
 <em>t</em>-distribution with noncentrality parameter
-\(\lambda = \tfrac{\rho}{\sqrt{1-\rho^2}} \sqrt{n}\).</p></li>
+\(\lambda = \tfrac{\rho}{\sqrt{1-\rho^2}} \sqrt{k}\),
+where the scaling factor \(k\) is determined by <code>ncp_scale</code>.
+When <code>ncp_scale = "n"</code> (default), \(k = n\), corresponding to
+the formulation used in GPower. When <code>ncp_scale = "df"</code>,
+\(k = n-2\), which follows directly from the classical test
+statistic formula for Pearson's correlation test.
+These two formulations arise from different derivations of the power
+function: the \(\sqrt{n-2}\) form follows directly from the test
+statistic, whereas the \(\sqrt{n}\) form is obtained from alternative
+derivations used in some power-analysis implementations.</p></li>
 <li><p>For <code>method = "z"</code>, computations use Fisher's <em>z</em> transformation
 of the population correlation, \(z_\rho = \operatorname{atanh}(\rho)\).
 Let \(W = \sqrt{n-3}\, z\). Under the alternative hypothesis,

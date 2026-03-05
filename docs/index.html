@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">pwranova</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,7 @@
 <div class="page-header"><h1 id="pwranova-power-analysis-of-flexible-anova-designs-and-related-tests">pwranova: Power Analysis of Flexible ANOVA Designs and Related Tests<a class="anchor" aria-label="anchor" href="#pwranova-power-analysis-of-flexible-anova-designs-and-related-tests"></a>
 </h1></div>
 <p><code>pwranova</code> is an R package for power analysis in ANOVA designs, including between-, within-, and mixed-factor designs, with full support for both <strong>main effects and interactions across any number of factors</strong>.</p>
-<p>The package allows calculation of <strong>statistical power</strong>, <strong>required total sample size</strong>, <strong>significance level</strong>, and <strong>minimal detectable effect sizes</strong> expressed as partial eta squared or Cohen’s <em>f</em> for ANOVA terms and planned contrasts. In addition, complementary functions are included for common related tests such as <em>t</em>-tests and correlation tests, making the package a convenient toolkit for power analysis in experimental psychology and related fields.</p>
+<p>The package allows calculation of <strong>statistical power</strong>, <strong>required total sample size</strong>, <strong>significance level</strong>, and <strong>minimal detectable effect sizes</strong> expressed as partial eta squared (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>η</mi><mi>p</mi><mn>2</mn></msubsup><annotation encoding="application/x-tex">\eta^2_p</annotation></semantics></math>) or Cohen’s <em>f</em> for ANOVA terms and planned contrasts. In addition, complementary functions are included for common related tests such as <em>t</em>-tests and Pearson correlation tests, making the package a convenient toolkit for power analysis in experimental psychology and related fields.</p>
 <div class="section level2">
 <h2 id="links">Links<a class="anchor" aria-label="anchor" href="#links"></a>
 </h2>
@@ -158,7 +158,7 @@
 <p>Current functions include:</p>
 <ul>
 <li>
-<code><a href="reference/pwranova.html">pwranova()</a></code> — Power analysis for between-/within-/mixed-factor ANOVA, covering all main effects and interactions.</li>
+<code><a href="reference/pwranova.html">pwranova()</a></code> — Power analysis for between-, within-, and mixed-factor ANOVA, covering all main effects and interactions.</li>
 <li>
 <code><a href="reference/pwrcontrast.html">pwrcontrast()</a></code> — Power analysis for a single planned contrast (1 df) in between-subjects or paired/repeated-measures designs.</li>
 <li>
@@ -166,7 +166,7 @@
 <li>
 <code><a href="reference/pwrcortest.html">pwrcortest()</a></code> — Power analysis for Pearson’s correlation (using either the <em>t</em>-distribution or Fisher’s <em>z</em>-transformation approach).</li>
 </ul>
-<p>For full documentation, see the reference site (pkgdown): <a href="https://mutopsy.github.io/pwranova/reference/" class="uri">https://mutopsy.github.io/pwranova/reference/</a></p>
+<p>For full documentation, see the reference site (<code>pkgdown</code>): <a href="https://mutopsy.github.io/pwranova/reference/" class="uri">https://mutopsy.github.io/pwranova/reference/</a></p>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
@@ -177,7 +177,14 @@
 <div class="section level2">
 <h2 id="version-history">Version history<a class="anchor" aria-label="anchor" href="#version-history"></a>
 </h2>
-<p>See the Changelog: <a href="https://mutopsy.github.io/pwranova/news/" class="uri">https://mutopsy.github.io/pwranova/news/</a></p>
+<p>See the changelog: <a href="https://mutopsy.github.io/pwranova/news/" class="uri">https://mutopsy.github.io/pwranova/news/</a></p>
+</div>
+<div class="section level2">
+<h2 id="support">Support<a class="anchor" aria-label="anchor" href="#support"></a>
+</h2>
+<p>If you encounter a bug or would like to request a feature, please open an issue on GitHub: <a href="https://github.com/mutopsy/pwranova/issues" class="external-link uri">https://github.com/mutopsy/pwranova/issues</a></p>
+<p>When reporting a bug, please include a minimal reproducible example if possible.</p>
+<p>For questions about usage, feel free to open an issue as well.</p>
 </div>
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
@@ -201,6 +208,12 @@
 </ul>
 </div>
 
+<div class="community">
+<h2 data-toc-skip>Community</h2>
+<ul class="list-unstyled">
+<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
+</ul>
+</div>
 
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
