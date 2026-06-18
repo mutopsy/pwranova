@@ -60,12 +60,13 @@ pwrttest(
 
   - *One-sample*: Cohen's \\d = (\mu - \mu_0)/\sigma\\.
 
-  - *Paired*: Cohen's \\d_z = \bar{d}/s_d\\, i.e., the mean of the
-    difference scores divided by their standard deviation.
+  - *Paired*: Cohen's \\d_z = (\mu_2 - \mu_1)/\sigma_D\\, where
+    \\\sigma_D\\ denotes the population standard deviation of the
+    difference scores.
 
-  - *Two-sample (equal allocation)*: Cohen's \\d\\ is defined as the
-    mean difference divided by the pooled standard deviation; internally
-    related to \\f\\ via \\d = 2f\\.
+  - *Two-sample (equal allocation)*: Cohen's \\d = (\mu_2 -
+    \mu_1)/\sigma\\, where \\\sigma\\ denotes the common population
+    standard deviation.
 
 - cohensf:
 
@@ -116,6 +117,11 @@ A one-row `data.frame` with class `"cal_power"`, `"cal_n"`,
   number.
 
 - For the paired design, the effect size is interpreted as \\d_z\\.
+
+- The noncentrality parameter is computed from the design-specific
+  effect size and sample size: \\\lambda = \delta\sqrt{n}\\ for
+  one-sample and paired designs, and \\\lambda = \delta\sqrt{n}/2\\ for
+  the two-sample equal-allocation design, where \\n\\ denotes `n_total`.
 
 - Computations use the central and noncentral *t*-distributions
   ([`stats::qt`](https://rdrr.io/r/stats/TDist.html),
