@@ -43,11 +43,12 @@ For example, specifying interactions in multi-factor mixed ANOVA designs is diff
 These analytic tools also generally do not allow direct specification of user-defined contrasts.
 In addition, although effect sizes can be specified via Cohen's *f* [@cohen1988statistical], 
 they do not directly support partial eta squared, which is more commonly reported in psychological research.
-While flexible simulation-based packages such as `simr` [@green2016simr] and `Superpower` [@lakens2021superpower] are available, 
-such approaches may require substantial computational time and can be less straightforward to 
-specify for routine experimental planning.
+While flexible simulation-based packages such as `simr` [@green2016simr] and `Superpower` [@lakens2021superpower] are available,
+such approaches may require substantial computational time and can be less straightforward to
+specify for routine experimental planning. Similarly, tools such as `InteractionPoweR` [@baranger2023interactionpower] require more detailed information about expected correlations and interaction effects, which may be difficult to specify when little prior information is available.
+By contrast, `pwranova` requires only minimal inputs (e.g., design characteristics and standardized effect sizes), while providing fast analytic power calculations for complex factorial ANOVA designs, including higher-order interactions and user-defined contrasts.
 
-`pwranova` addresses these limitations by providing:  
+`pwranova` provides the following features:
 - Support for between-, within-, and mixed-factor ANOVA designs, including both main effects and interactions.  
 - Power analysis for planned contrasts with flexible, user-defined weight specification.  
 - Methods based on standard noncentral *F*-distribution power calculations.  
