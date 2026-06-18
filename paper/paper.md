@@ -54,7 +54,9 @@ specify for routine experimental planning.
 - Integrated functions for related *t*-tests and Pearson correlations.  
 - A unified and extensible R implementation designed for reproducible research workflows.  
 
-In addition, `pwranova` not only extends power analysis to complex factorial ANOVA designs but also incorporates related *t*-tests and correlation tests within the same framework. This integration allows researchers to conduct power analysis for a wide range of commonly used statistical tests in a consistent and reproducible way.
+All analyses assume balanced designs with equal cell sizes, as extending power calculations to unbalanced designs generally requires additional assumptions about group sizes and variance structures. 
+
+`pwranova` not only extends power analysis to complex factorial ANOVA designs but also incorporates related *t*-tests and correlation tests within the same framework. This integration allows researchers to conduct power analysis for a wide range of commonly used statistical tests in a consistent and reproducible way.
 
 This combination of flexibility and reproducibility makes `pwranova` 
 especially useful for experimental psychologists and cognitive scientists, as well as researchers in the behavioral, social, and biological sciences designing studies with complex factorial structures.

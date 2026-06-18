@@ -16,6 +16,7 @@ and related fields.
 For designs supported by G\*Power (Faul et al., 2009), a widely used software tool for statistical power analysis, 
 the results are identical to those produced by G\*Power. 
 The package also supports more flexible ANOVA designs and additional options for some related tests that are not available in G\*Power.
+All analyses assume balanced designs with equal cell sizes, as extending power calculations to unbalanced designs generally requires additional assumptions about group sizes and variance structures. 
 
 ## Links
 
