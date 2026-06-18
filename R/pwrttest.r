@@ -64,6 +64,9 @@
 #'         root finding uses \code{stats::uniroot()} where needed.
 #'   \item Results have been validated to match those produced by G*Power
 #'         for equivalent one-sample, paired, and two-sample \emph{t} tests.
+#'   \item For the two-sample designs, Cohen (1988) suggested rough benchmarks
+#'         of 0.20 (small), 0.50 (medium), and 0.80 (large) for \eqn{d}.
+#'         These values should be regarded as rough guidelines rather than strict criteria.
 #' }
 #'
 #' @return A one-row \code{data.frame} with class
@@ -72,6 +75,10 @@
 #'   \code{df}, \code{n_total}, \code{alpha}, \code{power},
 #'   \code{delta}, \code{cohensf}, \code{peta2},
 #'   \code{t_critical}, \code{ncp}.
+#'
+#' @references
+#' Cohen, J. (1988). \emph{Statistical power analysis for the behavioral sciences}
+#' (2nd ed.). Hillsdale, NJ: Lawrence Erlbaum Associates.
 #'
 #' @examples
 #' # (1) Two-sample (independent), compute power given N and d

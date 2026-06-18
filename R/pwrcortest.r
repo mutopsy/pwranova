@@ -57,6 +57,10 @@
 #'   \item \strong{Validation against GPower:} Results have been confirmed to match
 #'         those produced by GPower for equivalent correlation tests using the
 #'         noncentral \emph{t}-distribution.
+#'   \item Cohen (1988) suggested rough benchmarks of 0.10 (small),
+#'         0.30 (medium), and 0.50 (large) for Pearson's correlation
+#'         coefficient (\eqn{r}). These values should be regarded as
+#'         rough guidelines rather than strict criteria.
 #'   \item \emph{Note:} Results from \code{method = "z"} will not exactly match
 #'         \code{pwr::pwr.r.test}, because \code{pwr} uses a hybrid approach
 #'         combining the Fisher-\emph{z} approximation with a \emph{t}-based
@@ -73,6 +77,10 @@
 #'     \item \code{ncp} (noncentrality parameter or mean under the alternative:
 #'           see Details)
 #'   }
+#'
+#' @references
+#' Cohen, J. (1988). \emph{Statistical power analysis for the behavioral sciences}
+#' (2nd ed.). Hillsdale, NJ: Lawrence Erlbaum Associates.
 #'
 #' @examples
 #' # (1) Compute power for rho = 0.3, N = 50, two-sided test
