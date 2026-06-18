@@ -1,3 +1,6 @@
+# pwranova 1.1.2 (2026-06-18)
+* Clarified effect-size definitions and noncentrality parameter calculations in pwrttest() documentation.
+
 # pwranova 1.1.1 (2026-03-05)
 
 * Strengthened input validation across functions.
