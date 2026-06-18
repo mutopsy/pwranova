@@ -49,6 +49,7 @@ specify for routine experimental planning. Similarly, tools such as `Interaction
 By contrast, `pwranova` requires only minimal inputs (e.g., design characteristics and standardized effect sizes), while providing fast analytic power calculations for complex factorial ANOVA designs, including higher-order interactions and user-defined contrasts.
 
 `pwranova` provides the following features: 
+
 - Support for between-, within-, and mixed-factor ANOVA designs, including both main effects and interactions.  
 - Power analysis for planned contrasts with flexible, user-defined weight specification.  
 - Methods based on standard noncentral *F*-distribution power calculations.  
