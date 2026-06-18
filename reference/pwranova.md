@@ -58,7 +58,10 @@ pwranova(
 - peta2:
 
   Numeric in \\(0,1)\\. Partial eta squared. If `NULL`, it is derived
-  from `cohensf` when available.
+  from `cohensf` when available. For one-way between-subjects ANOVA,
+  \\\eta^2\\ and \\\eta_p^2\\ are identical. In designs involving
+  multiple effects or repeated measures, however, the two measures
+  generally differ.
 
 - epsilon:
 
@@ -126,6 +129,12 @@ Columns include `term`, `df_num`, `df_denom`, `n_total`, `alpha`,
   GPower (between-, within-, and mixed-factor ANOVA with equal cell
   sizes), `pwranova()` was validated to produce results identical to
   those of GPower.
+
+- For one-way between-subjects ANOVA, Cohen (1988) suggested rough
+  benchmarks of 0.10 (small), 0.25 (medium), and 0.40 (large) for \\f\\.
+  The corresponding values for \\\eta^2\\ are approximately 0.01, 0.06,
+  and 0.14. These values should be regarded as rough guidelines rather
+  than strict criteria.
 
 ## References
 

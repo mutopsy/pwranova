@@ -132,6 +132,15 @@ A one-row `data.frame` with class `"cal_power"`, `"cal_n"`,
 - Results have been validated to match those produced by G\*Power for
   equivalent one-sample, paired, and two-sample *t* tests.
 
+- For the two-sample designs, Cohen (1988) suggested rough benchmarks of
+  0.20 (small), 0.50 (medium), and 0.80 (large) for \\d\\. These values
+  should be regarded as rough guidelines rather than strict criteria.
+
+## References
+
+Cohen, J. (1988). *Statistical power analysis for the behavioral
+sciences* (2nd ed.). Hillsdale, NJ: Lawrence Erlbaum Associates.
+
 ## Examples
 
 ``` r

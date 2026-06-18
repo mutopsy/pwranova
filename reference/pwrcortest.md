@@ -121,9 +121,19 @@ A one-row `data.frame` with class `"cal_power"`, `"cal_n"`,
   those produced by GPower for equivalent correlation tests using the
   noncentral *t*-distribution.
 
+- Cohen (1988) suggested rough benchmarks of 0.10 (small), 0.30
+  (medium), and 0.50 (large) for Pearson's correlation coefficient
+  (\\r\\). These values should be regarded as rough guidelines rather
+  than strict criteria.
+
 - *Note:* Results from `method = "z"` will not exactly match
   `pwr::pwr.r.test`, because `pwr` uses a hybrid approach combining the
   Fisher-*z* approximation with a *t*-based critical value.
+
+## References
+
+Cohen, J. (1988). *Statistical power analysis for the behavioral
+sciences* (2nd ed.). Hillsdale, NJ: Lawrence Erlbaum Associates.
 
 ## Examples
 

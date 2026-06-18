@@ -1,9 +1,22 @@
 # Changelog
 
+## pwranova 1.1.3 (2026-06-18)
+
+- Added conventional effect-size benchmarks based on Cohen (1988) in
+  [`pwranova()`](https://mutopsy.github.io/pwranova/reference/pwranova.md),
+  [`pwrttest()`](https://mutopsy.github.io/pwranova/reference/pwrttest.md),
+  and
+  [`pwrcortest()`](https://mutopsy.github.io/pwranova/reference/pwrcortest.md)
+  documentation.
+- Clarified the relationship between eta-squared and partial eta squared
+  in pwranova() documentation.
+
 ## pwranova 1.1.2 (2026-06-18)
 
 - Clarified effect-size definitions and noncentrality parameter
-  calculations in pwrttest() documentation.
+  calculations in
+  [`pwrttest()`](https://mutopsy.github.io/pwranova/reference/pwrttest.md)
+  documentation.
 
 ## pwranova 1.1.1 (2026-03-05)
 
