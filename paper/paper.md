@@ -7,7 +7,7 @@ authors:
 affiliations:
   - name: Osaka Metropolitan University
     index: 1
-date: 2026-03-04
+date: 2026-06-18
 bibliography: paper.bib
 ---
 
@@ -48,19 +48,17 @@ such approaches may require substantial computational time and can be less strai
 specify for routine experimental planning. Similarly, tools such as `InteractionPoweR` [@baranger2023interactionpower] require more detailed information about expected correlations and interaction effects, which may be difficult to specify when little prior information is available.
 By contrast, `pwranova` requires only minimal inputs (e.g., design characteristics and standardized effect sizes), while providing fast analytic power calculations for complex factorial ANOVA designs, including higher-order interactions and user-defined contrasts.
 
-`pwranova` provides the following features: 
+`pwranova` provides the following features:
 
 - Support for between-, within-, and mixed-factor ANOVA designs, including both main effects and interactions.  
 - Power analysis for planned contrasts with flexible, user-defined weight specification.  
-- Methods based on standard noncentral *F*-distribution power calculations.  
-- Integrated functions for related *t*-tests and Pearson correlations.  
+- Methods based on standard noncentral *F*-distribution power calculations. The numerator degrees of freedom are determined by the specified design, whereas the denominator degrees of freedom depend on both the design and sample size. The noncentrality parameter is defined as the product of Cohen's *f* squared and the total sample size. These formulations are consistent with those implemented in G\*Power [@faul2007gpower].
+- Integrated functions for related *t*-tests and Pearson correlations, based on corresponding noncentral *t*-distribution and Fisher's *z*-transformation methods. Detailed descriptions are provided in the package documentation.
 - A unified and extensible R implementation designed for reproducible research workflows.  
 
 All analyses assume balanced designs with equal cell sizes, as extending power calculations to unbalanced designs generally requires additional assumptions about group sizes and variance structures. 
 
-`pwranova` not only extends power analysis to complex factorial ANOVA designs but also incorporates related *t*-tests and correlation tests within the same framework. This integration allows researchers to conduct power analysis for a wide range of commonly used statistical tests in a consistent and reproducible way.
-
-This combination of flexibility and reproducibility makes `pwranova` 
+`pwranova` not only extends power analysis to complex factorial ANOVA designs but also incorporates related *t*-tests and correlation tests within the same framework. This integration allows researchers to conduct power analysis for a wide range of commonly used statistical tests in a consistent and reproducible way. This combination of flexibility and reproducibility makes `pwranova` 
 especially useful for experimental psychologists and cognitive scientists, as well as researchers in the behavioral, social, and biological sciences designing studies with complex factorial structures.
 
 # Example use case
