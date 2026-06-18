@@ -1,5 +1,9 @@
+# pwranova 1.1.3 (2026-06-18)
+* Added conventional effect-size benchmarks based on Cohen (1988) in `pwranova()`, `pwrttest()`, and `pwrcortest()` documentation.
+* Clarified the relationship between eta-squared and partial eta squared in pwranova() documentation.
+
 # pwranova 1.1.2 (2026-06-18)
-* Clarified effect-size definitions and noncentrality parameter calculations in pwrttest() documentation.
+* Clarified effect-size definitions and noncentrality parameter calculations in `pwrttest()` documentation.
 
 # pwranova 1.1.1 (2026-03-05)
 

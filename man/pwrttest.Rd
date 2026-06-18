@@ -100,6 +100,9 @@ for the two-sample equal-allocation design, where \eqn{n} denotes
 root finding uses \code{stats::uniroot()} where needed.
 \item Results have been validated to match those produced by G*Power
 for equivalent one-sample, paired, and two-sample \emph{t} tests.
+\item For the two-sample designs, Cohen (1988) suggested rough benchmarks
+of 0.20 (small), 0.50 (medium), and 0.80 (large) for \eqn{d}.
+These values should be regarded as rough guidelines rather than strict criteria.
 }
 }
 \examples{
@@ -118,4 +121,8 @@ pwrttest(onesample = TRUE, alternative = "two.sided",
 # (4) Two-sample, specify effect via f or partial eta^2 (converted internally)
 pwrttest(paired = FALSE, cohensf = 0.25, n_total = NULL, alpha = 0.05, power = 0.80)
 
+}
+\references{
+Cohen, J. (1988). \emph{Statistical power analysis for the behavioral sciences}
+(2nd ed.). Hillsdale, NJ: Lawrence Erlbaum Associates.
 }

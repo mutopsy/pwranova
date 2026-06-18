@@ -95,6 +95,10 @@ The returned \code{ncp} equals \eqn{\mu}.
 \item \strong{Validation against GPower:} Results have been confirmed to match
 those produced by GPower for equivalent correlation tests using the
 noncentral \emph{t}-distribution.
+\item Cohen (1988) suggested rough benchmarks of 0.10 (small),
+0.30 (medium), and 0.50 (large) for Pearson's correlation
+coefficient (\eqn{r}). These values should be regarded as
+rough guidelines rather than strict criteria.
 \item \emph{Note:} Results from \code{method = "z"} will not exactly match
 \code{pwr::pwr.r.test}, because \code{pwr} uses a hybrid approach
 combining the Fisher-\emph{z} approximation with a \emph{t}-based
@@ -111,4 +115,8 @@ pwrcortest(method = "z", rho = 0.2, alpha = 0.05, power = 0.8)
 # (3) Solve minimal detectable correlation
 pwrcortest(n_total = 60, alpha = 0.05, power = 0.9, rho = NULL)
 
+}
+\references{
+Cohen, J. (1988). \emph{Statistical power analysis for the behavioral sciences}
+(2nd ed.). Hillsdale, NJ: Lawrence Erlbaum Associates.
 }

@@ -41,7 +41,10 @@ derived from \code{peta2} when available. If both effect-size arguments
 as unknown and solved for given \code{n_total}, \code{alpha}, and \code{power}.}
 
 \item{peta2}{Numeric in \eqn{(0,1)}. Partial eta squared. If \code{NULL}, it is
-derived from \code{cohensf} when available.}
+derived from \code{cohensf} when available.
+For one-way between-subjects ANOVA, \eqn{\eta^2} and \eqn{\eta_p^2}
+are identical. In designs involving multiple effects or repeated measures,
+however, the two measures generally differ.}
 
 \item{epsilon}{Numeric in \eqn{(0,1]}. Nonsphericity
 parameter applied to within-subjects terms with \eqn{\mathrm{df}_1 \ge 2}.
@@ -97,6 +100,11 @@ and \code{power}.
 by GPower (between-, within-, and mixed-factor ANOVA with
 equal cell sizes), \code{pwranova()} was validated to produce results
 identical to those of GPower.
+\item For one-way between-subjects ANOVA, Cohen (1988) suggested
+rough benchmarks of 0.10 (small), 0.25 (medium), and 0.40 (large)
+for \eqn{f}. The corresponding values for \eqn{\eta^2}
+are approximately 0.01, 0.06, and 0.14. These values should
+be regarded as rough guidelines rather than strict criteria.
 }
 }
 \examples{

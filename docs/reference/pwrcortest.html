@@ -13,7 +13,7 @@ and Fisher's z-transformation with normal approximation (method = &quot;z&quot;)
 
     <a class="navbar-brand me-2" href="../index.html">pwranova</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -154,11 +154,20 @@ The returned <code>ncp</code> equals \(\mu\).</p></li>
 <li><p><strong>Validation against GPower:</strong> Results have been confirmed to match
 those produced by GPower for equivalent correlation tests using the
 noncentral <em>t</em>-distribution.</p></li>
+<li><p>Cohen (1988) suggested rough benchmarks of 0.10 (small),
+0.30 (medium), and 0.50 (large) for Pearson's correlation
+coefficient (\(r\)). These values should be regarded as
+rough guidelines rather than strict criteria.</p></li>
 <li><p><em>Note:</em> Results from <code>method = "z"</code> will not exactly match
 <code><a href="https://rdrr.io/pkg/pwr/man/pwr.r.test.html" class="external-link">pwr::pwr.r.test</a></code>, because <code>pwr</code> uses a hybrid approach
 combining the Fisher-<em>z</em> approximation with a <em>t</em>-based
 critical value.</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p>Cohen, J. (1988). <em>Statistical power analysis for the behavioral sciences</em>
+(2nd ed.). Hillsdale, NJ: Lawrence Erlbaum Associates.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
