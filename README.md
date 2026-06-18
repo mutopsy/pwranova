@@ -153,6 +153,9 @@ For advanced usage, `n_total`, `alpha`, `power`, and the effect-size arguments
 may also be specified as vectors whose length matches the number of ANOVA terms
 (e.g., main effects or interactions).
 
+Additional arguments such as `epsilon` and `target` are described in the
+[`pwranova()` help page](https://mutopsy.github.io/pwranova/reference/pwranova.html).
+
 ### pwrcontrast()
 
 The key arguments of `pwrcontrast()` used to specify the contrast weights and the design are summarized below.
