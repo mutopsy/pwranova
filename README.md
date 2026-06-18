@@ -178,6 +178,20 @@ from the others.
 The returned object is a data frame including the specified weights,
 degrees of freedom, total sample size, alpha, power, effect sizes, and other computed quantities.
 
+## Example use cases
+
+### Example 1: Higher-order interaction in a mixed ANOVA
+
+Consider a visual search experiment investigating age-related differences in search efficiency. Participants search for a target item among distractors and indicate whether the target is present or absent. The study includes one between-participant factor, age group (young vs. older adults), and two within-participant factors: target presence (present vs. absent) and set size (8, 16, or 24 items), forming a 2 × 2 × 3 mixed design.
+
+Suppose the primary research question concerns whether age-related differences in search efficiency depend on target presence. This corresponds to the three-way interaction among age group, target presence, and set size. Based on previous studies or theoretical expectations, the researcher anticipates an interaction effect of *f* = 0.25 ($\eta^2_p$ = 0.059) and wishes to achieve 80% statistical power with a significance level of 0.05. To estimate the required sample size, the researcher uses `pwranova()` and specifies the numbers of factor levels (`nlevels_b = 2` and `nlevels_w = c(2, 3)`), the expected effect size (`cohensf = 0.25` or `peta2 = 0.059`), the significance level (`alpha = 0.05`), and the desired power (`power = 0.80`). Specifying `target = "B1:W1:W2"` restricts the output to the three-way interaction of interest, whereas omitting `target` returns results for all main effects and interactions. For the three-way interaction, the estimated required total sample size is 156 (78 participants per age group).
+
+### Example 2: Planned linear contrast in a one-way design
+
+Consider a study examining whether increasing study time improves test performance. Participants are randomly assigned to one of four conditions: 0, 30, 60, or 90 minutes of study. The primary research question concerns whether performance increases linearly as study time increases.
+
+This hypothesis can be tested using a planned linear contrast with weights `c(-3, -1, 1, 3)`. Based on previous studies or theoretical expectations, the researcher anticipates a contrast effect of $\eta^2$ = 0.05 (*f* = 0.229) and wishes to achieve 80% statistical power with a significance level of 0.05. To estimate the required sample size, the researcher uses `pwrcontrast()` and specifies the contrast weights (`weight = c(-3, -1, 1, 3)`), the design (`paired = FALSE`), the expected effect size (`cohensf = 0.229` or `peta2 = 0.05`), the significance level (`alpha = 0.05`), and the desired power (`power = 0.80`). With these specifications, `pwrcontrast()` estimates that a total sample size of 152 (38 participants per group) is required. If quadratic or cubic trends are of interest, alternative contrast weights can be specified (e.g., `c(1, -1, -1, 1)` for a quadratic trend or `c(-1, 3, -3, 1)` for a cubic trend). More generally, any user-defined contrast whose weights sum to zero can be analyzed.
+
 ## Functions
 
 Current functions include:
