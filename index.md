@@ -6,7 +6,7 @@ for both **main effects and interactions across any number of factors**.
 
 The package allows calculation of **statistical power**, **required
 total sample size**, **significance level**, and **minimal detectable
-effect sizes** expressed as partial eta squared ($\eta_{p}^{2}$) or
+effect sizes** expressed as partial eta squared ($`\eta^2_p`$) or
 Cohen’s *f* for ANOVA terms and planned contrasts. In addition,
 complementary functions are included for common related tests such as
 *t*-tests and Pearson correlation tests, making the package a convenient
@@ -31,12 +31,14 @@ The stable release of `pwranova` is available on
 [CRAN](https://CRAN.R-project.org/package=pwranova):
 
 ``` r
+
 install.packages("pwranova")
 ```
 
 You can also install the development version from GitHub:
 
 ``` r
+
 # Install devtools if not already installed
 if (!requireNamespace("devtools", quietly = TRUE)) {
   install.packages("devtools")
@@ -55,6 +57,7 @@ No heavy external dependencies are required for the core functionality.
 ## Quick start
 
 ``` r
+
 library(pwranova)
 
 ### 1) Compute power (given N, effect size, alpha)
@@ -143,15 +146,15 @@ The key arguments of
 used to specify the ANOVA design and the quantity to be solved are
 summarized below.
 
-| Argument    | Meaning                                        | Constraints                    | Example       |
-|-------------|------------------------------------------------|--------------------------------|---------------|
+| Argument | Meaning | Constraints | Example |
+|----|----|----|----|
 | `nlevels_b` | Numbers of levels for between-subjects factors | integer ≥ 2 (scalar or vector) | `3`, `c(2,4)` |
-| `nlevels_w` | Numbers of levels for within-subjects factors  | integer ≥ 2 (scalar or vector) | `3`, `c(2,4)` |
-| `n_total`   | Total sample size across all groups            | positive integer               | `60`          |
-| `alpha`     | Significance level                             | (0, 1)                         | `0.05`        |
-| `power`     | Desired statistical power                      | (0, 1)                         | `0.80`        |
-| `cohensf`   | Cohen’s *f*                                    | \> 0                           | `0.25`        |
-| `peta2`     | Partial eta squared ($\eta_{p}^{2}$)           | (0, 1)                         | `0.06`        |
+| `nlevels_w` | Numbers of levels for within-subjects factors | integer ≥ 2 (scalar or vector) | `3`, `c(2,4)` |
+| `n_total` | Total sample size across all groups | positive integer | `60` |
+| `alpha` | Significance level | (0, 1) | `0.05` |
+| `power` | Desired statistical power | (0, 1) | `0.80` |
+| `cohensf` | Cohen’s *f* | \> 0 | `0.25` |
+| `peta2` | Partial eta squared ($`\eta^2_p`$) | (0, 1) | `0.06` |
 
 Exactly **one** of `n_total`, an effect size (`cohensf` / `peta2`),
 `alpha`, or `power` must be `NULL`. The missing quantity is solved from
@@ -171,15 +174,15 @@ The key arguments of
 used to specify the contrast weights and the design are summarized
 below.
 
-| Argument  | Meaning                              | Constraints                           | Example                    |
-|-----------|--------------------------------------|---------------------------------------|----------------------------|
-| `weight`  | Contrast weights                     | Numeric vector whose sum must be zero | `c(1,-1,0)`, `c(3,-1,1,3)` |
-| `paired`  | Whether the design is paired         | Logical                               | `FALSE`, `TRUE`            |
-| `n_total` | Total sample size across all groups  | positive integer                      | `60`                       |
-| `alpha`   | Significance level                   | (0, 1)                                | `0.05`                     |
-| `power`   | Desired statistical power            | (0, 1)                                | `0.80`                     |
-| `cohensf` | Cohen’s *f*                          | \> 0                                  | `0.25`                     |
-| `peta2`   | Partial eta squared ($\eta_{p}^{2}$) | (0, 1)                                | `0.06`                     |
+| Argument | Meaning | Constraints | Example |
+|----|----|----|----|
+| `weight` | Contrast weights | Numeric vector whose sum must be zero | `c(1,-1,0)`, `c(3,-1,1,3)` |
+| `paired` | Whether the design is paired | Logical | `FALSE`, `TRUE` |
+| `n_total` | Total sample size across all groups | positive integer | `60` |
+| `alpha` | Significance level | (0, 1) | `0.05` |
+| `power` | Desired statistical power | (0, 1) | `0.80` |
+| `cohensf` | Cohen’s *f* | \> 0 | `0.25` |
+| `peta2` | Partial eta squared ($`\eta^2_p`$) | (0, 1) | `0.06` |
 
 Exactly **one** of `n_total`, an effect size (`cohensf` / `peta2`),
 `alpha`, or `power` must be `NULL`. The missing quantity is solved from
