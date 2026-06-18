@@ -41,10 +41,12 @@ solved for given \code{n_total}, \code{alpha}, and \code{power}.
 The exact definition depends on the design:
 \itemize{
 \item \emph{One-sample}: Cohen's \eqn{d = (\mu - \mu_0)/\sigma}.
-\item \emph{Paired}: Cohen's \eqn{d_z = \bar{d}/s_d}, i.e., the mean of the difference scores
-divided by their standard deviation.
-\item \emph{Two-sample (equal allocation)}: Cohen's \eqn{d} is defined as the mean difference
-divided by the pooled standard deviation; internally related to \eqn{f} via \eqn{d = 2f}.
+\item \emph{Paired}: Cohen's \eqn{d_z = (\mu_2 - \mu_1)/\sigma_D},
+where \eqn{\sigma_D} denotes the population standard deviation
+of the difference scores.
+\item \emph{Two-sample (equal allocation)}:
+Cohen's \eqn{d = (\mu_2 - \mu_1)/\sigma},
+where \eqn{\sigma} denotes the common population standard deviation.
 }}
 
 \item{cohensf}{Numeric (non-negative). Cohen's \eqn{f}.
@@ -89,6 +91,11 @@ precedence is \code{delta} \eqn{>} \code{cohensf} \eqn{>} \code{peta2}; the rest
 \item For the two-sample design, equal allocation is assumed; \code{n_total} must be even when provided,
 and the solved \code{n_total} will be an even number.
 \item For the paired design, the effect size is interpreted as \eqn{d_z}.
+\item The noncentrality parameter is computed from the design-specific
+effect size and sample size: \eqn{\lambda = \delta\sqrt{n}} for
+one-sample and paired designs, and \eqn{\lambda = \delta\sqrt{n}/2}
+for the two-sample equal-allocation design, where \eqn{n} denotes
+\code{n_total}.
 \item Computations use the central and noncentral \emph{t}-distributions (\code{stats::qt}, \code{stats::pt});
 root finding uses \code{stats::uniroot()} where needed.
 \item Results have been validated to match those produced by G*Power
