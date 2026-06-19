@@ -149,12 +149,12 @@ pwranova(nlevels_b = 3, nlevels_w = 4, n_total = 60,
          cohensf = 0.25, alpha = 0.05, power = NULL, epsilon = 0.8)
 #>    term df_num df_denom n_total alpha     power cohensf      peta2 F_critical
 #> 1    B1    2.0     57.0      60  0.05 0.3744311    0.25 0.05882353   3.158843
-#> 2    W1    2.4    136.8      60  0.05 0.3592414    0.25 0.05882353   2.876716
-#> 3 B1:W1    4.8    136.8      60  0.05 0.2687648    0.25 0.05882353   2.307783
+#> 2    W1    2.4    136.8      60  0.05 0.2933182    0.25 0.05882353   2.876716
+#> 3 B1:W1    4.8    136.8      60  0.05 0.2183164    0.25 0.05882353   2.307783
 #>    ncp epsilon
 #> 1 3.75     1.0
-#> 2 3.75     0.8
-#> 3 3.75     0.8
+#> 2 3.00     0.8
+#> 3 3.00     0.8
 #> Power (1 - beta) was calculated based on the total sample size, effect size, and alpha.
 
 # Solve required total N for target power

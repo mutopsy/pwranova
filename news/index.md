@@ -1,5 +1,14 @@
 # Changelog
 
+## pwranova 1.1.4 (2026-06-19)
+
+- Fixed an issue in
+  [`pwranova()`](https://mutopsy.github.io/pwranova/reference/pwranova.md)
+  where epsilon adjustments were not fully incorporated into
+  noncentrality parameter calculations.
+- Expanded validation tests, including additional comparisons with
+  G\*Power.
+
 ## pwranova 1.1.3 (2026-06-18)
 
 - Added conventional effect-size benchmarks based on Cohen (1988) in
