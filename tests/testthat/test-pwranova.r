@@ -180,6 +180,7 @@ test_that("pwranova matches G*Power results", {
     alpha <- e$alpha
     power <- e$power
     cohensf <- e$cohensf
+    epsilon <- e$epsilon
 
     # N
 
@@ -189,6 +190,7 @@ test_that("pwranova matches G*Power results", {
       alpha = alpha,
       power = power,
       cohensf = cohensf,
+      epsilon = epsilon,
       target = target
     )[,c("n_total", "ncp", "df_num", "df_denom")]
 
@@ -206,6 +208,7 @@ test_that("pwranova matches G*Power results", {
       alpha = NULL,
       power = power,
       cohensf = cohensf,
+      epsilon = epsilon,
       target = target
     )[,c("alpha", "ncp", "df_num", "df_denom")]
 
@@ -223,6 +226,7 @@ test_that("pwranova matches G*Power results", {
       alpha = alpha,
       power = NULL,
       cohensf = cohensf,
+      epsilon = epsilon,
       target = target
     )[,c("power", "ncp", "df_num", "df_denom")]
 
@@ -240,6 +244,7 @@ test_that("pwranova matches G*Power results", {
       alpha = alpha,
       power = power,
       cohensf = NULL,
+      epsilon = epsilon,
       target = target
     )[,c("cohensf", "ncp", "df_num", "df_denom")]
 

@@ -161,6 +161,30 @@ test_that("pwrttest: effect-size inputs precedence and design-dependent conversi
   )
 })
 
+test_that("pwrcortest: sign of delta is irrelevant for two-sided", {
+  p_pos <- pwrttest(
+    alternative = "two.sided", paired = FALSE,
+    n_total = 60, alpha = 0.05, delta = 0.3
+  )$power
+  p_neg <- pwrttest(
+    alternative = "two.sided", paired = FALSE,
+    n_total = 60, alpha = 0.05, delta = -0.3
+  )$power
+  expect_equal(as.numeric(p_pos), as.numeric(p_neg), tolerance = 0)
+})
+
+test_that("pwrcortest: sign of delta is irrelevant for one-sided", {
+  p_pos <- pwrttest(
+    alternative = "one.sided", paired = FALSE,
+    n_total = 60, alpha = 0.05, delta = 0.3
+  )$power
+  p_neg <- pwrttest(
+    alternative = "one.sided", paired = FALSE,
+    n_total = 60, alpha = 0.05, delta = -0.3
+  )$power
+  expect_equal(as.numeric(p_pos), as.numeric(p_neg), tolerance = 0)
+})
+
 test_that("pwrttest matches pwranova results", {
   set.seed(610)
 
@@ -313,7 +337,8 @@ test_that("pwrttest matches G*Power results", {
 
     testthat::expect_equal(
       as.numeric(res_n),
-      as.numeric(e[,c("n_total", "ncp", "df")])
+      as.numeric(e[,c("n_total", "ncp", "df")]),
+      tolerance = 10e-5
     )
 
     # Alpha

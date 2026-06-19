@@ -82,6 +82,18 @@ test_that("pwrcortest: sign of rho is irrelevant for two-sided", {
   expect_equal(as.numeric(p_pos), as.numeric(p_neg), tolerance = 0)
 })
 
+test_that("pwrcortest: sign of rho is irrelevant for one-sided", {
+  p_pos <- pwrcortest(
+    alternative = "one.sided", method = "t",
+    n_total = 60, alpha = 0.05, rho = 0.3
+  )$power
+  p_neg <- pwrcortest(
+    alternative = "one.sided", method = "t",
+    n_total = 60, alpha = 0.05, rho = -0.3
+  )$power
+  expect_equal(as.numeric(p_pos), as.numeric(p_neg), tolerance = 0)
+})
+
 test_that("pwrcortest: z-method columns and roundtrip (power -> N -> power)", {
   out <- pwrcortest(
     alternative = "two.sided", method = "z",
