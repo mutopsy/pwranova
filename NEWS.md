@@ -1,3 +1,7 @@
+# pwranova 1.1.4 (2026-06-19)
+* Fixed an issue in `pwranova()` where epsilon adjustments were not fully incorporated into noncentrality parameter calculations.
+* Expanded validation tests, including additional comparisons with G*Power.
+
 # pwranova 1.1.3 (2026-06-18)
 * Added conventional effect-size benchmarks based on Cohen (1988) in `pwranova()`, `pwrttest()`, and `pwrcortest()` documentation.
 * Clarified the relationship between eta-squared and partial eta squared in pwranova() documentation.
