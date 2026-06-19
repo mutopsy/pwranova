@@ -88,6 +88,8 @@ are multiplied by the same \code{epsilon} for within-subjects terms.
 \item Critical values are computed from the central \emph{F}-distribution;
 power uses the noncentral \emph{F}-distribution with noncentrality
 parameter \eqn{\lambda = f^2 \cdot n_{\mathrm{total}}}.
+When an epsilon adjustment is specified, the noncentrality parameter
+is multiplied by epsilon.
 \item Effect-size inputs can be given as Cohen’s \eqn{f} or partial
 eta-squared \eqn{\eta_p^2} (internally converted via
 \eqn{f = \sqrt{\eta_p^2/(1-\eta_p^2)}}). If both are \code{NULL}, the minimal
