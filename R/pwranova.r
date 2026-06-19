@@ -300,7 +300,7 @@ pwranova <- function(
       res$df_denom <- df_denom_base * tmp * res$epsilon
     }
     res$F_critical <- qf(1 - res$alpha, res$df_num, res$df_denom)
-    res$ncp <- res$cohensf^2 * res$n_total
+    res$ncp <- res$cohensf^2 * res$n_total * res$epsilon
     res$power <- 1 - pf(res$F_critical, res$df_num, res$df_denom, ncp = res$ncp)
     return(structure(res, class = c("cal_power", "data.frame")))
   }
@@ -319,7 +319,7 @@ pwranova <- function(
       df_denom_candi <- df_denom_base * tmp * res$epsilon[i]
 
       F_critical_candi <- qf(1 - res$alpha[i], res$df_num[i], df_denom_candi)
-      ncp_candi <- res$cohensf[i]^2 * n_candi
+      ncp_candi <- res$cohensf[i]^2 * n_candi * res$epsilon[i]
       power_candi <- 1 - pf(F_critical_candi, res$df_num[i], df_denom_candi, ncp = ncp_candi)
 
       idx <- which(power_candi >= tgt_power)[1]
@@ -346,7 +346,7 @@ pwranova <- function(
     tmp <- is_inc_within * df_num_onlywithin
     tmp[tmp == 0] <- 1
     res$df_denom <- rep(df_denom_base, nrow_res) * tmp * res$epsilon
-    res$ncp <- res$cohensf^2 * res$n_total
+    res$ncp <- res$cohensf^2 * res$n_total * res$epsilon
     # critical F such that power is achieved
     res$F_critical <- qf(1 - res$power, res$df_num, res$df_denom, ncp = res$ncp)
     res$alpha <- 1 - pf(res$F_critical, res$df_num, res$df_denom)
@@ -374,7 +374,7 @@ pwranova <- function(
       res$ncp[i] <- uniroot(froot, lower = 0, upper = upper)$root
     }
 
-    res$cohensf <- sqrt(res$ncp / res$n_total)
+    res$cohensf <- sqrt(res$ncp / res$n_total / res$epsilon)
     res$peta2   <- cohensf_to_peta2(res$cohensf)
     return(structure(res, class = c("cal_es", "data.frame")))
   }
