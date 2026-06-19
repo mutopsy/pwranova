@@ -113,7 +113,9 @@ Columns include `term`, `df_num`, `df_denom`, `n_total`, `alpha`,
 
 - Critical values are computed from the central *F*-distribution; power
   uses the noncentral *F*-distribution with noncentrality parameter
-  \\\lambda = f^2 \cdot n\_{\mathrm{total}}\\.
+  \\\lambda = f^2 \cdot n\_{\mathrm{total}}\\. When an epsilon
+  adjustment is specified, the noncentrality parameter is multiplied by
+  epsilon.
 
 - Effect-size inputs can be given as Cohen’s \\f\\ or partial
   eta-squared \\\eta_p^2\\ (internally converted via \\f =
