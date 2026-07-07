@@ -193,6 +193,7 @@ epsilon や target などの引数については [`pwranova()` のヘルプペ�
 - `pwrcortest()` — ピアソンの相関係数に関する無相関検定の検定力分析 (*t*分布を用いた方法とフィッシャーの*z*変換を用いた方法の両方に対応)
 
 各関数の詳細については`pkgdown`のリファレンスを参照してください。
+
 https://mutopsy.github.io/pwranova/reference/
 
 ## 本パッケージの引用について
@@ -204,11 +205,13 @@ Muto, H. (2025). pwranova: An R package for power analysis of flexible ANOVA des
 ## 更新履歴
 
 更新履歴は以下のページに記しています。
+
 https://mutopsy.github.io/pwranova/news/
 
 ## サポート
 
-バグを発見した場合や，新しい機能を提案したい場合は，GitHub の Issue を作成してください。
+バグを発見した場合や，新しい機能を提案したい場合は，以下のページからGitHubのIssueを作成してください。
+
 https://github.com/mutopsy/pwranova/issues
 
 バグをご報告される際は，可能であれば再現可能な最小限のコードを添えてください。
