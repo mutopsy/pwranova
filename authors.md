@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/mutopsy/pwranova/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/mutopsy/pwranova/blob/v1.1.4/inst/CITATION)
 
 Muto, H. (2025). pwranova: An R package for power analysis of flexible
 ANOVA designs and related tests. Jxiv.
