@@ -1,0 +1,277 @@
+# pwranovaパッケージの説明 (日本語版)
+
+## pwranova: さまざまなデザインの分散分析や関連する検定の検定力分析を行うためのRパッケージ
+
+`pwranova`は，さまざまなデザインの分散分析 (ANOVA)
+の検定力分析を行うためのRパッケージです。
+参加者間計画・参加者内計画・混合計画のいずれにも対応しており，**任意の要因数・水準数における主効果と交互作用**の両方に対して検定力分析を実行することができます。
+
+本パッケージでは，ANOVA
+の各要因および計画対比に対し，検定力・必要な総サンプルサイズ・有意水準・検出可能な最小効果量を計算できます。効果量は偏イータ二乗
+($`\eta_p^2`$) または Cohen’s *f* で指定できます。
+さらに，*t*検定やピアソン相関係数に対する無相関検定など，実験心理学をはじめとする関連分野で広く用いられる検定に対応した検定力分析にも対応しており，包括的な検定力分析パッケージとして利用することができます。
+
+G\*Power (Faul et al., 2009)
+が対応しているデザインに関しては，本パッケージの計算結果と一致することを確認しています。また，本パッケージは，G\*Powerでは扱えないより柔軟なデザインやオプションにも対応しています。
+本パッケージのすべての分析は，各セルのサンプルサイズが等しい均衡デザイン
+(balanced design) を前提としています
+(不均衡デザインに対する検定力分析では一般に，群ごとのサンプルサイズや分散構造について追加の仮定が必要となり，計算が複雑になるからです)。
+
+### リンク
+
+- CRAN: <https://CRAN.R-project.org/package=pwranova>
+- ドキュメント (英語版): <https://mutopsy.github.io/pwranova/>  
+- ソースコード: <https://github.com/mutopsy/pwranova/>
+
+### インストール
+
+安定版の`pwranova` は
+[CRAN](https://CRAN.R-project.org/package=pwranova)
+に登録されているため，以下のRコードを実行することでインストールできます。
+
+``` r
+
+install.packages("pwranova")
+```
+
+GitHub上の開発版は以下のRコードでインストールできます。
+
+``` r
+
+# Install devtools if not already installed
+if (!requireNamespace("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
+
+# Install pwranova
+devtools::install_github("mutopsy/pwranova")
+```
+
+### 動作環境
+
+- R (\>= 4.1.0)
+
+本パッケージは外部パッケージに依存していません。
+
+### クイックスタート
+
+``` r
+
+library(pwranova)
+
+### 1) 検定力の計算 (総サンプルサイズ・効果量・有意水準を指定)
+
+# 参加者間要因が1つ (3水準) ，参加者内要因なし
+res_power_between <- pwranova(
+  nlevels_b = 3,
+  n_total   = 60,
+  cohensf   = 0.25,
+  alpha     = 0.05
+)
+res_power_between # 検定力 = 0.374
+
+# 参加者内要因が1つ (4水準) ，参加者間要因なし
+# (球状性の補正のためにepsilonを指定できます。既定値は1。)
+res_power_within <- pwranova(
+  nlevels_w = 4,
+  n_total   = 30,
+  cohensf   = 0.50,
+  alpha     = 0.05,
+  epsilon   = 1.00
+)
+res_power_within # 検定力 = 0.601
+
+# 混合計画: 参加者間要因が1つ (2水準)，参加者内要因が2つ (2水準と3水準)
+# target を指定すると，関心のある効果のみを表示できます。
+res_power_mixed <- pwranova(
+  nlevels_b = 2,
+  nlevels_w = c(2, 3),
+  n_total   = 30,
+  cohensf   = 0.50,
+  alpha     = 0.05,
+  epsilon   = 1.00,
+  target    = "B1:W2"  # 参加者間要因 (2水準) × 第2参加者内要因（3水準）の交互作用のみ表示
+)
+res_power_mixed # 検定力 = 0.663
+
+### 2) 必要な総サンプルサイズを求める（目標検定力を指定）
+
+# 参加者間要因が1つ (3水準) ，参加者内要因なし
+res_n_between <- pwranova(
+  nlevels_b = 3,
+  cohensf   = 0.25,
+  alpha     = 0.05,
+  power     = 0.80
+)
+res_n_between  # 必要な総サンプルサイズ（群数の倍数）= 159
+
+# 参加者内要因2つ（2水準と4水準）の交互作用
+# target を指定すると，関心のある効果のみを表示できます。
+res_n_within <- pwranova(
+  nlevels_w = c(2, 4),
+  peta2     = 0.35, # 効果量は偏イータ二乗でも指定可能
+  alpha     = 0.05,
+  power     = 0.85,
+  target    = "W1:W2" # 2×4 の交互作用のみ表示
+)
+res_n_within # 必要な総サンプルサイズ = 25
+
+### 3) 計画対比の検定力分析
+
+# 対比係数の総和は 0 である必要があります。
+res_n_contrast <- pwrcontrast(
+  weight  = c(1, -1, 0),  # 3条件において条件1と条件2を比較
+  paired  = FALSE,
+  cohensf = 0.25,
+  alpha   = 0.05,
+  power = 0.80
+)
+res_n_contrast # 必要な総サンプルサイズ = 129
+```
+
+### 主要な引数
+
+この節では，本パッケージの中心的な関数である
+[`pwranova()`](https://mutopsy.github.io/pwranova/reference/pwranova.md)
+と
+[`pwrcontrast()`](https://mutopsy.github.io/pwranova/reference/pwrcontrast.md)
+の主要な引数を紹介します。本パッケージに含まれる他の検定力分析関数も，ほとんど同様のインターフェースを採用しています。
+
+#### pwranova()
+
+ANOVAに対応する検定力分析は[`pwranova()`](https://mutopsy.github.io/pwranova/reference/pwranova.md)で実行できます。デザインと求めたい値を指定するための主要な引数は以下の通りです。
+
+| 引数 | 説明 | 制約 | 例 |
+|----|----|----|----|
+| `nlevels_b` | 参加者間要因の水準数 | 2以上の整数 (スカラーまたはベクトル) | `3`, `c(2,4)` |
+| `nlevels_w` | 参加者内要因の水準数 | 2以上の整数 (スカラーまたはベクトル) | `3`, `c(2,4)` |
+| `n_total` | 全群を合わせた総サンプルサイズ | 正の整数 | `60` |
+| `alpha` | 有意水準 | (0, 1) | `0.05` |
+| `power` | 目標とする検定力 | (0, 1) | `0.80` |
+| `cohensf` | Cohen’s *f* | \> 0 | `0.25` |
+| `peta2` | 偏イータ二乗 ($`\eta^2_p`$) | (0, 1) | `0.06` |
+
+`n_total`，効果量 (`cohensf` または `peta2`)，`alpha`，`power`
+のうち**のいずれか1つだけ**を`NULL`に指定することで，`NULL`
+にした値が他の値から計算されます。
+
+関数の返り値は，ANOVAの各効果 (主効果・交互作用)
+に対応する自由度・総サンプルサイズ・有意水準・検定力・効果量などを含むデータフレームとなります。
+より高度な利用方法として，`n_total`，`alpha`，`power`，および効果量の引数には，ANOVA
+に含まれる効果（主効果・交互作用）の数に対応したベクトルを指定することもできます。
+epsilon や target などの引数については [`pwranova()`
+のヘルプページ](https://mutopsy.github.io/pwranova/reference/pwranova.html)
+を参照してください。
+
+#### pwrcontrast()
+
+対比検定に対応する検定力分析は[`pwrcontrast()`](https://mutopsy.github.io/pwranova/reference/pwrcontrast.md)で実行できます。対比係数やデザインを指定するための主要な引数は以下の通りです。
+
+| 引数 | 説明 | 制約 | 例 |
+|----|----|----|----|
+| `weight` | 対比係数 | 総和が0となる数値ベクトル | `c(1,-1,0)`, `c(3,-1,1,3)` |
+| `paired` | 対応のあるデザインかどうか | 論理値 | `FALSE`, `TRUE` |
+| `n_total` | 全群を合わせた総サンプルサイズ | 正の整数 | `60` |
+| `alpha` | 有意水準 | (0, 1) | `0.05` |
+| `power` | 目標とする検定力 | (0, 1) | `0.80` |
+| `cohensf` | Cohen’s *f* | \> 0 | `0.25` |
+| `peta2` | 偏イータ二乗 ($`\eta^2_p`$) | (0, 1) | `0.06` |
+
+`n_total`，効果量 (`cohensf` または `peta2`)，`alpha`，`power`
+のうち**のいずれか1つだけ**を`NULL`に指定することで，`NULL`
+にした値が他の値から計算されます。
+関数の返り値は，指定した対比係数，自由度・総サンプルサイズ・有意水準・検定力・効果量などを含むデータフレームとなります。
+
+### 使用例
+
+#### 例1：混合計画ANOVAにおける高次の交互作用
+
+視覚探索の効率が年齢によってどのように異なるかを調べる実験を計画しているとします。この実験の参加者は，妨害刺激の中から標的を探索し，標的が存在するかどうかをキー押しでなるべく速く正確に回答することが求められます。この実験では，参加者間要因として年齢群（若年者・高齢者），参加者内要因として標的の有無（あり・なし）およびセットサイズ（8・16・24項目）の2要因を用いるため，2
+× 2 × 3 の混合計画となります。
+
+この実験の主な目的が，「視覚探索の効率に対する加齢の影響が，標的の有無によって異なるか」を検討することであったとします。これは，年齢群
+× ターゲットの有無 ×
+セットサイズの3要因交互作用に対応します。先行研究や理論的な予測から，この3要因交互作用の効果量を
+*f* = 0.25 ($`\eta_p^2`$ = 0.059) と見積もり，有意水準 =
+0.05のもとで検定力 =
+0.80を達成するために必要なサンプルサイズを求めたいとします。この場合，[`pwranova()`](https://mutopsy.github.io/pwranova/reference/pwranova.md)を用いて，各要因の水準数
+(`nlevels_b = 2`，`nlevels_w = c(2, 3)`)，母効果量の見積もり
+(`cohensf = 0.25`または`peta2 = 0.059`)，有意水準
+(`alpha = 0.05`)，目標とする検定力 (`power = 0.80`)
+を引数で指定します。さらに，`target = "B1:W1:W2"`
+を指定すると，関心のある3要因交互作用に関する結果のみが出力されます。`target`
+を省略した場合は，すべての主効果および交互作用についての結果が出力されます。この3要因交互作用については，必要な総サンプルサイズは156
+名 (各群78名ずつ) と計算されます。
+
+#### 例2：1要因参加者間計画における線形の計画対比
+
+学習時間が増加するほどテスト成績が向上するかどうかを検討する実験を計画しているとします。この実験の参加者は，学習時間が0分・30分・60分・90分の4条件
+(群) のいずれかに無作為に割り当てられます。
+
+この研究の目的は，学習時間の増加に伴って成績が線形に向上するかどうかを検討することです。この仮説は，対比係数`c(-3, -1, 1, 3)`を用いた線形の計画対比によって検定できます。先行研究や理論的な予測から，対比の効果量を
+$`\eta^2`$ = 0.05（*f* = 0.229）と見積もり，有意水準 =
+0.05のもとで検定力 =
+0.80を達成するために必要なサンプルサイズを求めたいとします。この場合，[`pwrcontrast()`](https://mutopsy.github.io/pwranova/reference/pwrcontrast.md)を用いて、対比係数
+(`weight = c(-3, -1, 1, 3)`)，デザイン
+(`paired = FALSE`)，母効果量の見積もり
+(`cohensf = 0.229`または`peta2 = 0.05`)，有意水準（`alpha = 0.05`)，目標とする検定力
+(`power = 0.80`)
+を引数で指定します。この設定のもとで，[`pwrcontrast()`](https://mutopsy.github.io/pwranova/reference/pwrcontrast.md)は必要な総サンプルサイズを
+152 名（各群 38 名）と計算します。
+
+2次や3次のトレンドを検討したい場合には，それぞれに対応する対比係数
+(例：2次のトレンドには`c(1, -1, -1, 1)`，3次のトレンドには`c(-1, 3, -3, 1)`)
+を指定できます。より一般には，係数の総和が 0
+となる任意の対比に対して検定力分析を行うことができます。
+
+### 主な関数
+
+本パッケージには現時点で以下の関数が含まれています。
+
+- [`pwranova()`](https://mutopsy.github.io/pwranova/reference/pwranova.md)
+  —
+  参加者間・参加者内・混合計画ANOVAの主効果と交互作用に対応した検定力分析
+- [`pwrcontrast()`](https://mutopsy.github.io/pwranova/reference/pwrcontrast.md)
+  — 参加者間・参加者内計画における自由度1の計画対比の検定力分析
+- [`pwrttest()`](https://mutopsy.github.io/pwranova/reference/pwrttest.md)
+  — *t*検定 (1標本・対応のない2標本・対応のある2標本) の検定力分析
+- [`pwrcortest()`](https://mutopsy.github.io/pwranova/reference/pwrcortest.md)
+  — ピアソンの相関係数に関する無相関検定の検定力分析
+  (*t*分布を用いた方法とフィッシャーの*z*変換を用いた方法の両方に対応)
+
+各関数の詳細については`pkgdown`のリファレンスを参照してください。
+
+<https://mutopsy.github.io/pwranova/reference/>
+
+### 本パッケージの引用について
+
+本パッケージを利用した研究成果を公表する際は，以下のプレプリントを引用してください。
+
+Muto, H. (2025). pwranova: An R package for power analysis of flexible
+ANOVA designs and related tests. Jxiv.
+<https://doi.org/10.51094/jxiv.1555>
+
+### 更新履歴
+
+更新履歴は以下のページに記しています。
+
+<https://mutopsy.github.io/pwranova/news/>
+
+### サポート
+
+バグを発見した場合や，新しい機能を提案したい場合は，以下のページからGitHubのIssueを作成してください。
+
+<https://github.com/mutopsy/pwranova/issues>
+
+バグをご報告される際は，可能であれば再現可能な最小限のコードを添えてください。
+
+### ライセンス
+
+GPL-3
+
+### 引用文献
+
+Faul, F., Erdfelder, E., Buchner, A., & Lang, A.-G. (2009). Statistical
+power analyses using G\*Power 3.1: Tests for correlation and regression
+analyses. *Behavior Research Methods*, *41*(4), 1149–1160.
+<https://doi.org/10.3758/BRM.41.4.1149>

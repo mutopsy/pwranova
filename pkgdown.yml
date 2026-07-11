@@ -1,8 +1,9 @@
 pandoc: 3.8.3
-pkgdown: 2.2.0
+pkgdown: 2.2.1
 pkgdown_sha: ~
-articles: {}
-last_built: 2026-07-07T05:54Z
+articles:
+  README.ja: README.ja.html
+last_built: 2026-07-11T06:01Z
 urls:
   reference: https://mutopsy.github.io/pwranova/reference
   article: https://mutopsy.github.io/pwranova/articles
