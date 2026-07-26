@@ -207,9 +207,9 @@ https://mutopsy.github.io/pwranova/reference/
 
 ## Citation
 
-Please cite the following preprint when using this package:
+Please cite the following paper when using this package:
 
-Muto, H. (2025). pwranova: An R package for power analysis of flexible ANOVA designs and related tests. Jxiv.  https://doi.org/10.51094/jxiv.1555
+Muto, H. (2026). pwranova: An R package for power analysis of flexible ANOVA designs and related tests. *Journal of Open Source Software*, *11*(123), Article 10123. https://doi.org/10.21105/joss.10123
 
 ## Version history
 
@@ -231,4 +231,4 @@ GPL-3
 
 ## References
 
-Faul, F., Erdfelder, E., Buchner, A., & Lang, A.-G. (2009). Statistical power analyses using G\*Power 3.1: Tests for correlation and regression analyses. Behavior Research Methods, *41*(4), 1149–1160. https://doi.org/10.3758/BRM.41.4.1149
+Faul, F., Erdfelder, E., Buchner, A., & Lang, A.-G. (2009). Statistical power analyses using G\*Power 3.1: Tests for correlation and regression analyses. *Behavior Research Methods*, *41*(4), 1149–1160. https://doi.org/10.3758/BRM.41.4.1149

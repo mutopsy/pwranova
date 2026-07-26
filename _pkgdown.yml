@@ -3,3 +3,8 @@ template:
   bootstrap: 5
   includes:
     in_header: <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+articles:
+- title: For Japanese users
+  contents:
+  - README.ja
