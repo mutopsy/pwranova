@@ -1,5 +1,10 @@
 # Changelog
 
+## pwranova 1.1.5 (2026-07-26)
+
+- Updated citation information following publication in JOSS.
+- Added Japanese documentation to the package website.
+
 ## pwranova 1.1.4 (2026-06-19)
 
 - Fixed an issue in

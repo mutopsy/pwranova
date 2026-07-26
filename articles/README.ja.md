@@ -245,11 +245,11 @@ $`\eta^2`$ = 0.05（*f* = 0.229）と見積もり，有意水準 =
 
 ### 本パッケージの引用について
 
-本パッケージを利用した研究成果を公表する際は，以下のプレプリントを引用してください。
+本パッケージを利用した研究成果を公表する際は，必ず以下の論文を引用してください。
 
-Muto, H. (2025). pwranova: An R package for power analysis of flexible
-ANOVA designs and related tests. Jxiv.
-<https://doi.org/10.51094/jxiv.1555>
+Muto, H. (2026). pwranova: An R package for power analysis of flexible
+ANOVA designs and related tests. *Journal of Open Source Software*,
+*11*(123), Article 10123. <https://doi.org/10.21105/joss.10123>
 
 ### 更新履歴
 
