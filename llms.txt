@@ -26,6 +26,8 @@ sizes and variance structures.
 
 - CRAN: <https://CRAN.R-project.org/package=pwranova>
 - Documentation: <https://mutopsy.github.io/pwranova/>  
+- Documentation (Japanese):
+  <https://mutopsy.github.io/pwranova/articles/README.ja.html>
 - Source code: <https://github.com/mutopsy/pwranova/>
 
 ## Installation
