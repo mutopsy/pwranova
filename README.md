@@ -22,6 +22,7 @@ Like G\*Power, all analyses assume balanced designs with equal cell sizes, as ex
 
 - CRAN: <https://CRAN.R-project.org/package=pwranova>
 - Documentation: <https://mutopsy.github.io/pwranova/>  
+- Documentation (Japanese): <https://mutopsy.github.io/pwranova/articles/README.ja.html>
 - Source code: <https://github.com/mutopsy/pwranova/>
 
 ## Installation
